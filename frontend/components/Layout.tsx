@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Header from "./Header";
+import {Container, Row} from "@nextui-org/react";
 
 const Layout = ({ children }) => {
     const [currentAccount, setAccount] = useState();
@@ -66,9 +67,11 @@ const Layout = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header handleDisconnectMetamaskClick={handleDisconnectMetamaskClick} handleConnectMetamaskClick={handleConnectMetamaskClick} account={currentAccount}  />
-      <div className="w-full m-auto items-center max-w-[1440px] px-6">
-        {children}
-      </div>
+      <Container >
+        <Row justify={"center"}>
+          {children}
+        </Row>
+      </Container>
     </>
   );
 };

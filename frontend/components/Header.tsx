@@ -11,7 +11,7 @@ const Header = ({ handleDisconnectMetamaskClick, handleConnectMetamaskClick, acc
 
 
     return (
-          <Navbar maxWidth='fluid' isBordered variant={variant}>
+          <Navbar maxWidth='lg' isBordered variant={variant}>
             <Navbar.Brand>
                 <Image
                     width={85}
@@ -20,7 +20,7 @@ const Header = ({ handleDisconnectMetamaskClick, handleConnectMetamaskClick, acc
                     alt="logo"
                 />
             </Navbar.Brand>
-            <Navbar.Content css={{ cursor: 'pointer' }} hideIn="xs">
+            <Navbar.Content  css={{ cursor: 'pointer' }} hideIn="xs">
                 <Button size='sm' shadow color="primary" auto rounded>
                     Goerli
                 </Button>
