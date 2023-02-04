@@ -58,7 +58,7 @@ const Layout = ({ children }) => {
       };
 
   return (
-    <div>
+    <>
       <Head>
         <title>Untitle Gnosis</title>
         <meta name="description" content="Untitle Gnosis" />
@@ -69,7 +69,7 @@ const Layout = ({ children }) => {
       <div className="w-full m-auto items-center max-w-[1440px] px-6">
         {children}
       </div>
-    </div>
+    </>
   );
 };
 

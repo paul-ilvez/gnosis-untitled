@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navbar, Button, Link, Text, Card, Radio } from "@nextui-org/react";
+import { Navbar, Button, Link, Text, Card, Radio, Image  } from "@nextui-org/react";
 import ButtonConnectMetamask from "./ButtonConnectMetamask";
 import ButtonDisconnectMetamask from "./ButtonDisconnectMetamask";
 
@@ -8,23 +8,36 @@ const Header = ({ handleDisconnectMetamaskClick, handleConnectMetamaskClick, acc
   const variants = ["static", "floating", "sticky"];
   console.log(account);
 
+
+
     return (
-          <Navbar isBordered variant={variant}>
+          <Navbar maxWidth='fluid' isBordered variant={variant}>
             <Navbar.Brand>
-              <Text b color="inherit" hideIn="xs">
-                ACME
-              </Text>
+                <Image
+                    width={85}
+                    height={50}
+                    src="/logo.svg"
+                    alt="logo"
+                />
             </Navbar.Brand>
-            <Navbar.Content hideIn="xs">
-              <Navbar.Link href="#">Features</Navbar.Link>
-              <Navbar.Link isActive href="#">Customers</Navbar.Link>
-              <Navbar.Link href="#">Pricing</Navbar.Link>
-              <Navbar.Link href="#">Company</Navbar.Link>
+            <Navbar.Content css={{ cursor: 'pointer' }} hideIn="xs">
+                <Button size='sm' shadow color="primary" auto rounded>
+                    Goerli
+                </Button>
+                <Image
+                    width={18}
+                    height={18}
+                    src="/chevron_down.svg"
+                    alt="Chevron Down"
+                />
             </Navbar.Content>
             <Navbar.Content>
-              <Navbar.Link color="inherit" href="#">
-                Login
-              </Navbar.Link>
+                <Image
+                    width={24}
+                    height={24}
+                    src="/ring.svg"
+                    alt="ring"
+                />
               <Navbar.Item>
                 {account ? <ButtonDisconnectMetamask handleClickDisconnect={handleDisconnectMetamaskClick} account={account} /> : <ButtonConnectMetamask handleClickConnect={handleConnectMetamaskClick} />}
               </Navbar.Item>
