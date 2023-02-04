@@ -1,7 +1,6 @@
 import {Container, Row, Card, Grid, Text, Button} from "@nextui-org/react";
 import {ElementListProps} from '@/components/ElementList/ElementList.props';
 import VectorSvg from './vector.svg'
-import styles from './Button.module.css';
 
 export const ElementList = ({children, bgColor="#EFEFEF", title}: ElementListProps):JSX.Element => {
     return (
