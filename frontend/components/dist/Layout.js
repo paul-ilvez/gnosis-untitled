@@ -106,13 +106,13 @@ var Layout = function (_a) {
             return [2 /*return*/];
         });
     }); };
-    return (React.createElement("div", null,
+    return (React.createElement(React.Fragment, null,
         React.createElement(head_1["default"], null,
             React.createElement("title", null, "Untitle Gnosis"),
             React.createElement("meta", { name: "description", content: "Untitle Gnosis" }),
             React.createElement("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }),
             React.createElement("link", { rel: "icon", href: "/favicon.ico" })),
         React.createElement(Header_1["default"], { handleDisconnectMetamaskClick: handleDisconnectMetamaskClick, handleConnectMetamaskClick: handleConnectMetamaskClick, account: currentAccount }),
-        React.createElement("div", { className: "w-full m-auto items-center max-w-[1440px] px-6" }, children)));
+        children));
 };
 exports["default"] = Layout;

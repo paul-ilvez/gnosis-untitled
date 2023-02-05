@@ -9,16 +9,18 @@ var Header = function (_a) {
     var _b = react_1["default"].useState("static"), variant = _b[0], setVariant = _b[1];
     var variants = ["static", "floating", "sticky"];
     console.log(account);
-    return (react_1["default"].createElement(react_2.Navbar, { isBordered: true, variant: variant },
-        react_1["default"].createElement(react_2.Navbar.Brand, null,
-            react_1["default"].createElement(react_2.Text, { b: true, color: "inherit", hideIn: "xs" }, "ACME")),
-        react_1["default"].createElement(react_2.Navbar.Content, { hideIn: "xs" },
-            react_1["default"].createElement(react_2.Navbar.Link, { href: "#" }, "Features"),
-            react_1["default"].createElement(react_2.Navbar.Link, { isActive: true, href: "#" }, "Customers"),
-            react_1["default"].createElement(react_2.Navbar.Link, { href: "#" }, "Pricing"),
-            react_1["default"].createElement(react_2.Navbar.Link, { href: "#" }, "Company")),
-        react_1["default"].createElement(react_2.Navbar.Content, null,
-            react_1["default"].createElement(react_2.Navbar.Link, { color: "inherit", href: "#" }, "Login"),
-            react_1["default"].createElement(react_2.Navbar.Item, null, account ? react_1["default"].createElement(ButtonDisconnectMetamask_1["default"], { handleClickDisconnect: handleDisconnectMetamaskClick, account: account }) : react_1["default"].createElement(ButtonConnectMetamask_1["default"], { handleClickConnect: handleConnectMetamaskClick })))));
+    return (react_1["default"].createElement(react_2.Navbar, { maxWidth: "lg", isBordered: true, variant: variant },
+        react_1["default"].createElement(react_2.Grid.Container, { justify: "center" },
+            react_1["default"].createElement(react_2.Grid, { xs: true },
+                react_1["default"].createElement(react_2.Navbar.Brand, null,
+                    react_1["default"].createElement(react_2.Image, { width: 85, height: 50, src: "/logo.svg", alt: "logo" }))),
+            react_1["default"].createElement(react_2.Grid, { xs: true, justify: "center" },
+                react_1["default"].createElement(react_2.Navbar.Content, { css: { cursor: "pointer" }, hideIn: "xs" },
+                    react_1["default"].createElement(react_2.Button, { size: "sm", shadow: true, color: "primary", auto: true, rounded: true }, "Goerli"),
+                    react_1["default"].createElement(react_2.Image, { width: 18, height: 18, src: "/chevron_down.svg", alt: "Chevron Down" }))),
+            react_1["default"].createElement(react_2.Grid, { xs: true, justify: "flex-end" },
+                react_1["default"].createElement(react_2.Navbar.Content, null,
+                    react_1["default"].createElement(react_2.Image, { width: 24, height: 24, src: "/ring.svg", alt: "ring" }),
+                    react_1["default"].createElement(react_2.Navbar.Item, null, account ? (react_1["default"].createElement(ButtonDisconnectMetamask_1["default"], { handleClickDisconnect: handleDisconnectMetamaskClick, account: account })) : (react_1["default"].createElement(ButtonConnectMetamask_1["default"], { handleClickConnect: handleConnectMetamaskClick }))))))));
 };
 exports["default"] = Header;
