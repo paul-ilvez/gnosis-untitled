@@ -19,7 +19,7 @@ function Home() {
                     React.createElement(react_1.Button, { color: "primary", css: { w: "362px", h: "40px" } }, "Create Safe")),
                 React.createElement(react_1.Grid, { xs: 4, justify: "center" },
                     React.createElement(react_1.Spacer, { y: 0.5 }),
-                    React.createElement(react_1.Button, { color: "secondary", css: { w: "362px", h: "40px" } }, "Add existing Safe"))),
+                    React.createElement(react_1.Button, { color: "secondary", css: { w: "362px", h: "40px" } }, "Add existing Safe."))),
             React.createElement(react_1.Grid.Container, { gap: 2, justify: "center" },
                 React.createElement(react_1.Grid, { xs: 4, justify: "center" },
                     React.createElement(components_1.ElementList, { bgColor: "#EFEFEF", title: "My Safes" },

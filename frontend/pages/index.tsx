@@ -62,7 +62,7 @@ export default function Home() {
           <Grid xs={4} justify="center">
             <Spacer y={0.5}></Spacer>
             <Button color="secondary" css={{ w: "362px", h: "40px" }}>
-              Add existing Safe
+              Add existing Safe.
             </Button>
           </Grid>
         </Grid.Container>
