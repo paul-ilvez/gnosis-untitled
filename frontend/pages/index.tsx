@@ -60,7 +60,6 @@ export default function Home() {
             </Button>
           </Grid>
           <Grid xs={4} justify="center">
-            <Spacer y={0.5}></Spacer>
             <Button color="secondary" css={{ w: "362px", h: "40px" }}>
               Add existing Safe.
             </Button>
