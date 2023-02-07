@@ -66,7 +66,7 @@ const Layout = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header handleDisconnectMetamaskClick={handleDisconnectMetamaskClick} handleConnectMetamaskClick={handleConnectMetamaskClick} account={currentAccount}  />
-      <div className="w-full m-auto items-center max-w-[1440px] px-6">
+      <div className="w-full m-auto items-center max-w-[1440px] px-6 ">
         {children}
       </div>
     </>
