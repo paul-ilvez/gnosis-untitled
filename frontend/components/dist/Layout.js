@@ -39,10 +39,12 @@ exports.__esModule = true;
 var head_1 = require("next/head");
 var react_1 = require("react");
 var Header_1 = require("./Header");
+var react_2 = require("@nextui-org/react");
 var Layout = function (_a) {
     var children = _a.children;
     var _b = react_1.useState(), currentAccount = _b[0], setAccount = _b[1];
-    var _c = react_1.useState(), isConnect = _c[0], setConnect = _c[1];
+    var _c = react_1.useState(false), visibleDisconnect = _c[0], setVisibleDisconnect = _c[1];
+    var _d = react_1.useState(false), visibleConnect = _d[0], setVisibleConnect = _d[1];
     react_1.useEffect(function () {
         var ethereum = window.ethereum;
         setAccount(sessionStorage.getItem("login"));
@@ -54,7 +56,7 @@ var Layout = function (_a) {
                 ethereum.removeListener("chainChanged", handleDisconnectMetamaskClick);
             };
         }
-    }, [isConnect]);
+    }, [visibleDisconnect, visibleConnect]);
     var handleConnectMetamaskClick = function () { return __awaiter(void 0, void 0, void 0, function () {
         var ethereum, accounts, chainId, error_1;
         return __generator(this, function (_a) {
@@ -89,7 +91,7 @@ var Layout = function (_a) {
                 case 5:
                     sessionStorage.setItem("login", accounts[0]);
                     setAccount(accounts[0]);
-                    setConnect(true);
+                    setVisibleConnect(false);
                     return [3 /*break*/, 7];
                 case 6:
                     error_1 = _a.sent();
@@ -102,17 +104,18 @@ var Layout = function (_a) {
     var handleDisconnectMetamaskClick = function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             sessionStorage.removeItem("login");
-            setConnect(false);
+            setVisibleDisconnect(false);
             return [2 /*return*/];
         });
     }); };
-    return (React.createElement("div", null,
+    return (React.createElement(React.Fragment, null,
         React.createElement(head_1["default"], null,
             React.createElement("title", null, "Untitle Gnosis"),
             React.createElement("meta", { name: "description", content: "Untitle Gnosis" }),
             React.createElement("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }),
             React.createElement("link", { rel: "icon", href: "/favicon.ico" })),
-        React.createElement(Header_1["default"], { handleDisconnectMetamaskClick: handleDisconnectMetamaskClick, handleConnectMetamaskClick: handleConnectMetamaskClick, account: currentAccount }),
-        React.createElement("div", { className: "w-full m-auto items-center max-w-[1440px] px-6" }, children)));
+        React.createElement(Header_1["default"], { handleDisconnectMetamaskClick: handleDisconnectMetamaskClick, handleConnectMetamaskClick: handleConnectMetamaskClick, account: currentAccount, visibleConnect: visibleConnect, visibleDisconnect: visibleDisconnect, setVisibleDisconnect: setVisibleDisconnect, setVisibleConnect: setVisibleConnect }),
+        React.createElement(react_2.Container, null,
+            React.createElement(react_2.Row, { justify: "center" }, children))));
 };
 exports["default"] = Layout;
