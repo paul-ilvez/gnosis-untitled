@@ -2,23 +2,47 @@
 exports.__esModule = true;
 var react_1 = require("react");
 var react_2 = require("@nextui-org/react");
-var ButtonConnectMetamask_1 = require("./ButtonConnectMetamask");
-var ButtonDisconnectMetamask_1 = require("./ButtonDisconnectMetamask");
+var NoticePopUp_1 = require("./NoticePopUp");
+var ModalDisconnect_1 = require("./ModalDisconnect");
+var ModalConnect_1 = require("./ModalConnect");
 var Header = function (_a) {
-    var handleDisconnectMetamaskClick = _a.handleDisconnectMetamaskClick, handleConnectMetamaskClick = _a.handleConnectMetamaskClick, account = _a.account;
-    var _b = react_1["default"].useState("static"), variant = _b[0], setVariant = _b[1];
+    var handleDisconnectMetamaskClick = _a.handleDisconnectMetamaskClick, handleConnectMetamaskClick = _a.handleConnectMetamaskClick, account = _a.account, visibleConnect = _a.visibleConnect, setVisibleConnect = _a.setVisibleConnect, setVisibleDisconnect = _a.setVisibleDisconnect;
+    var _b = react_1.useState("static"), variant = _b[0], setVariant = _b[1];
     var variants = ["static", "floating", "sticky"];
-    console.log(account);
-    return (react_1["default"].createElement(react_2.Navbar, { isBordered: true, variant: variant },
-        react_1["default"].createElement(react_2.Navbar.Brand, null,
-            react_1["default"].createElement(react_2.Text, { b: true, color: "inherit", hideIn: "xs" }, "ACME")),
-        react_1["default"].createElement(react_2.Navbar.Content, { hideIn: "xs" },
-            react_1["default"].createElement(react_2.Navbar.Link, { href: "#" }, "Features"),
-            react_1["default"].createElement(react_2.Navbar.Link, { isActive: true, href: "#" }, "Customers"),
-            react_1["default"].createElement(react_2.Navbar.Link, { href: "#" }, "Pricing"),
-            react_1["default"].createElement(react_2.Navbar.Link, { href: "#" }, "Company")),
-        react_1["default"].createElement(react_2.Navbar.Content, null,
-            react_1["default"].createElement(react_2.Navbar.Link, { color: "inherit", href: "#" }, "Login"),
-            react_1["default"].createElement(react_2.Navbar.Item, null, account ? react_1["default"].createElement(ButtonDisconnectMetamask_1["default"], { handleClickDisconnect: handleDisconnectMetamaskClick, account: account }) : react_1["default"].createElement(ButtonConnectMetamask_1["default"], { handleClickConnect: handleConnectMetamaskClick })))));
+    var handelModalConnect = function () {
+        setVisibleConnect(true);
+    };
+    var handleCloseModalConnect = function () {
+        setVisibleConnect(false);
+    };
+    var handlerModalDisconnect = function () {
+        setVisibleDisconnect(true);
+    };
+    var lockIcon = (react_1["default"].createElement(react_2.Image, { width: 85, height: 50, src: "/wallet.svg", alt: "wallet" }));
+    return (react_1["default"].createElement(react_1["default"].Fragment, null,
+        react_1["default"].createElement(react_2.Navbar, { maxWidth: "lg", isBordered: true, variant: "static" },
+            react_1["default"].createElement(react_2.Navbar.Brand, null,
+                react_1["default"].createElement(react_2.Image, { width: 85, height: 50, src: "/logo.svg", alt: "logo" })),
+            react_1["default"].createElement(react_2.Navbar.Content, { css: { cursor: "pointer" }, hideIn: "xs" },
+                react_1["default"].createElement(react_2.Button, { size: "sm", shadow: true, color: "primary", auto: true, rounded: true }, "Goerli"),
+                react_1["default"].createElement(react_2.Image, { width: 18, height: 18, src: "/chevron_down.svg", alt: "Chevron Down" })),
+            react_1["default"].createElement(react_2.Navbar.Content, null,
+                react_1["default"].createElement(NoticePopUp_1["default"], null),
+                react_1["default"].createElement(react_2.Navbar.Item, null, account ? (react_1["default"].createElement(react_2.Popover, null,
+                    react_1["default"].createElement(react_2.Popover.Trigger, null,
+                        react_1["default"].createElement(react_2.Button, { size: "lg", color: "gray", onClick: handlerModalDisconnect },
+                            react_1["default"].createElement(react_2.Avatar, { color: "secondary", textColor: "white", text: "Bob", size: "sm" }),
+                            react_1["default"].createElement("div", null,
+                                react_1["default"].createElement(react_2.Text, { size: "$md", b: true },
+                                    "\u00A0",
+                                    " ",
+                                    "gor:" + (account === null || account === void 0 ? void 0 : account.toString().slice(0, 5)) +
+                                        "..." + (account === null || account === void 0 ? void 0 : account.toString().slice(38)))),
+                            react_1["default"].createElement(react_2.Spacer, null),
+                            react_1["default"].createElement(react_2.Image, { width: 18, height: 18, src: "/chevron_down.svg", alt: "Chevron Down" }))),
+                    react_1["default"].createElement(react_2.Popover.Content, null,
+                        react_1["default"].createElement(ModalDisconnect_1["default"], { account: account, handleDisconnectMetamaskClick: handleDisconnectMetamaskClick })))) : (react_1["default"].createElement(react_2.Button, { size: "lg", icon: lockIcon, flat: true, color: "gray", onClick: handelModalConnect },
+                    react_1["default"].createElement(react_2.Text, { color: "error" }, "Connect Wallet")))))),
+        react_1["default"].createElement(ModalConnect_1["default"], { visible: visibleConnect, handleConnectMetamaskClick: handleConnectMetamaskClick, closeHandler: handleCloseModalConnect })));
 };
 exports["default"] = Header;
