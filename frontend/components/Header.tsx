@@ -39,7 +39,10 @@ const Header = ({ handleDisconnectMetamaskClick, handleConnectMetamaskClick, acc
                     alt="ring"
                 />
               <Navbar.Item>
-                {account ? <ButtonDisconnectMetamask handleClickDisconnect={handleDisconnectMetamaskClick} account={account} /> : <ButtonConnectMetamask handleClickConnect={handleConnectMetamaskClick} />}
+                {account
+                    ? <ButtonDisconnectMetamask handleClickDisconnect={handleDisconnectMetamaskClick} account={account} />
+                    : <ButtonConnectMetamask handleClickConnect={handleConnectMetamaskClick} />
+                }
               </Navbar.Item>
             </Navbar.Content>
           </Navbar>
