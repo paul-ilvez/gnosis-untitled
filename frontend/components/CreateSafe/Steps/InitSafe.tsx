@@ -14,13 +14,13 @@ import {
 import FormHeader from "@/components/Common/FormHeader";
 import StepButtons from "@/components/LoadSafe/StepButtons";
 
-const ConnectSafe = () => {
+const InitSafe = () => {
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
       <Card variant="bordered" css={{ mw: "450px", h: "$400" }}>
         <Card.Body css={{ textAlign: "center", padding: "40px" }}>
           <FormHeader
-            title={"Create new Safe"}
+            title={"Load Safe"}
             subTitle={"Connect wallet & select network"}
             descrtiption={"Select network on which the Safe was created Name"}
           />
@@ -49,6 +49,8 @@ const ConnectSafe = () => {
               }
             />
             <Spacer y={2} />
+            <Input labelPlaceholder="Safe address" />
+            <Spacer y={2} />
             <Text>
               By continuing you consent to the <br />{" "}
               <Link href="#" color="text" isExternal>
@@ -69,4 +71,4 @@ const ConnectSafe = () => {
   );
 };
 
-export default ConnectSafe;
+export default InitSafe;

@@ -1,3 +1,6 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "extends": "next/core-web-vitals",
+  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
 }

@@ -14,6 +14,7 @@ import {
   Spacer,
   Text,
 } from "@nextui-org/react";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -55,14 +56,18 @@ export default function Home() {
           direction="column"
         >
           <Grid xs={4} justify="center">
-            <Button color="primary" css={{ w: "362px", h: "40px" }}>
-              Create Safe
-            </Button>
+            <Link href="/create-safe">
+              <Button color="primary" css={{ w: "362px", h: "40px" }}>
+                Create Safe
+              </Button>
+            </Link>
           </Grid>
           <Grid xs={4} justify="center">
-            <Button color="secondary" css={{ w: "362px", h: "40px" }}>
-              Add existing Safe.
-            </Button>
+            <Link href="/load-safe">
+              <Button color="secondary" css={{ w: "362px", h: "40px" }}>
+                Add existing Safe.
+              </Button>
+            </Link>
           </Grid>
         </Grid.Container>
 

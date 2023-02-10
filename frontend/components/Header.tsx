@@ -11,6 +11,7 @@ import {
 import NoticePopUp from "./NoticePopUp";
 import ModalDisconnect from "./ModalDisconnect";
 import ModalConnect from "./ModalConnect";
+import Link from "next/link";
 
 const Header = ({
   handleDisconnectMetamaskClick,
@@ -42,9 +43,11 @@ const Header = ({
   return (
       <>
         <Navbar maxWidth="lg" isBordered variant="static">
-          <Navbar.Brand>
-            <Image width={85} height={50} src="/logo.svg" alt="logo" />
-          </Navbar.Brand>
+          <Link href='/'>
+            <Navbar.Brand>
+              <Image width={85} height={50} src="/logo.svg" alt="logo" />
+            </Navbar.Brand>
+          </Link>
           <Navbar.Content css={{ cursor: "pointer" }} hideIn="xs">
             <Button size="sm" shadow color="primary" auto rounded>
               Goerli
