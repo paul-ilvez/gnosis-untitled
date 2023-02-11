@@ -22,7 +22,7 @@ const ConnectSafe = () => {
           <FormHeader
             title={"Create new Safe"}
             subTitle={"Connect wallet & select network"}
-            descrtiption={"Select network on which the Safe was created Name"}
+            description={"Select network on which the Safe was created Name"}
           />
           <Spacer y={2} />
           <Grid.Container justify="space-between" alignItems="center">

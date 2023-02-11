@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Button,
   Card,
   Dropdown,
   Grid,
@@ -22,7 +21,7 @@ const InitSafe = () => {
           <FormHeader
             title={"Load Safe"}
             subTitle={"Connect wallet & select network"}
-            descrtiption={"Select network on which the Safe was created Name"}
+            description={"Select network on which the Safe was created Name"}
           />
           <Spacer y={2} />
           <Grid.Container justify="space-between" alignItems="center">
@@ -31,6 +30,7 @@ const InitSafe = () => {
             </Text>
             <Dropdown>
               <Dropdown.Button>Goerli</Dropdown.Button>
+              <></>
             </Dropdown>
           </Grid.Container>
           <Grid.Container direction="column">
@@ -44,7 +44,7 @@ const InitSafe = () => {
                     " will never be shared with us or any third parties."
                   }
                 >
-                  <Image src="/info.svg" width={24} height={24} />
+                  <Image alt="info" src="/info.svg" width={24} height={24} />
                 </Tooltip>
               }
             />

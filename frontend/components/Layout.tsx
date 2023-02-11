@@ -3,16 +3,21 @@ import { useEffect, useState } from "react";
 import Header from "./Header";
 import { Container, Row } from "@nextui-org/react";
 
-const Layout = ({ children }) => {
+const Layout = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [currentAccount, setAccount] = useState();
   const [visibleDisconnect, setVisibleDisconnect] = useState(false);
   const [visibleConnect, setVisibleConnect] = useState(false);
 
   useEffect(() => {
     const { ethereum } = window;
+    console.log(window.ethereum.networkVersion, 'window.ethereum.networkVersion');
     setAccount(sessionStorage.getItem("login"));
 
-    if (ethereum) {
+    if (ethereum != null) {
       ethereum.on("accountsChanged", handleConnectMetamaskClick);
       ethereum.on("chainChanged", handleDisconnectMetamaskClick);
       return () => {
@@ -27,6 +32,7 @@ const Layout = ({ children }) => {
 
   const handleConnectMetamaskClick = async () => {
     const { ethereum } = window;
+    console.log(window.ethereum.networkVersion, 'window.ethereum.networkVersion');
     try {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
@@ -60,8 +66,8 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Untitle Gnosis</title>
-        <meta name="description" content="Untitle Gnosis" />
+        <title>Untitled Gnosis</title>
+        <meta name="description" content="Untitled Gnosis" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -70,7 +76,6 @@ const Layout = ({ children }) => {
         handleConnectMetamaskClick={handleConnectMetamaskClick}
         account={currentAccount}
         visibleConnect={visibleConnect}
-        visibleDisconnect={visibleDisconnect}
         setVisibleDisconnect={setVisibleDisconnect}
         setVisibleConnect={setVisibleConnect}
       />

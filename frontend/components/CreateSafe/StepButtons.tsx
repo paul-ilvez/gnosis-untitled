@@ -4,7 +4,7 @@ import { prevScreen, nextScreen } from "@/store/slices/screenHanlderSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 
-const StepButtons = ({ link }) => {
+const StepButtons = ({ link }: { link: string }) => {
   const dispatch = useDispatch();
 
   const nextButton = (

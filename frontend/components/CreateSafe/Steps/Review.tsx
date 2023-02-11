@@ -1,19 +1,12 @@
 import React from "react";
-import {
-  Button,
-  Card,
-  Grid,
-  Table,
-  Spacer,
-  Text,
-  Badge,
-} from "@nextui-org/react";
+import { Button, Card, Grid, Table, Spacer, Text } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import AccountCard from "@/components/Common/AccountCard";
 import StepButtons from "@/components/LoadSafe/StepButtons";
+import { Owner } from "@/global";
 
 const Review = () => {
-  const owners = [
+  const owners: Owner[] = [
     {
       id: 1,
       name: "Alice",
@@ -29,9 +22,9 @@ const Review = () => {
       <Card variant="bordered" css={{ mw: "450px", h: "$400" }}>
         <Card.Body css={{ textAlign: "center", padding: "40px" }}>
           <FormHeader
-            title={"Create new Safe"}
+            title={"Load Safe"}
             subTitle={"Review"}
-            descrtiption={"Confirm loading Safe."}
+            description={"Confirm loading Safe."}
           />
           <Spacer y={2} />
           <Table
@@ -59,19 +52,13 @@ const Review = () => {
                   <b>3</b>
                 </Table.Cell>
               </Table.Row>
-              <Table.Row key="4">
-                <Table.Cell>Treshold</Table.Cell>
-                <Table.Cell>
-                  <b>1 out of 1 owner(s)</b>
-                </Table.Cell>
-              </Table.Row>
             </Table.Body>
           </Table>
           <Spacer />
           <Grid.Container direction="column">
             {owners.map((owner) => {
               return (
-                <div key={owner.key}>
+                <div key={owner.id}>
                   <Text css={{ textAlign: "left" }}>
                     <b>{owner.name}</b>
                   </Text>
@@ -80,17 +67,6 @@ const Review = () => {
                 </div>
               );
             })}
-            <Spacer y={2} />
-            <Text css={{ textAlign: "left" }} size="$xl" color="#0077FF" b>
-              Est. network fee
-            </Text>
-            <Spacer y={1} />
-            <Badge size="lg" variant="flat">
-              ≈ 0.02655 GOR
-            </Badge>
-            <Text css={{ textAlign: "left" }} color="#9E9E9E">
-              You will have to confirm a transaction with your connected wallet.
-            </Text>
             <Spacer y={2} />
             <StepButtons link="/" />
           </Grid.Container>

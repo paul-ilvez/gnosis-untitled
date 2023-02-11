@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Badge,
-  Button,
-  Card,
-  Grid,
-  Input,
-  Spacer,
-  Text,
-} from "@nextui-org/react";
+import { Button, Card, Grid, Input, Spacer, Text } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import StepButtons from "@/components/CreateSafe/StepButtons";
 
@@ -21,7 +13,7 @@ const SetOwners = () => {
           <FormHeader
             title={"Create new Safe"}
             subTitle={"Owners and confirmations"}
-            descrtiption={"Optional: Provide a name for each owner."}
+            description={"Optional: Provide a name for each owner."}
           />
           <Spacer y={2} />
           <Card variant="bordered" css={{ padding: "40px" }}>

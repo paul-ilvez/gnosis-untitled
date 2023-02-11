@@ -14,7 +14,7 @@ const SetOwners = () => {
           <FormHeader
             title={"Load Safe"}
             subTitle={"Owners and confirmations"}
-            descrtiption={"Optional: Provide a name for each owner."}
+            description={"Optional: Provide a name for each owner."}
           />
           <Spacer y={2} />
           <Grid.Container direction="column">

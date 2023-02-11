@@ -1,4 +1,4 @@
-import { Container, Row, Card, Grid, Text, Button } from "@nextui-org/react";
+import { Container, Row, Card, Text, Button } from "@nextui-org/react";
 import { ElementListProps } from "@/components/ElementList/ElementList.props";
 import VectorSvg from "./vector.svg";
 

@@ -26,6 +26,7 @@ const LinkAndCopy = ({ address = "", link = "no link" }) => {
           onClick={copyText}
           css={{ cursor: "pointer" }}
           src="./copy.svg"
+          alt="copy"
           width={16}
           height={16}
         />
@@ -33,7 +34,12 @@ const LinkAndCopy = ({ address = "", link = "no link" }) => {
       <Spacer />
       <Tooltip content={link}>
         <a href={link === "no link" ? "" : `View on goerli.etherscan.io`}>
-          <Image src="./link-external.svg" width={16} height={16} />
+          <Image
+            alt="etherscan"
+            src="./link-external.svg"
+            width={16}
+            height={16}
+          />
         </a>
       </Tooltip>
     </Grid.Container>

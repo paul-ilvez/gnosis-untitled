@@ -1,19 +1,16 @@
 import React from "react";
-import {
-  Modal,
-  Text,
-  Row,
-  Image,
-  Card,
-} from "@nextui-org/react";
+import { Modal, Text, Row, Image, Card } from "@nextui-org/react";
 import ButtonConnectMetamask from "./ButtonConnectMetamask";
 import ButtonDisconnectMetamask from "./ButtonDisconnectMetamask";
-
 
 const ModalConnect = ({
   visible,
   closeHandler,
   handleConnectMetamaskClick,
+}: {
+  visible: boolean;
+  closeHandler: () => void;
+  handleConnectMetamaskClick: () => void;
 }) => {
   return (
     <div>

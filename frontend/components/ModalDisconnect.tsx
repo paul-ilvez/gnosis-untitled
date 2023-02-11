@@ -7,9 +7,11 @@ import ButtonDisconnectMetamask from "./ButtonDisconnectMetamask";
 const ModalDisconnect = ({
   handleDisconnectMetamaskClick,
   account,
+  networkName,
 }: {
   handleDisconnectMetamaskClick: () => void;
   account: number;
+  networkName: string ;
 }) => {
   return (
     <div>
@@ -32,7 +34,7 @@ const ModalDisconnect = ({
         <Row justify="flex-start" align="center">
           <Text size="$xs" css={{ color: "#868686", textAlign: "left" }}>
             Wallet: Metamask <br />
-            Connected network: Goerli
+            Connected network: {networkName}
           </Text>
         </Row>
       </Modal.Body>
