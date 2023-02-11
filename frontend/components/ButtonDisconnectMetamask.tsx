@@ -1,4 +1,4 @@
-import { Button, Avatar, Image, Text, Spacer } from "@nextui-org/react";
+import { Button, Text } from "@nextui-org/react";
 
 const ButtonDisconnectMetamask = ({ handleClickDisconnect }) => {
   return (

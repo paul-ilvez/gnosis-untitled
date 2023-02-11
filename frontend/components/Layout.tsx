@@ -2,19 +2,20 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import Header from "./Header";
 import { Container, Row } from "@nextui-org/react";
-import { Network, networks } from "./ElementList/Networks";
+import { Networks, networks } from "./ElementList/Networks";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const [currentAccount, setAccount] = useState();
+  const [currentAccount, setAccount] = useState("");
   const [visibleDisconnect, setVisibleDisconnect] = useState(false);
   const [visibleConnect, setVisibleConnect] = useState(false);
+  const [network, setNetwork] = useState("");
 
   useEffect(() => {
     const { ethereum } = window;
 
     const networkName =
-      networks[window.ethereum.networkVersion as keyof Network];
-    console.log(networkName);
+      networks[window.ethereum.networkVersion as keyof Networks];
+    setNetwork(networkName);
 
     setAccount(sessionStorage.getItem("login"));
 
@@ -33,10 +34,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   const handleConnectMetamaskClick = async () => {
     const { ethereum } = window;
-    console.log(
-      window.ethereum.networkVersion,
-      "window.ethereum.networkVersion"
-    );
     try {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
@@ -82,6 +79,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         visibleConnect={visibleConnect}
         setVisibleDisconnect={setVisibleDisconnect}
         setVisibleConnect={setVisibleConnect}
+        network={network}
       />
       <Container>
         <Row justify={"center"}>{children}</Row>

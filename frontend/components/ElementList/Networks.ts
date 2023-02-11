@@ -1,6 +1,6 @@
-export type Network = Record<number, string>;
+export type Networks = Record<number, string>;
 
-export const networks: Network = {
+export const networks: Networks = {
   1: "Mainnet",
   5: "Goerli",
   11155111: "Sepolia",

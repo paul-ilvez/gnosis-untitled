@@ -20,6 +20,15 @@ const Header = ({
   visibleConnect,
   setVisibleConnect,
   setVisibleDisconnect,
+  network,
+}: {
+  handleDisconnectMetamaskClick: () => void;
+  handleConnectMetamaskClick: () => void;
+  account: string | null;
+  visibleConnect: boolean;
+  setVisibleConnect: (visibleConnect: boolean) => void;
+  setVisibleDisconnect: (visibleDisconnect: boolean) => void;
+  network: string;
 }) => {
   const [variant, setVariant] = useState("static");
   const variants = ["static", "floating", "sticky"];
@@ -50,7 +59,7 @@ const Header = ({
         </Link>
         <Navbar.Content css={{ cursor: "pointer" }} hideIn="xs">
           <Button size="sm" shadow color="primary" auto rounded>
-            Goerli
+            {network}
           </Button>
           <Image
             width={18}
@@ -100,7 +109,7 @@ const Header = ({
                     handleDisconnectMetamaskClick={
                       handleDisconnectMetamaskClick
                     }
-                    networkName="Goerli"
+                    networkName={network}
                   />
                 </Popover.Content>
               </Popover>

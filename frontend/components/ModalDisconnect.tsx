@@ -10,7 +10,7 @@ const ModalDisconnect = ({
   networkName,
 }: {
   handleDisconnectMetamaskClick: () => void;
-  account: number;
+  account: string;
   networkName: string ;
 }) => {
   return (
