@@ -4,7 +4,13 @@ import Jazzicon from "react-jazzicon/dist/Jazzicon";
 import { jsNumberForAddress } from "react-jazzicon";
 import ButtonDisconnectMetamask from "./ButtonDisconnectMetamask";
 
-const ModalDisconnect = ({ handleDisconnectMetamaskClick, account }) => {
+const ModalDisconnect = ({
+  handleDisconnectMetamaskClick,
+  account,
+}: {
+  handleDisconnectMetamaskClick: () => void;
+  account: number;
+}) => {
   return (
     <div>
       <Modal.Header>
