@@ -10,7 +10,7 @@ export const ElementList = ({
   return (
     <Card
       variant={"flat"}
-      css={{ backgroundColor: bgColor, mt: "20px" }} //mw: "440px"
+      css={{ backgroundColor: bgColor, minWidth:"440px" }}
     >
       <Card.Header>
         <Container>

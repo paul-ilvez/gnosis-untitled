@@ -6,7 +6,7 @@ import {
   Text,
   Avatar,
   Image,
-  Spacer,
+  Spacer, Grid,
 } from "@nextui-org/react";
 import NoticePopUp from "./NoticePopUp";
 import ModalDisconnect from "./ModalDisconnect";
@@ -51,81 +51,91 @@ const Header = ({
 
   return (
     <>
-      <Navbar maxWidth="lg" isBordered variant="static">
-        <Link href="/">
-          <Navbar.Brand>
-            <Image width={85} height={50} src="/logo.svg" alt="logo" />
-          </Navbar.Brand>
-        </Link>
-        <Navbar.Content css={{ cursor: "pointer" }} hideIn="xs">
-          <Button size="sm" shadow color="primary" auto rounded>
-            {network}
-          </Button>
-          <Image
-            width={18}
-            height={18}
-            src="/chevron_down.svg"
-            alt="Chevron Down"
-          />
-        </Navbar.Content>
-        <Navbar.Content>
-          <NoticePopUp />
-          <Navbar.Item>
-            {account ? (
-              <Popover>
-                <Popover.Trigger>
+      <Navbar maxWidth="lg" variant="static">
+        <Grid.Container justify={"space-between"}>
+          <Grid xs={4}>
+            <Link href="/">
+              <Navbar.Brand>
+                <Image width={85} height={50} src="/logo.svg" alt="logo" />
+              </Navbar.Brand>
+            </Link>
+          </Grid>
+
+          <Grid justify={"center"} xs={4}>
+            <Navbar.Content css={{ cursor: "pointer" }} hideIn="xs">
+              <Button size="sm" shadow color="primary" auto rounded>
+                {network}
+              </Button>
+              <Image
+                width={18}
+                height={18}
+                src="/chevron_down.svg"
+                alt="Chevron Down"
+              />
+            </Navbar.Content>
+          </Grid>
+
+          <Grid justify={"flex-end"} xs={4}>
+            <Navbar.Content>
+              <NoticePopUp />
+              <Navbar.Item>
+                {account ? (
+                  <Popover>
+                    <Popover.Trigger>
+                      <Button
+                        size="lg"
+                        color="gray"
+                        onClick={handlerModalDisconnect}
+                      >
+                        <Avatar
+                          color="secondary"
+                          textColor="white"
+                          text="Bob"
+                          size="sm"
+                        />
+                        <div>
+                          <Text size="$md" b>
+                            &nbsp;{" "}
+                            {"gor:" +
+                              account?.toString().slice(0, 5) +
+                              "..." +
+                              account?.toString().slice(38)}
+                          </Text>
+                        </div>
+                        <Spacer />
+                        <Image
+                          width={18}
+                          height={18}
+                          src="/chevron_down.svg"
+                          alt="Chevron Down"
+                        />
+                      </Button>
+                    </Popover.Trigger>
+                    <Popover.Content>
+                      <ModalDisconnect
+                        account={account}
+                        handleDisconnectMetamaskClick={
+                          handleDisconnectMetamaskClick
+                        }
+                        networkName={network}
+                      />
+                    </Popover.Content>
+                  </Popover>
+                ) : (
                   <Button
                     size="lg"
+                    icon={lockIcon}
+                    flat
                     color="gray"
-                    onClick={handlerModalDisconnect}
+                    onClick={handelModalConnect}
                   >
-                    <Avatar
-                      color="secondary"
-                      textColor="white"
-                      text="Bob"
-                      size="sm"
-                    />
-                    <div>
-                      <Text size="$md" b>
-                        &nbsp;{" "}
-                        {"gor:" +
-                          account?.toString().slice(0, 5) +
-                          "..." +
-                          account?.toString().slice(38)}
-                      </Text>
-                    </div>
-                    <Spacer />
-                    <Image
-                      width={18}
-                      height={18}
-                      src="/chevron_down.svg"
-                      alt="Chevron Down"
-                    />
+                    <Text color="error">Connect Wallet</Text>
                   </Button>
-                </Popover.Trigger>
-                <Popover.Content>
-                  <ModalDisconnect
-                    account={account}
-                    handleDisconnectMetamaskClick={
-                      handleDisconnectMetamaskClick
-                    }
-                    networkName={network}
-                  />
-                </Popover.Content>
-              </Popover>
-            ) : (
-              <Button
-                size="lg"
-                icon={lockIcon}
-                flat
-                color="gray"
-                onClick={handelModalConnect}
-              >
-                <Text color="error">Connect Wallet</Text>
-              </Button>
-            )}
-          </Navbar.Item>
-        </Navbar.Content>
+                )}
+              </Navbar.Item>
+            </Navbar.Content>
+          </Grid>
+        </Grid.Container>
       </Navbar>
       <ModalConnect
         visible={visibleConnect}

@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Header from "./Header";
-import { Container, Row } from "@nextui-org/react";
 import { Networks, networks } from "./ElementList/Networks";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -81,9 +80,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         setVisibleConnect={setVisibleConnect}
         network={network}
       />
-      <Container>
-        <Row justify={"center"}>{children}</Row>
-      </Container>
+      {children}
     </>
   );
 };

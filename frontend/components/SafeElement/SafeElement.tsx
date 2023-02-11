@@ -41,14 +41,19 @@ export const SafeElement = ({ safe }: SafeElementProps): JSX.Element => {
           <Badge>
             {balance} {symbol.toUpperCase()}
           </Badge>
-          <Link
-            block
-            color="primary"
-            href="#"
-            css={{ textAlign: "center", alignItems: "center" }}
-          >
-            <MenuBtn width="8px" />
-          </Link>
+
+
+            <Link
+              block
+              color="primary"
+              href="#"
+              css={{ textAlign: "center", alignItems: "center" }}
+            >
+              <Grid.Container justify={"center"} css={{w:"10px"}}>
+                <MenuBtn  />
+              </Grid.Container>
+            </Link>
+
         </Row>
       </Card.Body>
     </Card>
