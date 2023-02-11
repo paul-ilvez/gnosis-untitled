@@ -42,7 +42,7 @@ export default function Home() {
             </Row>
 
             <Spacer y={3} />
-            <Row>
+            <Row justify={"center"}>
               <ElementList bgColor="#EFEFEF" title="My Safes">
                 <SafeElement
                   safe={{
@@ -55,17 +55,17 @@ export default function Home() {
                     symbol: "eth",
                   }}
                 />
-              <SafeElement
-                  safe={{
-                      avatar: "/avatar-2.png",
-                      balance: 15,
-                      chain: "BNB",
-                      address: "0xA016...BA6b",
-                      countOwners: 5,
-                      countVoices: 3,
-                      symbol: "bnb",
-                  }}
-              />
+                <SafeElement
+                    safe={{
+                        avatar: "/avatar-2.png",
+                        balance: 15,
+                        chain: "bsc",
+                        address: "0xA016...BA6b",
+                        countOwners: 5,
+                        countVoices: 3,
+                        symbol: "bnb",
+                    }}
+                />
               </ElementList>
             </Row>
           </Col>
