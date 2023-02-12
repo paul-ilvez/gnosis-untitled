@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Header from "./Header";
-import { Networks, networks } from "./ElementList/Networks";
+import { Networks, networks } from "./SafeList/Networks";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [currentAccount, setAccount] = useState("");

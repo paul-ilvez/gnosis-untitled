@@ -1,7 +1,7 @@
 import {DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
 
 export interface SafeElementProps extends  DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  safe: {
+
     avatar: string;
     chain: string;
     address: string;
@@ -10,5 +10,4 @@ export interface SafeElementProps extends  DetailedHTMLProps<HTMLAttributes<HTML
     balance: number;
     symbol: string;
 
-  }
 }

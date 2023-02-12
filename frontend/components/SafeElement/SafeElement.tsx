@@ -13,7 +13,7 @@ import { SafeElementProps } from "@/components/SafeElement/SafeElement.props";
 import React from "react";
 import MenuBtn from "./menuBtn.svg";
 
-export const SafeElement = ({ safe }: SafeElementProps): JSX.Element => {
+export const SafeElement = (safe: SafeElementProps): JSX.Element => {
   const { avatar, countVoices, countOwners, symbol, address, balance, chain } =
     safe;
   return (
