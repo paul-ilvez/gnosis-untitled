@@ -39,16 +39,19 @@ exports.__esModule = true;
 var head_1 = require("next/head");
 var react_1 = require("react");
 var Header_1 = require("./Header");
-var react_2 = require("@nextui-org/react");
+var Networks_1 = require("./SafeList/Networks");
 var Layout = function (_a) {
     var children = _a.children;
-    var _b = react_1.useState(), currentAccount = _b[0], setAccount = _b[1];
+    var _b = react_1.useState(""), currentAccount = _b[0], setAccount = _b[1];
     var _c = react_1.useState(false), visibleDisconnect = _c[0], setVisibleDisconnect = _c[1];
     var _d = react_1.useState(false), visibleConnect = _d[0], setVisibleConnect = _d[1];
+    var _e = react_1.useState(""), network = _e[0], setNetwork = _e[1];
     react_1.useEffect(function () {
         var ethereum = window.ethereum;
+        var networkName = Networks_1.networks[window.ethereum.networkVersion];
+        setNetwork(networkName);
         setAccount(sessionStorage.getItem("login"));
-        if (ethereum) {
+        if (ethereum != null) {
             ethereum.on("accountsChanged", handleConnectMetamaskClick);
             ethereum.on("chainChanged", handleDisconnectMetamaskClick);
             return function () {
@@ -110,12 +113,11 @@ var Layout = function (_a) {
     }); };
     return (React.createElement(React.Fragment, null,
         React.createElement(head_1["default"], null,
-            React.createElement("title", null, "Untitle Gnosis"),
-            React.createElement("meta", { name: "description", content: "Untitle Gnosis" }),
+            React.createElement("title", null, "Untitled Gnosis"),
+            React.createElement("meta", { name: "description", content: "Untitled Gnosis" }),
             React.createElement("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }),
             React.createElement("link", { rel: "icon", href: "/favicon.ico" })),
-        React.createElement(Header_1["default"], { handleDisconnectMetamaskClick: handleDisconnectMetamaskClick, handleConnectMetamaskClick: handleConnectMetamaskClick, account: currentAccount, visibleConnect: visibleConnect, visibleDisconnect: visibleDisconnect, setVisibleDisconnect: setVisibleDisconnect, setVisibleConnect: setVisibleConnect }),
-        React.createElement(react_2.Container, null,
-            React.createElement(react_2.Row, { justify: "center" }, children))));
+        React.createElement(Header_1["default"], { handleDisconnectMetamaskClick: handleDisconnectMetamaskClick, handleConnectMetamaskClick: handleConnectMetamaskClick, account: currentAccount, visibleConnect: visibleConnect, setVisibleDisconnect: setVisibleDisconnect, setVisibleConnect: setVisibleConnect, network: network }),
+        children));
 };
 exports["default"] = Layout;
