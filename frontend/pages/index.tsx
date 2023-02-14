@@ -1,11 +1,13 @@
 import Layout from "@/components/Layout";
-import { SafeList, SafeElement } from "@/components";
-import {Button, Col, Container, Grid, Row, Spacer, Text} from "@nextui-org/react";
+import { SafeList } from "@/components";
+import { Button, Col, Container, Row, Spacer, Text } from "@nextui-org/react";
 import Link from "next/link";
 
-import safes from "@/mocks/safes"
+import safes from "@/mocks/safes";
 
 export default function Home() {
+
+
   return (
     <Layout>
       <Container>
@@ -30,14 +32,14 @@ export default function Home() {
             <Row justify={"center"}>
               <Link href="/create-safe">
                 <Button color="primary" css={{ w: "362px", h: "40px" }}>
-                    Create Safe
+                  Create Safe
                 </Button>
               </Link>
             </Row>
-            <Spacer/>
+            <Spacer />
             <Row justify={"center"}>
-              <Link href="/load-safe" >
-                <Button color="secondary" css={{ w: "362px", h: "40px"}}>
+              <Link href="/load-safe">
+                <Button color="secondary" css={{ w: "362px", h: "40px" }}>
                   Add existing Safe.
                 </Button>
               </Link>
@@ -46,7 +48,6 @@ export default function Home() {
             <Spacer y={3} />
             <Row justify={"center"}>
               <SafeList bgColor="#EFEFEF" title="My Safes" safes={safes} />
-
             </Row>
           </Col>
         </Row>

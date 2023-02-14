@@ -6,7 +6,8 @@ import {
   Text,
   Avatar,
   Image,
-  Spacer, Grid,
+  Spacer,
+  Grid,
 } from "@nextui-org/react";
 import NoticePopUp from "./NoticePopUp";
 import ModalDisconnect from "./ModalDisconnect";

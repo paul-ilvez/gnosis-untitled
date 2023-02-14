@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import { AppContext } from "@/store/AppContext";
 import {
   Button,
   Card,
@@ -11,9 +12,11 @@ import {
   Text,
   Tooltip,
 } from "@nextui-org/react";
-import React from "react";
+import React, { useContext } from "react";
 
 export default function LoadSafe() {
+  const appCtx = useContext(AppContext);
+
   return (
     <Layout>
       <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
@@ -34,7 +37,8 @@ export default function LoadSafe() {
                 Network
               </Text>
               <Dropdown>
-                <Dropdown.Button>Goerli</Dropdown.Button>
+                <Dropdown.Button>{appCtx.appData.network}</Dropdown.Button>
+                <></>
               </Dropdown>
             </Grid.Container>
             <Grid.Container direction="column">

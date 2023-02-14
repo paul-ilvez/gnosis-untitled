@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   Grid,
@@ -10,6 +10,7 @@ import {
 import FormHeader from "@/components/Common/FormHeader";
 import AccountCard from "@/components/Common/AccountCard";
 import StepButtons from "@/components/LoadSafe/StepButtons";
+import { AppContext } from "@/store/AppContext";
 
 const Review = () => {
   const owners = [
@@ -22,6 +23,8 @@ const Review = () => {
       name: "Bob",
     },
   ];
+
+  const appCtx = useContext(AppContext);
 
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
@@ -43,7 +46,7 @@ const Review = () => {
           >
             <Table.Header>
               <Table.Column>Network</Table.Column>
-              <Table.Column>Goerli</Table.Column>
+              <Table.Column>{appCtx.appData.network}</Table.Column>
             </Table.Header>
             <Table.Body>
               <Table.Row key="2">

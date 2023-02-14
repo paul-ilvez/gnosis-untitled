@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   Dropdown,
@@ -12,8 +12,10 @@ import {
 } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import StepButtons from "@/components/LoadSafe/StepButtons";
+import { AppContext } from "@/store/AppContext";
 
 const ConnectSafe = () => {
+  const appCtx = useContext(AppContext);
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
       <Card variant="bordered" css={{ mw: "450px", h: "$400" }}>
@@ -29,7 +31,8 @@ const ConnectSafe = () => {
               Network
             </Text>
             <Dropdown>
-              <Dropdown.Button>Goerli</Dropdown.Button>
+              <Dropdown.Button>{appCtx.appData.network}</Dropdown.Button>
+              <></>
             </Dropdown>
           </Grid.Container>
           <Grid.Container direction="column">
@@ -43,7 +46,7 @@ const ConnectSafe = () => {
                     " will never be shared with us or any third parties."
                   }
                 >
-                  <Image src="/info.svg" width={24} height={24} />
+                  <Image alt="info" src="/info.svg" width={24} height={24} />
                 </Tooltip>
               }
             />

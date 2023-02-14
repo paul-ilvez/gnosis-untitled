@@ -1,5 +1,6 @@
+import { AppContextData, AppContext } from "@/store/AppContext";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Header from "./Header";
 import { Networks, networks } from "./SafeList/Networks";
 
@@ -7,14 +8,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [currentAccount, setAccount] = useState("");
   const [visibleDisconnect, setVisibleDisconnect] = useState(false);
   const [visibleConnect, setVisibleConnect] = useState(false);
-  const [network, setNetwork] = useState("");
+  const appCtx = useContext<AppContextData>(AppContext);
 
   useEffect(() => {
     const { ethereum } = window;
 
-    const networkName =
-      networks[window.ethereum.networkVersion as keyof Networks];
-    setNetwork(networkName);
+    const network = networks[window.ethereum.networkVersion as keyof Networks];
+
+    appCtx.setAppDataHandler({ network });
 
     setAccount(sessionStorage.getItem("login"));
 
@@ -78,7 +79,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         visibleConnect={visibleConnect}
         setVisibleDisconnect={setVisibleDisconnect}
         setVisibleConnect={setVisibleConnect}
-        network={network}
+        network={appCtx.appData.network}
       />
       {children}
     </>
