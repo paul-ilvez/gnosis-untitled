@@ -14,4 +14,12 @@ contract SafeFactory {
         GnosisUntitled g = new GnosisUntitled(_name, _signers, _quorum);
         safesArray.push(g);
     }
+
+    function getSafe(uint256 index) external view returns (address) {
+        return address(safesArray[index]);
+    }
+
+    function getNumberOfSafes() external view returns (uint256) {
+        return safesArray.length;
+    }
 }
