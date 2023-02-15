@@ -3,10 +3,7 @@ import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { SafeCreatedEvent } from "../typechain-types/SafeFactory";
-import {
-  ExecuteTransactionEvent,
-  SubmitTransactionEvent,
-} from "../typechain-types/GnosisUntitled";
+import { SubmitTransactionEvent } from "../typechain-types/GnosisUntitled";
 
 describe("GnosisUntitled", function () {
   const deployOnlyFactory = async () => {
@@ -60,7 +57,7 @@ describe("GnosisUntitled", function () {
       (event) => event.event === "SafeCreated"
     ) as SafeCreatedEvent;
 
-    const [safeAddress, byUser, index] = event.args;
+    const [safeAddress, byUser] = event.args;
 
     expect(byUser).to.eq(user1.address);
     expect(safeAddress).to.not.eq(ethers.constants.AddressZero);
@@ -70,7 +67,7 @@ describe("GnosisUntitled", function () {
     const { users, gnosisSafe, safeFactory } = await loadFixture(
       deployWithSafe
     );
-    const [user1, user2, user3] = users;
+    const [, user2, user3] = users;
 
     const tx = await safeFactory
       .connect(user2)
@@ -106,7 +103,7 @@ describe("GnosisUntitled", function () {
 
   it("check safe receives money", async () => {
     const { users, gnosisSafe } = await loadFixture(deployWithSafe);
-    const [user1, user2, user3, user4] = users;
+    const [user1] = users;
 
     await expect(
       user1.sendTransaction({
