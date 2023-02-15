@@ -108,10 +108,18 @@ describe("GnosisUntitled", function () {
     const { users, gnosisSafe } = await loadFixture(deployWithSafe);
     const [user1, user2, user3, user4] = users;
 
-    await user1.sendTransaction({
-      to: gnosisSafe.address,
-      value: ethers.utils.parseEther("20"),
-    });
+    await expect(
+      user1.sendTransaction({
+        to: gnosisSafe.address,
+        value: ethers.utils.parseEther("20"),
+      })
+    )
+      .to.emit(gnosisSafe, "Deposit")
+      .withArgs(
+        user1.address,
+        ethers.utils.parseEther("20"),
+        ethers.utils.parseEther("20")
+      );
 
     const balance = await (
       await ethers.provider.getBalance(gnosisSafe.address)
