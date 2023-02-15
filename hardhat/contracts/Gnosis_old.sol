@@ -3,7 +3,7 @@ pragma solidity 0.8.18;
 
 /// @title Untitled Gnosis
 /// @author Untitled_Team
-contract GnosisUntitled {
+contract Gnosis_Old {
     /// ERRORS ///
 
     /// @notice Thrown when the provided signatures are invalid, duplicated, or out of order

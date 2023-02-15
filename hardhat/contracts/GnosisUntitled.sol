@@ -4,24 +4,31 @@ pragma solidity 0.8.18;
 /// @title Untitled Gnosis
 /// @author Untitled_Team
 contract GnosisUntitled {
+    enum TxType {
+        VALUE_TRANSFER,
+        SEND_BYTECODE,
+        NEW_SIGNER
+    }
     event Deposit(address indexed sender, uint256 amount, uint256 balance);
     event SubmitTransaction(
-        address indexed owner,
+        address indexed sender,
         uint256 indexed txIndex,
         address indexed to,
         uint256 value,
-        bytes data
+        TxType txType
     );
-    event ConfirmTransaction(address indexed owner, uint256 indexed txIndex);
-    event RevokeConfirmation(address indexed owner, uint256 indexed txIndex);
-    event ExecuteTransaction(address indexed owner, uint256 indexed txIndex);
+    event ConfirmTransaction(address indexed sender, uint256 indexed txIndex);
+    event RevokeConfirmation(address indexed sender, uint256 indexed txIndex);
+    event ExecuteTransaction(address indexed sender, uint256 indexed txIndex);
 
     struct Transaction {
+        uint256 index;
         address to;
         uint256 value;
         bytes data;
         bool executed;
         uint256 numConfirmations;
+        TxType txType;
     }
 
     modifier onlySigner() {
@@ -47,7 +54,9 @@ contract GnosisUntitled {
     // mapping from tx index => owner => bool
     mapping(uint256 => mapping(address => bool)) public isConfirmed;
 
-    Transaction[] public transactions;
+    Transaction[] private transactions;
+
+    uint256 public signerCount;
 
     /// @notice Signature nonce, incremented with each successful execution or state change
     /// @dev This is used to prevent signature reuse
@@ -61,44 +70,85 @@ contract GnosisUntitled {
     mapping(address => bool) public isSigner;
 
     constructor(address[] memory signers, uint256 _quorum) payable {
-        require(_quorum > 0, "quorum must be >0 ");
+        require(_quorum > 0, "quorum must be > 0 ");
         require(signers.length > 0, "must be at least 1 signer");
+        uint256 length = signers.length;
+        signerCount = length;
 
         unchecked {
-            uint256 length = signers.length;
             for (uint256 i = 0; i < length; i++) {
                 address signer = signers[i];
-                if (signer != address(0)) {
-                    isSigner[signer] = true;
+                if (signer == address(0)) {
+                    revert("Signer cannot be address(0)");
                 }
+                isSigner[signer] = true;
             }
         }
 
         quorum = _quorum;
     }
 
-    function submitTransaction(
+    function submitValueTransfer(address _to, uint256 _value)
+        external
+        onlySigner
+    {
+        require(_to != address(0), "cannot send to nowhere");
+        require(_value != 0, "cannot send empty tx");
+        require(
+            address(this).balance >= _value,
+            "cannot propose sending more than safe has"
+        );
+        submitTx(
+            _to,
+            _value,
+            abi.encodePacked(uint256(0)),
+            TxType.VALUE_TRANSFER
+        );
+    }
+
+    function submitSendBytecode(
         address _to,
         uint256 _value,
         bytes memory _data
     ) public onlySigner {
         require(_to != address(0), "cannot send to nowhere");
-        require(_value != 0 || _data.length > 0, "cannot send null tx");
+        require(_data.length > 0, "cannot send null tx");
+        submitTx(_to, _value, _data, TxType.SEND_BYTECODE);
+    }
+
+    function submitNewSigner(address _newSigner) public onlySigner {
+        require(_newSigner != address(0), "Signer cannot be address(0)");
+        submitTx(
+            _newSigner,
+            0,
+            abi.encodePacked(uint256(0)),
+            TxType.NEW_SIGNER
+        );
+    }
+
+    function submitTx(
+        address _to,
+        uint256 _value,
+        bytes memory _data,
+        TxType txType
+    ) private {
         uint256 txIndex = transactions.length;
 
         transactions.push(
             Transaction({
+                index: txIndex,
                 to: _to,
                 value: _value,
                 data: _data,
                 executed: false,
-                numConfirmations: 1
+                numConfirmations: 1,
+                txType: txType
             })
         );
 
         isConfirmed[txIndex][msg.sender] = true;
 
-        emit SubmitTransaction(msg.sender, txIndex, _to, _value, _data);
+        emit SubmitTransaction(msg.sender, txIndex, _to, _value, txType);
     }
 
     function confirmTransaction(uint256 _txIndex)
