@@ -3,6 +3,8 @@ import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import Header from "./Header";
 import { Networks, networks } from "./SafeList/Networks";
+import {Contract, ethers, JsonRpcProvider} from "ethers";
+import {SafeFactory} from "@/abi/SafeFactory";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [currentAccount, setAccount] = useState("");
@@ -31,6 +33,28 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       };
     }
   }, [visibleDisconnect, visibleConnect]);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const url = "http://127.0.0.1:8545"
+  //     const customHttpProvider = new JsonRpcProvider(url);
+  //
+  //     const safeFactory = new Contract(
+  //         "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+  //         SafeFactory,
+  //         customHttpProvider
+  //     );
+  //
+  //     const safesCount = await safeFactory.safesCount()
+  //     const numberSafes = await safeFactory.getNumberOfSafes()
+  //
+  //     console.log('safesCount: ', safesCount)
+  //     console.log('numberSafes: ', numberSafes)
+  //     console.log('contract: ', safeFactory)
+  //   })()
+  //
+  //
+  // }, [])
 
   const handleConnectMetamaskClick = async () => {
     const { ethereum } = window;
