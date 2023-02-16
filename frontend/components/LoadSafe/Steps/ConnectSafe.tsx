@@ -15,7 +15,7 @@ import StepButtons from "@/components/LoadSafe/StepButtons";
 import { AppContext } from "@/store/AppContext";
 
 const ConnectSafe = () => {
-  const appCtx = useContext(AppContext);
+  const {network} = useContext(AppContext);
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
       <Card variant="bordered" css={{ mw: "450px", h: "$400" }}>
@@ -31,7 +31,7 @@ const ConnectSafe = () => {
               Network
             </Text>
             <Dropdown>
-              <Dropdown.Button>{appCtx.appData.network.name}</Dropdown.Button>
+              <Dropdown.Button>{network.name}</Dropdown.Button>
               <></>
             </Dropdown>
           </Grid.Container>

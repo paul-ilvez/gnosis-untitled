@@ -17,13 +17,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
     const network = findNetworkById(window.ethereum.networkVersion);
 
-    appCtx.setAppDataHandler({ network });
+    appCtx.setNetworkHandler(network);
 
     setAccount(sessionStorage.getItem("login"));
 
     if (ethereum != null) {
       ethereum.on("accountsChanged", handleConnectMetamaskClick);
       ethereum.on("chainChanged", handleDisconnectMetamaskClick);
+      console.log(appCtx.network);
+
       return () => {
         ethereum.removeListener(
           "accountsChanged",
@@ -40,6 +42,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
+      console.log({ account: accounts[0] });
+
       const chainId = await ethereum.request({
         method: "eth_chainId",
       });
@@ -81,7 +85,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         visibleConnect={visibleConnect}
         setVisibleDisconnect={setVisibleDisconnect}
         setVisibleConnect={setVisibleConnect}
-        network={appCtx.appData.network.name}
+        network={appCtx.network.name}
       />
       {children}
     </>

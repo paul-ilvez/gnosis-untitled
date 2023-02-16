@@ -1,19 +1,15 @@
 import { undefinedNetwork } from "@/components/SafeList/Networks";
 import type { Network } from "@/components/SafeList/Networks";
-import React from "react";
+import React, { useEffect } from "react";
 import { createContext, useState } from "react";
-
-export type AppData = {
-  network: Network;
-};
 
 export type CreateSafeStatus = {
   status: "init" | "owners" | "review" | "generate";
 };
 
 export type AppContextData = {
-  appData: AppData;
-  setAppDataHandler: (_appData: AppData) => void;
+  network: Network;
+  setNetworkHandler: (_network: Network) => void;
 
   currentMenuSection: CurrentMenuSection;
   setCurrentMenuSectionHandler: (
@@ -36,10 +32,8 @@ export type TransactionsSection = {
   type: string;
 };
 export const AppContext = createContext<AppContextData>({
-  appData: {
-    network: undefinedNetwork,
-  },
-  setAppDataHandler: (_appData: AppData) => {},
+  network: undefinedNetwork,
+  setNetworkHandler: (_network: Network) => {},
   currentMenuSection: { title: "Transations" },
   setCurrentMenuSectionHandler: (_currentMenuSection: CurrentMenuSection) => {},
   transactionsSection: { type: "Queue" },
@@ -52,7 +46,7 @@ export const AppContext = createContext<AppContextData>({
 });
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
-  const [appData, setAppData] = useState({ network: undefinedNetwork });
+  const [network, setNetwork] = useState(undefinedNetwork);
 
   const [currentMenuSection, setCurrentMenuSection] = useState({
     title: "Transactions",
@@ -64,8 +58,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const [createSafeStatus, setCreateSafeStatus] = useState({ status: "init" });
 
-  function setAppDataHandler(_appData: AppData) {
-    setAppData(_appData);
+  function setNetworkHandler(_network: Network) {
+    setNetwork(_network);
   }
 
   function setCurrentMenuSectionHandler(
@@ -85,8 +79,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   };
 
   const context: AppContextData = {
-    appData,
-    setAppDataHandler: setAppDataHandler,
+    network,
+    setNetworkHandler: setNetworkHandler,
     currentMenuSection: currentMenuSection,
     setCurrentMenuSectionHandler: setCurrentMenuSectionHandler,
     transactionsSection: transactionsSection,
@@ -94,6 +88,10 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     createSafeStatus: createSafeStatus,
     setCreateSafeStatusHandler: setCreateSafeStatusHandler,
   };
+
+  useEffect(() => {
+    console.log("calling useEffect from context");
+  }, []);
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
 }

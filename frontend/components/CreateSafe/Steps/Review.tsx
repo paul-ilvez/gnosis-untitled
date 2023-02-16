@@ -18,7 +18,7 @@ const Review = () => {
     },
   ];
 
-  const appCtx = useContext(AppContext);
+  const { network } = useContext(AppContext);
 
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
@@ -40,7 +40,7 @@ const Review = () => {
           >
             <Table.Header>
               <Table.Column>Network</Table.Column>
-              <Table.Column>{appCtx.appData.network.name}</Table.Column>
+              <Table.Column>{network.name}</Table.Column>
             </Table.Header>
             <Table.Body>
               <Table.Row key="2">
