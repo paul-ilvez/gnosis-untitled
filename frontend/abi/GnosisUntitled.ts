@@ -310,12 +310,38 @@ export const GnosisUntitledAbi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "_quorum",
+        type: "uint256",
+      },
+    ],
+    name: "submitChangeQuorum",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "_newSigner",
         type: "address",
       },
     ],
     name: "submitNewSigner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_newSigner",
+        type: "address",
+      },
+    ],
+    name: "submitRemoveSigner",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
