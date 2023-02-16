@@ -2,9 +2,9 @@ import { AppContextData, AppContext } from "@/store/AppContext";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import Header from "./Header";
-import { Networks, networks } from "./SafeList/Networks";
-import {Contract, ethers, JsonRpcProvider} from "ethers";
-import {SafeFactory} from "@/abi/SafeFactory";
+import { findNetworkById } from "./SafeList/Networks";
+import { Contract, ethers, JsonRpcProvider } from "ethers";
+import { SafeFactory } from "@/abi/SafeFactory";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [currentAccount, setAccount] = useState("");
@@ -15,9 +15,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const { ethereum } = window;
 
-    const network = networks[window.ethereum.networkVersion as keyof Networks];
+    const network = findNetworkById(window.ethereum.networkVersion);
 
-    appCtx.setAppDataHandler({ network });
+    appCtx.setAppDataHandler({ network: network.name });
 
     setAccount(sessionStorage.getItem("login"));
 
@@ -33,7 +33,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       };
     }
   }, [visibleDisconnect, visibleConnect]);
-
 
   const handleConnectMetamaskClick = async () => {
     const { ethereum } = window;

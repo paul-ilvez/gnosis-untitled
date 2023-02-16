@@ -4,7 +4,8 @@
   "description": "Gnosis Untitled Smart Contract",
   "main": "index.js",
   "scripts": {
-    "test": "npx hardhat test"
+    "test": "npx hardhat test",
+    "remixd": "remixd -s ./contracts --remix-ide https://remix.ethereum.org"
   },
   "keywords": [],
   "author": "",
