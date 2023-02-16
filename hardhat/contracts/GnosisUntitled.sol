@@ -7,7 +7,9 @@ contract GnosisUntitled {
     enum TxType {
         VALUE_TRANSFER,
         SEND_BYTECODE,
-        NEW_SIGNER
+        ADD_SIGNER,
+        REMOVE_SIGNER,
+        CHANGE_QUORUM
     }
     event Deposit(address indexed sender, uint256 amount, uint256 balance);
     event SubmitTransaction(
@@ -122,7 +124,27 @@ contract GnosisUntitled {
             _newSigner,
             0,
             abi.encodePacked(uint256(0)),
-            TxType.NEW_SIGNER
+            TxType.ADD_SIGNER
+        );
+    }
+
+    function submitRemoveSigner(address _newSigner) public onlySigner {
+        require(_newSigner != address(0), "Signer cannot be address(0)");
+        submitTx(
+            _newSigner,
+            0,
+            abi.encodePacked(uint256(0)),
+            TxType.REMOVE_SIGNER
+        );
+    }
+
+    function submitChangeQuorum(uint256 _quorum) public onlySigner {
+        require(_quorum != 0, "Quorum cannot be 0");
+        submitTx(
+            address(0),
+            _quorum,
+            abi.encodePacked(uint256(0)),
+            TxType.CHANGE_QUORUM
         );
     }
 
@@ -176,13 +198,29 @@ contract GnosisUntitled {
         require(transaction.numConfirmations >= quorum, "cannot execute tx");
 
         transaction.executed = true;
+        emit ExecuteTransaction(msg.sender, _txIndex);
+
+        if (transaction.txType == TxType.ADD_SIGNER) {
+            isSigner[transaction.to] = true;
+            signerCount++;
+            return;
+        }
+
+        if (transaction.txType == TxType.REMOVE_SIGNER) {
+            isSigner[transaction.to] = false;
+            signerCount--;
+            return;
+        }
+
+        if (transaction.txType == TxType.CHANGE_QUORUM) {
+            quorum = transaction.value;
+            return;
+        }
 
         (bool success, ) = transaction.to.call{value: transaction.value}(
             transaction.data
         );
         require(success, "tx failed");
-
-        emit ExecuteTransaction(msg.sender, _txIndex);
     }
 
     function revokeConfirmation(uint256 _txIndex)
