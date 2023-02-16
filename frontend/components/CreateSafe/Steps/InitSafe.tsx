@@ -51,7 +51,7 @@ const InitSafe = () => {
               Network
             </Text>
             <Dropdown>
-              <Dropdown.Button>{appCtx.appData.network}</Dropdown.Button>
+              <Dropdown.Button>{appCtx.appData.network.name}</Dropdown.Button>
               <></>
             </Dropdown>
           </Grid.Container>

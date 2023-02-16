@@ -17,7 +17,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
     const network = findNetworkById(window.ethereum.networkVersion);
 
-    appCtx.setAppDataHandler({ network: network.name });
+    appCtx.setAppDataHandler({ network });
 
     setAccount(sessionStorage.getItem("login"));
 
@@ -81,7 +81,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         visibleConnect={visibleConnect}
         setVisibleDisconnect={setVisibleDisconnect}
         setVisibleConnect={setVisibleConnect}
-        network={appCtx.appData.network}
+        network={appCtx.appData.network.name}
       />
       {children}
     </>

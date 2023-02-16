@@ -1,4 +1,4 @@
-type Network = {
+export type Network = {
   chaindId: number;
   name: string;
   blockExplorer?: string;
@@ -31,7 +31,7 @@ const networks: Network[] = [
   },
 ];
 
-const undefinedNetwork: Network = {
+export const undefinedNetwork: Network = {
   chaindId: 0,
   name: "Unknown Network",
   factoryContractAddress: "",

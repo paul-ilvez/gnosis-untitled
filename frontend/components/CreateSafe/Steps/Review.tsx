@@ -40,7 +40,7 @@ const Review = () => {
           >
             <Table.Header>
               <Table.Column>Network</Table.Column>
-              <Table.Column>{appCtx.appData.network}</Table.Column>
+              <Table.Column>{appCtx.appData.network.name}</Table.Column>
             </Table.Header>
             <Table.Body>
               <Table.Row key="2">
