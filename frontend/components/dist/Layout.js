@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+var AppContext_1 = require("@/store/AppContext");
 var head_1 = require("next/head");
 var react_1 = require("react");
 var Header_1 = require("./Header");
@@ -45,11 +46,11 @@ var Layout = function (_a) {
     var _b = react_1.useState(""), currentAccount = _b[0], setAccount = _b[1];
     var _c = react_1.useState(false), visibleDisconnect = _c[0], setVisibleDisconnect = _c[1];
     var _d = react_1.useState(false), visibleConnect = _d[0], setVisibleConnect = _d[1];
-    var _e = react_1.useState(""), network = _e[0], setNetwork = _e[1];
+    var appCtx = react_1.useContext(AppContext_1.AppContext);
     react_1.useEffect(function () {
         var ethereum = window.ethereum;
-        var networkName = Networks_1.networks[window.ethereum.networkVersion];
-        setNetwork(networkName);
+        var network = Networks_1.networks[window.ethereum.networkVersion];
+        appCtx.setAppDataHandler({ network: network });
         setAccount(sessionStorage.getItem("login"));
         if (ethereum != null) {
             ethereum.on("accountsChanged", handleConnectMetamaskClick);
@@ -117,7 +118,7 @@ var Layout = function (_a) {
             React.createElement("meta", { name: "description", content: "Untitled Gnosis" }),
             React.createElement("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }),
             React.createElement("link", { rel: "icon", href: "/favicon.ico" })),
-        React.createElement(Header_1["default"], { handleDisconnectMetamaskClick: handleDisconnectMetamaskClick, handleConnectMetamaskClick: handleConnectMetamaskClick, account: currentAccount, visibleConnect: visibleConnect, setVisibleDisconnect: setVisibleDisconnect, setVisibleConnect: setVisibleConnect, network: network }),
+        React.createElement(Header_1["default"], { handleDisconnectMetamaskClick: handleDisconnectMetamaskClick, handleConnectMetamaskClick: handleConnectMetamaskClick, account: currentAccount, visibleConnect: visibleConnect, setVisibleDisconnect: setVisibleDisconnect, setVisibleConnect: setVisibleConnect, network: appCtx.appData.network }),
         children));
 };
 exports["default"] = Layout;

@@ -1,9 +1,21 @@
 import Layout from "@/components/Layout";
 import { Inter } from "@next/font/google";
-import { Grid, Card, Text, Spacer, Row, Col, Button } from "@nextui-org/react";
+import { Grid, Spacer } from "@nextui-org/react";
 import HomeSafeMenu from "@/components/HomeSafe/HomeSafeMenu";
+import Transactions from "@/components/HomeSafe/Sections/Transactions/Transactions";
+import Setup from "@/components/HomeSafe/Sections/Setup";
+import Assets from "@/components/HomeSafe/Sections/Assets";
+import { AppContext, AppContextData } from "@/store/AppContext";
+import { useContext } from "react";
 
 export default function HomeSafe() {
+  const { currentMenuSection } = useContext<AppContextData>(AppContext);
+
+  const sectionsMap: { [key: string]: JSX.Element } = {
+    Transactions: <Transactions />,
+    Setup: <Setup />,
+    Assets: <Assets />,
+  };
   return (
     <Layout>
       <Grid.Container css={{ mt: "40px" }} justify="center" alignItems="center">
@@ -18,21 +30,7 @@ export default function HomeSafe() {
           justify="center"
           alignItems="flex-start"
         >
-          <Card variant="bordered" css={{ h: "214px", mw: "522px" }}>
-            <Card.Body>
-              <Text h6 size={15} color="black" css={{ m: 0 }}>
-                1 of 2
-              </Text>
-            </Card.Body>
-          </Card>
-          <Spacer y={1.85} />
-          <Card variant="bordered" css={{ h: "364px", mw: "522px" }}>
-            <Card.Body>
-              <Text h6 size={15} color="black" css={{ m: 0 }}>
-                1 of 3
-              </Text>
-            </Card.Body>
-          </Card>
+          {sectionsMap[currentMenuSection.title]}
         </Grid>
       </Grid.Container>
     </Layout>
