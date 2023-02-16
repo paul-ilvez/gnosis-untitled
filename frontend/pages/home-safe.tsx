@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import { Inter } from "@next/font/google";
 import { Grid, Spacer } from "@nextui-org/react";
 import HomeSafeMenu from "@/components/HomeSafe/HomeSafeMenu";
-import Transactions from "@/components/HomeSafe/Sections/Transactions";
+import Transactions from "@/components/HomeSafe/Sections/Transactions/Transactions";
 import Setup from "@/components/HomeSafe/Sections/Setup";
 import Assets from "@/components/HomeSafe/Sections/Assets";
 import { AppContext, AppContextData } from "@/store/AppContext";

@@ -7,7 +7,9 @@ exports.AppContext = react_2.createContext({
     appData: { network: "UNDEFINED_NETWORK" },
     setAppDataHandler: function (_appData) { },
     currentMenuSection: { title: "Transations" },
-    setCurrentMenuSectionHandler: function (_currentMenuSection) { }
+    setCurrentMenuSectionHandler: function (_currentMenuSection) { },
+    transactionsSection: { type: "Queue" },
+    setTransactionsSectionHandler: function (_transactionsSection) { }
 });
 function ContextProvider(_a) {
     var children = _a.children;
@@ -15,17 +17,25 @@ function ContextProvider(_a) {
     var _c = react_2.useState({
         title: "Transactions"
     }), currentMenuSection = _c[0], setCurrentMenuSection = _c[1];
+    var _d = react_2.useState({
+        type: "Queue"
+    }), transactionsSection = _d[0], setTransactionsSection = _d[1];
     function setAppDataHandler(_appData) {
         setAppData(_appData);
     }
     function setCurrentMenuSectionHandler(_currentMenuSection) {
         setCurrentMenuSection(_currentMenuSection);
     }
+    function setTransactionsSectionHandler(_transactionsSection) {
+        setTransactionsSection(_transactionsSection);
+    }
     var context = {
         appData: appData,
         setAppDataHandler: setAppDataHandler,
         currentMenuSection: currentMenuSection,
-        setCurrentMenuSectionHandler: setCurrentMenuSectionHandler
+        setCurrentMenuSectionHandler: setCurrentMenuSectionHandler,
+        transactionsSection: transactionsSection,
+        setTransactionsSectionHandler: setTransactionsSectionHandler
     };
     return react_1["default"].createElement(exports.AppContext.Provider, { value: context }, children);
 }
