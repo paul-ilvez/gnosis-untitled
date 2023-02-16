@@ -7,7 +7,6 @@ import { Contract, ethers, JsonRpcProvider } from "ethers";
 import { SafeFactory } from "@/abi/SafeFactory";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const [currentAccount, setAccount] = useState("");
   const [visibleDisconnect, setVisibleDisconnect] = useState(false);
   const [visibleConnect, setVisibleConnect] = useState(false);
   const appCtx = useContext<AppContextData>(AppContext);
@@ -17,14 +16,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
     const network = findNetworkById(window.ethereum.networkVersion);
 
-    appCtx.setNetworkHandler(network);
-
-    setAccount(sessionStorage.getItem("login"));
+    appCtx.setNetwork(network);
+    appCtx.setAccount(sessionStorage.getItem("login"));
 
     if (ethereum != null) {
       ethereum.on("accountsChanged", handleConnectMetamaskClick);
       ethereum.on("chainChanged", handleDisconnectMetamaskClick);
-      console.log(appCtx.network);
 
       return () => {
         ethereum.removeListener(
@@ -58,7 +55,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         });
       }
       sessionStorage.setItem("login", accounts[0]);
-      setAccount(accounts[0]);
+      appCtx.setAccount(accounts[0]);
       setVisibleConnect(false);
     } catch (error) {
       console.error(error);
@@ -81,7 +78,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <Header
         handleDisconnectMetamaskClick={handleDisconnectMetamaskClick}
         handleConnectMetamaskClick={handleConnectMetamaskClick}
-        account={currentAccount}
+        account={appCtx.account}
         visibleConnect={visibleConnect}
         setVisibleDisconnect={setVisibleDisconnect}
         setVisibleConnect={setVisibleConnect}

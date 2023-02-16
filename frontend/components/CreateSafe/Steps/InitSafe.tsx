@@ -21,7 +21,7 @@ const InitSafe = () => {
   const [error, setError] = useState("");
   const inputNameRef = useRef();
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: Event) => {
     e.preventDefault();
 
     setError("");

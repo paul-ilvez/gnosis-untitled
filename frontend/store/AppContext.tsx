@@ -9,7 +9,10 @@ export type CreateSafeStatus = {
 
 export type AppContextData = {
   network: Network;
-  setNetworkHandler: (_network: Network) => void;
+  setNetwork: (_network: Network) => void;
+
+  account: string;
+  setAccount: (_account: string) => void;
 
   currentMenuSection: CurrentMenuSection;
   setCurrentMenuSectionHandler: (
@@ -33,7 +36,9 @@ export type TransactionsSection = {
 };
 export const AppContext = createContext<AppContextData>({
   network: undefinedNetwork,
-  setNetworkHandler: (_network: Network) => {},
+  setNetwork: (_network: Network) => {},
+  account: "",
+  setAccount: (_account: string) => {},
   currentMenuSection: { title: "Transations" },
   setCurrentMenuSectionHandler: (_currentMenuSection: CurrentMenuSection) => {},
   transactionsSection: { type: "Queue" },
@@ -46,7 +51,8 @@ export const AppContext = createContext<AppContextData>({
 });
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
-  const [network, setNetwork] = useState(undefinedNetwork);
+  const [network, _setNetwork] = useState(undefinedNetwork);
+  const [account, _setAccount] = useState("0x0");
 
   const [currentMenuSection, setCurrentMenuSection] = useState({
     title: "Transactions",
@@ -58,8 +64,12 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const [createSafeStatus, setCreateSafeStatus] = useState({ status: "init" });
 
-  function setNetworkHandler(_network: Network) {
-    setNetwork(_network);
+  function setNetwork(_network: Network) {
+    _setNetwork(_network);
+  }
+
+  function setAccount(_account: string) {
+    _setAccount(_account);
   }
 
   function setCurrentMenuSectionHandler(
@@ -80,13 +90,15 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const context: AppContextData = {
     network,
-    setNetworkHandler: setNetworkHandler,
-    currentMenuSection: currentMenuSection,
-    setCurrentMenuSectionHandler: setCurrentMenuSectionHandler,
-    transactionsSection: transactionsSection,
-    setTransactionsSectionHandler: setTransactionsSectionHandler,
+    setNetwork,
+    account,
+    setAccount,
+    currentMenuSection,
+    setCurrentMenuSectionHandler,
+    transactionsSection,
+    setTransactionsSectionHandler,
     createSafeStatus: createSafeStatus,
-    setCreateSafeStatusHandler: setCreateSafeStatusHandler,
+    setCreateSafeStatusHandler,
   };
 
   useEffect(() => {
