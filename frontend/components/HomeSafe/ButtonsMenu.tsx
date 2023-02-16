@@ -1,14 +1,15 @@
 import { Button, Image, Text } from "@nextui-org/react";
-
+import React, { useContext } from "react";
+import { AppContext, AppContextData } from "@/store/AppContext";
 export default function ButtonsMenu({
-  key,
   title,
   icon,
 }: {
-  key: number;
   title: string;
   icon: string;
 }) {
+  const appCntx = useContext<AppContextData>(AppContext);
+
   return (
     <Button
       css={{
@@ -21,8 +22,8 @@ export default function ButtonsMenu({
       }}
       bordered
       rounded
-      key={key}
       borderWeight="light"
+      onClick={() => appCntx.setCurrentMenuSectionHandler({ title })}
     >
       <Image src={icon} alt="" css={{ marginRight: "$5" }} />
       <Text size={"14px"} css={{ letterSpacing: "$tight" }} weight={"medium"}>
