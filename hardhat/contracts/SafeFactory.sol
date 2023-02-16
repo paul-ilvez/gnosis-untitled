@@ -41,6 +41,6 @@ contract SafeFactory {
     }
 
     function getNumberOfSafes() external view returns (uint256) {
-        return safes.length;
+        return safes.length; 
     }
 }

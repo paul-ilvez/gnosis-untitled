@@ -5,6 +5,11 @@ export type AppData = {
   network: string;
 };
 
+export type CreateSafeStatus = {
+  status: "init" | "owners" | "review" | "generate"
+}
+
+
 export type AppContextData = {
   appData: AppData;
   setAppDataHandler: (_appData: AppData) => void;
@@ -18,6 +23,9 @@ export type AppContextData = {
   setTransactionsSectionHandler: (
     _transactionsSection: TransactionsSection
   ) => void;
+
+  createSafeStatus: CreateSafeStatus
+  setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => void;
 };
 
 export type CurrentMenuSection = {
@@ -35,16 +43,24 @@ export const AppContext = createContext<AppContextData>({
   setTransactionsSectionHandler: (
     _transactionsSection: TransactionsSection
   ) => {},
+
+  createSafeStatus: { status: 'init' },
+  setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => {}
 });
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
   const [appData, setAppData] = useState({ network: "UNDEFINED_NETWORK" });
+
   const [currentMenuSection, setCurrentMenuSection] = useState({
     title: "Transactions",
   });
+
   const [transactionsSection, setTransactionsSection] = useState({
     type: "Queue",
   });
+
+  const [createSafeStatus, setCreateSafeStatus] = useState({status:'init'})
+
 
   function setAppDataHandler(_appData: AppData) {
     setAppData(_appData);
@@ -62,6 +78,10 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setTransactionsSection(_transactionsSection);
   }
 
+  const setCreateSafeStatusHandler = (_status: CreateSafeStatus) => {
+    setCreateSafeStatus(_status)
+  }
+
   const context: AppContextData = {
     appData: appData,
     setAppDataHandler: setAppDataHandler,
@@ -69,6 +89,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setCurrentMenuSectionHandler: setCurrentMenuSectionHandler,
     transactionsSection: transactionsSection,
     setTransactionsSectionHandler: setTransactionsSectionHandler,
+    createSafeStatus: createSafeStatus,
+    setCreateSafeStatusHandler: setCreateSafeStatusHandler
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

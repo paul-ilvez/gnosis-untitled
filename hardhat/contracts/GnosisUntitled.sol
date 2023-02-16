@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.18;
 
-/// @title Untitled Gnosis
+/// @title Untitled Gnosis 
 /// @author Untitled_Team
 contract GnosisUntitled {
     enum TxType {
@@ -13,10 +13,10 @@ contract GnosisUntitled {
     }
     event Deposit(address indexed sender, uint256 amount, uint256 balance);
     event SubmitTransaction(
-        address indexed sender,
+        address indexed sender,   
         uint256 indexed txIndex,
         address indexed to,
-        uint256 value,
+        uint256 value,    
         TxType txType
     );
     event ConfirmTransaction(address indexed sender, uint256 indexed txIndex);

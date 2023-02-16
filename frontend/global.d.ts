@@ -1,4 +1,6 @@
-export type Screens = Record<number, React.ReactNode>;
+import {CreateSafeStatus} from "@/store/AppContext";
+
+export type Screens = Record<CreateSafeStatus, React.ReactNode>;
 export type Owner = {
   id: number;
   name: string;
