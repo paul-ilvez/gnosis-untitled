@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 
 export type AppData = {
   network: string;
+  account: string | null;
 };
 
 export type CreateSafeStatus = {
-  status: "init" | "owners" | "review" | "generate"
-}
-
+  status: "init" | "owners" | "review" | "generate";
+};
 
 export type AppContextData = {
   appData: AppData;
@@ -24,7 +24,7 @@ export type AppContextData = {
     _transactionsSection: TransactionsSection
   ) => void;
 
-  createSafeStatus: CreateSafeStatus
+  createSafeStatus: CreateSafeStatus;
   setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => void;
 };
 
@@ -35,7 +35,7 @@ export type TransactionsSection = {
   type: string;
 };
 export const AppContext = createContext<AppContextData>({
-  appData: { network: "UNDEFINED_NETWORK" },
+  appData: { network: "UNDEFINED_NETWORK", account: "UNDEFINED_ACCOUNT" },
   setAppDataHandler: (_appData: AppData) => {},
   currentMenuSection: { title: "Transations" },
   setCurrentMenuSectionHandler: (_currentMenuSection: CurrentMenuSection) => {},
@@ -44,8 +44,8 @@ export const AppContext = createContext<AppContextData>({
     _transactionsSection: TransactionsSection
   ) => {},
 
-  createSafeStatus: { status: 'init' },
-  setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => {}
+  createSafeStatus: { status: "init" },
+  setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => {},
 });
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
@@ -59,11 +59,16 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     type: "Queue",
   });
 
-  const [createSafeStatus, setCreateSafeStatus] = useState({status:'init'})
+  const [createSafeStatus, setCreateSafeStatus] = useState({ status: "init" });
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && sessionStorage.getItem("login")) {
+      setAppDataHandler({ account: sessionStorage.getItem("login") });
+    }
+  }, []);
 
   function setAppDataHandler(_appData: AppData) {
-    setAppData(_appData);
+    setAppData((prevAppData) => ({ ...prevAppData, ..._appData}));
   }
 
   function setCurrentMenuSectionHandler(
@@ -79,8 +84,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   }
 
   const setCreateSafeStatusHandler = (_status: CreateSafeStatus) => {
-    setCreateSafeStatus(_status)
-  }
+    setCreateSafeStatus(_status);
+  };
 
   const context: AppContextData = {
     appData: appData,
@@ -90,7 +95,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     transactionsSection: transactionsSection,
     setTransactionsSectionHandler: setTransactionsSectionHandler,
     createSafeStatus: createSafeStatus,
-    setCreateSafeStatusHandler: setCreateSafeStatusHandler
+    setCreateSafeStatusHandler: setCreateSafeStatusHandler,
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
