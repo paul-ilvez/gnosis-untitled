@@ -1,18 +1,18 @@
+import { undefinedNetwork } from "@/components/SafeList/Networks";
+import type { Network } from "@/components/SafeList/Networks";
 import React, { useEffect } from "react";
 import { createContext, useState } from "react";
-
-export type AppData = {
-  network: string;
-  account: string | null;
-};
 
 export type CreateSafeStatus = {
   status: "init" | "owners" | "review" | "generate";
 };
 
 export type AppContextData = {
-  appData: AppData;
-  setAppDataHandler: (_appData: AppData) => void;
+  network: Network;
+  setNetwork: (_network: Network) => void;
+
+  account: string;
+  setAccount: (_account: string) => void;
 
   currentMenuSection: CurrentMenuSection;
   setCurrentMenuSectionHandler: (
@@ -35,8 +35,10 @@ export type TransactionsSection = {
   type: string;
 };
 export const AppContext = createContext<AppContextData>({
-  appData: { network: "UNDEFINED_NETWORK", account: "UNDEFINED_ACCOUNT" },
-  setAppDataHandler: (_appData: AppData) => {},
+  network: undefinedNetwork,
+  setNetwork: (_network: Network) => {},
+  account: "",
+  setAccount: (_account: string) => {},
   currentMenuSection: { title: "Transations" },
   setCurrentMenuSectionHandler: (_currentMenuSection: CurrentMenuSection) => {},
   transactionsSection: { type: "Queue" },
@@ -49,7 +51,8 @@ export const AppContext = createContext<AppContextData>({
 });
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
-  const [appData, setAppData] = useState({ network: "UNDEFINED_NETWORK" });
+  const [network, _setNetwork] = useState(undefinedNetwork);
+  const [account, _setAccount] = useState("0x0");
 
   const [currentMenuSection, setCurrentMenuSection] = useState({
     title: "Transactions",
@@ -61,14 +64,12 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const [createSafeStatus, setCreateSafeStatus] = useState({ status: "init" });
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && sessionStorage.getItem("login")) {
-      setAppDataHandler({ account: sessionStorage.getItem("login") });
-    }
-  }, []);
+  function setNetwork(_network: Network) {
+    _setNetwork(_network);
+  }
 
-  function setAppDataHandler(_appData: AppData) {
-    setAppData((prevAppData) => ({ ...prevAppData, ..._appData}));
+  function setAccount(_account: string) {
+    _setAccount(_account);
   }
 
   function setCurrentMenuSectionHandler(
@@ -88,15 +89,21 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   };
 
   const context: AppContextData = {
-    appData: appData,
-    setAppDataHandler: setAppDataHandler,
-    currentMenuSection: currentMenuSection,
-    setCurrentMenuSectionHandler: setCurrentMenuSectionHandler,
-    transactionsSection: transactionsSection,
-    setTransactionsSectionHandler: setTransactionsSectionHandler,
+    network,
+    setNetwork,
+    account,
+    setAccount,
+    currentMenuSection,
+    setCurrentMenuSectionHandler,
+    transactionsSection,
+    setTransactionsSectionHandler,
     createSafeStatus: createSafeStatus,
-    setCreateSafeStatusHandler: setCreateSafeStatusHandler,
+    setCreateSafeStatusHandler,
   };
+
+  useEffect(() => {
+    console.log("calling useEffect from context");
+  }, []);
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
 }

@@ -2,26 +2,27 @@ import { AppContextData, AppContext } from "@/store/AppContext";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import Header from "./Header";
-import { Networks, networks } from "./SafeList/Networks";
-import {Contract, ethers, JsonRpcProvider} from "ethers";
-import {SafeFactory} from "@/abi/SafeFactory";
+import { findNetworkById } from "./SafeList/Networks";
+import { Contract, ethers, JsonRpcProvider } from "ethers";
+import { SafeFactory } from "@/abi/SafeFactory";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  
   const [visibleDisconnect, setVisibleDisconnect] = useState(false);
   const [visibleConnect, setVisibleConnect] = useState(false);
   const appCtx = useContext<AppContextData>(AppContext);
-  const currentAccount = appCtx.appData.account;
 
   useEffect(() => {
     const { ethereum } = window;
 
-    const network = networks[window.ethereum.networkVersion as keyof Networks];
-    appCtx.setAppDataHandler({ network, account: sessionStorage.getItem("login") });
-    
+    const network = findNetworkById(window.ethereum.networkVersion);
+
+    appCtx.setNetwork(network);
+    appCtx.setAccount(sessionStorage.getItem("login"));
+
     if (ethereum != null) {
       ethereum.on("accountsChanged", handleConnectMetamaskClick);
       ethereum.on("chainChanged", handleDisconnectMetamaskClick);
+
       return () => {
         ethereum.removeListener(
           "accountsChanged",
@@ -32,17 +33,18 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
   }, [visibleDisconnect, visibleConnect]);
 
-
   const handleConnectMetamaskClick = async () => {
     const { ethereum } = window;
     try {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
+      console.log({ account: accounts[0] });
+
       const chainId = await ethereum.request({
         method: "eth_chainId",
       });
-      if (chainId !== process.env.targetChainId) {
+      if (chainId !== "0x5") {
         await ethereum.request({
           method: "wallet_switchEthereumChain",
           params: [
@@ -53,7 +55,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         });
       }
       sessionStorage.setItem("login", accounts[0]);
-      appCtx.setAppDataHandler({ account: sessionStorage.getItem("login") });
+      appCtx.setAccount(accounts[0]);
       setVisibleConnect(false);
     } catch (error) {
       console.error(error);
@@ -76,11 +78,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <Header
         handleDisconnectMetamaskClick={handleDisconnectMetamaskClick}
         handleConnectMetamaskClick={handleConnectMetamaskClick}
-        account={currentAccount}
+        account={appCtx.account}
         visibleConnect={visibleConnect}
         setVisibleDisconnect={setVisibleDisconnect}
         setVisibleConnect={setVisibleConnect}
-        network={appCtx.appData.network}
+        network={appCtx.network.name}
       />
       {children}
     </>
