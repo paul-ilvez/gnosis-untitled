@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "safes",
+  "info": {
+    "singularName": "safe",
+    "pluralName": "safes",
+    "displayName": "Safe",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "address": {
+      "type": "uid"
+    },
+    "name": {
+      "type": "string"
+    },
+    "signers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::owner.owner",
+      "inversedBy": "safes"
+    }
+  }
+}

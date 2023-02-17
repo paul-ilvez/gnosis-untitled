@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "nicknames",
+  "info": {
+    "singularName": "nickname",
+    "pluralName": "nicknames",
+    "displayName": "Nickname"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "address": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "safe": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    }
+  }
+}
