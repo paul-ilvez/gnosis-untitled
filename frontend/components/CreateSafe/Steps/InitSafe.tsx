@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   Button,
   Card,
@@ -14,27 +14,24 @@ import {
 import FormHeader from "@/components/Common/FormHeader";
 import StepButtons from "@/components/LoadSafe/StepButtons";
 import { AppContext } from "@/store/AppContext";
-import {nextScreen, prevScreen} from "@/store/slices/screenHanlderSlice";
+import { nextScreen, prevScreen } from "@/store/slices/screenHanlderSlice";
 
 const InitSafe = () => {
   const appCtx = useContext(AppContext);
-  const [error, setError] = useState('')
-  const inputNameRef = useRef()
+  const [error, setError] = useState("");
+  const inputNameRef = useRef();
 
-  console.log(appCtx.appData)
-
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e: Event) => {
     e.preventDefault();
 
-    setError('')
+    setError("");
 
     if (inputNameRef.current.value.length === 0) {
-      return setError("name must be filled")
+      return setError("name must be filled");
     }
 
-    appCtx.setCreateSafeStatusHandler({status: "owners"})
-
-  }
+    appCtx.setCreateSafeStatusHandler({ status: "owners" });
+  };
 
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
@@ -51,14 +48,20 @@ const InitSafe = () => {
               Network
             </Text>
             <Dropdown>
-              <Dropdown.Button>{appCtx.appData.network}</Dropdown.Button>
+              <Dropdown.Button>{appCtx.network.name}</Dropdown.Button>
               <></>
             </Dropdown>
           </Grid.Container>
           <Grid.Container direction="column">
             <form onSubmit={handleFormSubmit}>
               <Spacer y={2} />
-              <Input status={error ? 'error' : ""} css={{ width: '300px' }} labelPlaceholder="Name" type='text' ref={inputNameRef} />
+              <Input
+                status={error ? "error" : ""}
+                css={{ width: "300px" }}
+                labelPlaceholder="Name"
+                type="text"
+                ref={inputNameRef}
+              />
               <Spacer y={6} />
               <Text>
                 By continuing you consent to the <br />{" "}
@@ -73,13 +76,8 @@ const InitSafe = () => {
               </Text>
               <Spacer />
               <Grid.Container justify="space-between">
-                <Link href='/'>
-                  <Button
-                      css={{ width: "100px" }}
-                      bordered
-                      color="#000"
-                      auto
-                  >
+                <Link href="/">
+                  <Button css={{ width: "100px" }} bordered color="#000" auto>
                     Back
                   </Button>
                 </Link>
@@ -89,17 +87,15 @@ const InitSafe = () => {
                     color: "#fff",
                     width: "300px",
                     maxWidth: "260px",
-                    borderRadius: '10px',
-                     cursor: 'pointer'
+                    borderRadius: "10px",
+                    cursor: "pointer",
                   }}
                 >
                   Next
                 </button>
               </Grid.Container>
               <Spacer />
-              {error &&  <Text color="error">
-                {error}
-              </Text>}
+              {error && <Text color="error">{error}</Text>}
             </form>
           </Grid.Container>
         </Card.Body>

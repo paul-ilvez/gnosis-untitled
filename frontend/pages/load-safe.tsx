@@ -15,7 +15,7 @@ import {
 import React, { useContext } from "react";
 
 export default function LoadSafe() {
-  const appCtx = useContext(AppContext);
+  const { network } = useContext(AppContext);
 
   return (
     <Layout>
@@ -37,7 +37,7 @@ export default function LoadSafe() {
                 Network
               </Text>
               <Dropdown>
-                <Dropdown.Button>{appCtx.appData.network}</Dropdown.Button>
+                <Dropdown.Button>{network.name}</Dropdown.Button>
                 <></>
               </Dropdown>
             </Grid.Container>
