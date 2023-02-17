@@ -12,12 +12,11 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
-import StepButtons from "@/components/LoadSafe/StepButtons";
-import { AppContext } from "@/store/AppContext";
-import { nextScreen, prevScreen } from "@/store/slices/screenHanlderSlice";
+import { AppContext, AppContextData } from "@/store/AppContext";
 
 const InitSafe = () => {
-  const appCtx = useContext(AppContext);
+  const { setNewSafeForm, setCreateSafeStatusHandler, newSafeForm, network } =
+    useContext<AppContextData>(AppContext);
   const [error, setError] = useState("");
   const inputNameRef = useRef();
 
@@ -25,12 +24,13 @@ const InitSafe = () => {
     e.preventDefault();
 
     setError("");
+    const { name } = newSafeForm;
 
-    if (inputNameRef.current.value.length === 0) {
+    if (name.length === 0) {
       return setError("name must be filled");
     }
 
-    appCtx.setCreateSafeStatusHandler({ status: "owners" });
+    setCreateSafeStatusHandler({ status: "owners" });
   };
 
   return (
@@ -48,8 +48,7 @@ const InitSafe = () => {
               Network
             </Text>
             <Dropdown>
-              <Dropdown.Button>{appCtx.network.name}</Dropdown.Button>
-              <></>
+              <Dropdown.Button>{network.name}</Dropdown.Button>
             </Dropdown>
           </Grid.Container>
           <Grid.Container direction="column">
@@ -61,6 +60,10 @@ const InitSafe = () => {
                 labelPlaceholder="Name"
                 type="text"
                 ref={inputNameRef}
+                value={newSafeForm.name}
+                onInput={(e) =>
+                  setNewSafeForm({ ...newSafeForm, name: e.target.value })
+                }
               />
               <Spacer y={6} />
               <Text>

@@ -1,8 +1,9 @@
 import React from "react";
 import { Avatar, Card, Grid, Image, Spacer, Text } from "@nextui-org/react";
 import LinkAndCopy from "@/components/Common/LinkAndCopy";
+import getLittleAddress from "@/libs/getLittleAdrress";
 
-const AccountCard = () => {
+const AccountCard = ({ address }: { address: string }) => {
   return (
     <Card variant="bordered" css={{ mw: "400px" }}>
       <Card.Body>
@@ -15,10 +16,10 @@ const AccountCard = () => {
             <Avatar text="JR" size="sm" />
             <Spacer />
             <Text>
-              <b>gor:</b> 0xA01f...AA6A
+              <b>gor:</b> {getLittleAddress(address)}
             </Text>
           </Grid.Container>
-          <LinkAndCopy />
+          <LinkAndCopy address={address} />
         </Grid.Container>
       </Card.Body>
     </Card>

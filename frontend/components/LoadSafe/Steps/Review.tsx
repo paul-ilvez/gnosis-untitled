@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Card,
   Grid,
@@ -6,25 +6,47 @@ import {
   Spacer,
   Text,
   Badge,
+  Button,
 } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import AccountCard from "@/components/Common/AccountCard";
-import StepButtons from "@/components/LoadSafe/StepButtons";
-import { AppContext } from "@/store/AppContext";
+import { AppContext, AppContextData } from "@/store/AppContext";
+import { Contract, JsonRpcProvider } from "ethers";
+import { SafeFactory } from "@/abi/SafeFactory";
+import walletProvider from "@/abi/walletProvider";
 
 const Review = () => {
-  const owners = [
-    {
-      id: 1,
-      name: "Alice",
-    },
-    {
-      id: 3,
-      name: "Bob",
-    },
-  ];
+  const [safeFactory, setSafeFactory] = useState();
+  const { setCreateSafeStatusHandler, newSafeForm } =
+    useContext<AppContextData>(AppContext);
+  const { owners, name, network, quorum } = newSafeForm;
 
-  const appCtx = useContext(AppContext);
+  useEffect(() => {
+    (async () => {
+      const url = "http://127.0.0.1:8545";
+      const customHttpProvider = new JsonRpcProvider(url);
+
+      const safeFactory = new Contract(
+        "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+        SafeFactory,
+        customHttpProvider
+      );
+
+      setSafeFactory(safeFactory);
+    })();
+  }, []);
+
+  const createSafeHandler = async () => {
+    console.log(newSafeForm);
+
+    const addresses = owners.map((owner) => owner.address);
+
+    const signer = await walletProvider.getSigner();
+    const safeFactoryWithSigner = safeFactory.connect(signer);
+    const newSafe = await safeFactoryWithSigner.createSafe(addresses, quorum);
+
+    console.log("newSafe: ", newSafe);
+  };
 
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
@@ -46,25 +68,27 @@ const Review = () => {
           >
             <Table.Header>
               <Table.Column>Network</Table.Column>
-              <Table.Column>{appCtx.appData.network.name}</Table.Column>
+              <Table.Column>{network.name}</Table.Column>
             </Table.Header>
             <Table.Body>
               <Table.Row key="2">
                 <Table.Cell>Name</Table.Cell>
                 <Table.Cell>
-                  <b>Test Safe</b>
+                  <b>{name || "untitled"}</b>
                 </Table.Cell>
               </Table.Row>
               <Table.Row key="3">
                 <Table.Cell>Owners</Table.Cell>
                 <Table.Cell>
-                  <b>3</b>
+                  <b>{owners.length}</b>
                 </Table.Cell>
               </Table.Row>
               <Table.Row key="4">
                 <Table.Cell>Treshold</Table.Cell>
                 <Table.Cell>
-                  <b>1 out of 1 owner(s)</b>
+                  <b>
+                    {quorum} out of {owners.length} owner(s)
+                  </b>
                 </Table.Cell>
               </Table.Row>
             </Table.Body>
@@ -73,11 +97,11 @@ const Review = () => {
           <Grid.Container direction="column">
             {owners.map((owner) => {
               return (
-                <div key={owner.key}>
+                <div key={owner.id}>
                   <Text css={{ textAlign: "left" }}>
                     <b>{owner.name}</b>
                   </Text>
-                  <AccountCard />
+                  <AccountCard address={owner.address} />
                   <Spacer />
                 </div>
               );
@@ -88,13 +112,36 @@ const Review = () => {
             </Text>
             <Spacer y={1} />
             <Badge size="lg" variant="flat">
-              ≈ 0.02655 GOR
+              {/* TODO: написать предварительный газ */}≈ 0.02655 it's fake
             </Badge>
             <Text css={{ textAlign: "left" }} color="#9E9E9E">
               You will have to confirm a transaction with your connected wallet.
             </Text>
             <Spacer y={2} />
-            <StepButtons link="/" />
+            <Grid.Container justify="space-between">
+              <Button
+                onClick={() => setCreateSafeStatusHandler({ status: "owners" })}
+                css={{ width: "100px" }}
+                bordered
+                color="#000"
+                auto
+              >
+                Back
+              </Button>
+              <button
+                style={{
+                  background: "#000",
+                  color: "#fff",
+                  width: "300px",
+                  maxWidth: "260px",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                }}
+                onClick={createSafeHandler}
+              >
+                Next
+              </button>
+            </Grid.Container>
           </Grid.Container>
         </Card.Body>
       </Card>

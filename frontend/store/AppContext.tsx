@@ -2,9 +2,17 @@ import { undefinedNetwork } from "@/components/SafeList/Networks";
 import type { Network } from "@/components/SafeList/Networks";
 import React, { useEffect } from "react";
 import { createContext, useState } from "react";
+import { FormOwners } from "@/components/LoadSafe/Steps/SetOwners";
 
 export type CreateSafeStatus = {
   status: "init" | "owners" | "review" | "generate";
+};
+
+export type NewSafeForm = {
+  name: string;
+  network: Network;
+  owners: FormOwners[];
+  quorum: string;
 };
 
 export type AppContextData = {
@@ -26,6 +34,8 @@ export type AppContextData = {
 
   createSafeStatus: CreateSafeStatus;
   setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => void;
+  newSafeForm: NewSafeForm;
+  setNewSafeForm: (_form: NewSafeForm) => void;
 };
 
 export type CurrentMenuSection = {
@@ -48,11 +58,25 @@ export const AppContext = createContext<AppContextData>({
 
   createSafeStatus: { status: "init" },
   setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => {},
+  newSafeForm: {
+    name: "",
+    network: undefinedNetwork,
+    address: "",
+    owners: [],
+    quorum: 1,
+  },
+  setNewSafeForm: (_form: NewSafeForm) => {},
 });
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
   const [network, _setNetwork] = useState(undefinedNetwork);
   const [account, _setAccount] = useState("0x0");
+  const [newSafeForm, _setNewSafeForm] = useState({
+    name: "",
+    network: undefinedNetwork,
+    owners: [],
+    quorum: 1,
+  });
 
   const [currentMenuSection, setCurrentMenuSection] = useState({
     title: "Transactions",
@@ -62,7 +86,9 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     type: "Queue",
   });
 
-  const [createSafeStatus, setCreateSafeStatus] = useState({ status: "init" });
+  const [createSafeStatus, setCreateSafeStatus] = useState({
+    status: "owners",
+  });
 
   function setNetwork(_network: Network) {
     _setNetwork(_network);
@@ -88,6 +114,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setCreateSafeStatus(_status);
   };
 
+  const setNewSafeForm = (_form: NewSafeForm) => _setNewSafeForm(_form);
+
   const context: AppContextData = {
     network,
     setNetwork,
@@ -97,8 +125,10 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setCurrentMenuSectionHandler,
     transactionsSection,
     setTransactionsSectionHandler,
-    createSafeStatus: createSafeStatus,
+    createSafeStatus,
     setCreateSafeStatusHandler,
+    newSafeForm,
+    setNewSafeForm,
   };
 
   useEffect(() => {
