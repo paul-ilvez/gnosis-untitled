@@ -43,15 +43,14 @@ var Header_1 = require("./Header");
 var Networks_1 = require("./SafeList/Networks");
 var Layout = function (_a) {
     var children = _a.children;
-    var _b = react_1.useState(""), currentAccount = _b[0], setAccount = _b[1];
-    var _c = react_1.useState(false), visibleDisconnect = _c[0], setVisibleDisconnect = _c[1];
-    var _d = react_1.useState(false), visibleConnect = _d[0], setVisibleConnect = _d[1];
+    var _b = react_1.useState(false), visibleDisconnect = _b[0], setVisibleDisconnect = _b[1];
+    var _c = react_1.useState(false), visibleConnect = _c[0], setVisibleConnect = _c[1];
     var appCtx = react_1.useContext(AppContext_1.AppContext);
+    var currentAccount = appCtx.appData.account;
     react_1.useEffect(function () {
         var ethereum = window.ethereum;
         var network = Networks_1.networks[window.ethereum.networkVersion];
-        appCtx.setAppDataHandler({ network: network });
-        setAccount(sessionStorage.getItem("login"));
+        appCtx.setAppDataHandler({ network: network, account: sessionStorage.getItem("login") });
         if (ethereum != null) {
             ethereum.on("accountsChanged", handleConnectMetamaskClick);
             ethereum.on("chainChanged", handleDisconnectMetamaskClick);
@@ -80,7 +79,7 @@ var Layout = function (_a) {
                         })];
                 case 3:
                     chainId = _a.sent();
-                    if (!(chainId !== "0x5")) return [3 /*break*/, 5];
+                    if (!(chainId !== process.env.targetChainId)) return [3 /*break*/, 5];
                     return [4 /*yield*/, ethereum.request({
                             method: "wallet_switchEthereumChain",
                             params: [
@@ -94,7 +93,7 @@ var Layout = function (_a) {
                     _a.label = 5;
                 case 5:
                     sessionStorage.setItem("login", accounts[0]);
-                    setAccount(accounts[0]);
+                    appCtx.setAppDataHandler({ account: sessionStorage.getItem("login") });
                     setVisibleConnect(false);
                     return [3 /*break*/, 7];
                 case 6:
