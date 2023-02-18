@@ -47,7 +47,7 @@ var Layout = function (_a) {
     var _b = react_1.useState(false), visibleDisconnect = _b[0], setVisibleDisconnect = _b[1];
     var _c = react_1.useState(false), visibleConnect = _c[0], setVisibleConnect = _c[1];
     var appCtx = react_1.useContext(AppContext_1.AppContext);
-    var network = process.env.defaultChain;
+    var network = appCtx.network;
     useSafeFactory_1.useSafeFactory();
     react_1.useEffect(function () {
         var ethereum = window.ethereum;

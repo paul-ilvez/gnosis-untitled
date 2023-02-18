@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [visibleDisconnect, setVisibleDisconnect] = useState(false);
   const [visibleConnect, setVisibleConnect] = useState(false);
   const appCtx = useContext<AppContextData>(AppContext);
-  let network = process.env.defaultChain;
+  let network = appCtx.network;
 
   useSafeFactory();
 
