@@ -10,19 +10,27 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const [visibleDisconnect, setVisibleDisconnect] = useState(false);
   const [visibleConnect, setVisibleConnect] = useState(false);
   const appCtx = useContext<AppContextData>(AppContext);
+  let network = process.env.defaultChain;
 
   useEffect(() => {
     const { ethereum } = window;
+    const handleChangeAccount = (accounts: string) => {
+      appCtx.setAccount(accounts[0]);
+    };
 
-    const network = findNetworkById(window.ethereum.networkVersion);
-
+    if(typeof window !== 'undefined' && window?.ethereum) {
+      network = findNetworkById(window.ethereum.networkVersion);
+      appCtx.setIsEthereum(true);
+    }
+    
+    
     appCtx.setNetwork(network);
     appCtx.setAccount(sessionStorage.getItem("login"));
 
     if (ethereum != null) {
-      ethereum.on("accountsChanged", handleConnectMetamaskClick);
-      ethereum.on("chainChanged", handleDisconnectMetamaskClick);
-
+      ethereum.on("accountsChanged", handleChangeAccount);
+      ethereum.on('chainChanged', () => window.location.reload());
+      
       return () => {
         ethereum.removeListener(
           "accountsChanged",
@@ -39,21 +47,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
-      console.log({ account: accounts[0] });
 
-      const chainId = await ethereum.request({
-        method: "eth_chainId",
-      });
-      if (chainId !== "0x5") {
-        await ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [
-            {
-              chainId: process.env.targetChainId,
-            },
-          ],
-        });
-      }
+      // const chainId = await ethereum.request({
+      //   method: "eth_chainId",
+      // });
+      // if (chainId !== "0x5") {
+      //   await ethereum.request({
+      //     method: "wallet_switchEthereumChain",
+      //     params: [
+      //       {
+      //         chainId: process.env.targetChainId,
+      //       },
+      //     ],
+      //   });
+      // }
       sessionStorage.setItem("login", accounts[0]);
       appCtx.setAccount(accounts[0]);
       setVisibleConnect(false);

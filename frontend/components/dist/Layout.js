@@ -46,14 +46,21 @@ var Layout = function (_a) {
     var _b = react_1.useState(false), visibleDisconnect = _b[0], setVisibleDisconnect = _b[1];
     var _c = react_1.useState(false), visibleConnect = _c[0], setVisibleConnect = _c[1];
     var appCtx = react_1.useContext(AppContext_1.AppContext);
-    var currentAccount = appCtx.appData.account;
+    var network = process.env.defaultChain;
     react_1.useEffect(function () {
         var ethereum = window.ethereum;
-        var network = Networks_1.networks[window.ethereum.networkVersion];
-        appCtx.setAppDataHandler({ network: network, account: sessionStorage.getItem("login") });
+        var handleChangeAccount = function (accounts) {
+            appCtx.setAccount(accounts[0]);
+        };
+        if (typeof window !== 'undefined' && (window === null || window === void 0 ? void 0 : window.ethereum)) {
+            network = Networks_1.findNetworkById(window.ethereum.networkVersion);
+            appCtx.setIsEthereum(true);
+        }
+        appCtx.setNetwork(network);
+        appCtx.setAccount(sessionStorage.getItem("login"));
         if (ethereum != null) {
-            ethereum.on("accountsChanged", handleConnectMetamaskClick);
-            ethereum.on("chainChanged", handleDisconnectMetamaskClick);
+            ethereum.on("accountsChanged", handleChangeAccount);
+            ethereum.on('chainChanged', function () { return window.location.reload(); });
             return function () {
                 ethereum.removeListener("accountsChanged", handleDisconnectMetamaskClick);
                 ethereum.removeListener("chainChanged", handleDisconnectMetamaskClick);
@@ -61,46 +68,41 @@ var Layout = function (_a) {
         }
     }, [visibleDisconnect, visibleConnect]);
     var handleConnectMetamaskClick = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var ethereum, accounts, chainId, error_1;
+        var ethereum, accounts, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     ethereum = window.ethereum;
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 6, , 7]);
+                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, ethereum.request({
                             method: "eth_requestAccounts"
                         })];
                 case 2:
                     accounts = _a.sent();
-                    return [4 /*yield*/, ethereum.request({
-                            method: "eth_chainId"
-                        })];
-                case 3:
-                    chainId = _a.sent();
-                    if (!(chainId !== process.env.targetChainId)) return [3 /*break*/, 5];
-                    return [4 /*yield*/, ethereum.request({
-                            method: "wallet_switchEthereumChain",
-                            params: [
-                                {
-                                    chainId: process.env.targetChainId
-                                },
-                            ]
-                        })];
-                case 4:
-                    _a.sent();
-                    _a.label = 5;
-                case 5:
+                    // const chainId = await ethereum.request({
+                    //   method: "eth_chainId",
+                    // });
+                    // if (chainId !== "0x5") {
+                    //   await ethereum.request({
+                    //     method: "wallet_switchEthereumChain",
+                    //     params: [
+                    //       {
+                    //         chainId: process.env.targetChainId,
+                    //       },
+                    //     ],
+                    //   });
+                    // }
                     sessionStorage.setItem("login", accounts[0]);
-                    appCtx.setAppDataHandler({ account: sessionStorage.getItem("login") });
+                    appCtx.setAccount(accounts[0]);
                     setVisibleConnect(false);
-                    return [3 /*break*/, 7];
-                case 6:
+                    return [3 /*break*/, 4];
+                case 3:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    return [3 /*break*/, 7];
-                case 7: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     }); };
@@ -117,7 +119,7 @@ var Layout = function (_a) {
             React.createElement("meta", { name: "description", content: "Untitled Gnosis" }),
             React.createElement("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }),
             React.createElement("link", { rel: "icon", href: "/favicon.ico" })),
-        React.createElement(Header_1["default"], { handleDisconnectMetamaskClick: handleDisconnectMetamaskClick, handleConnectMetamaskClick: handleConnectMetamaskClick, account: currentAccount, visibleConnect: visibleConnect, setVisibleDisconnect: setVisibleDisconnect, setVisibleConnect: setVisibleConnect, network: appCtx.appData.network }),
+        React.createElement(Header_1["default"], { handleDisconnectMetamaskClick: handleDisconnectMetamaskClick, handleConnectMetamaskClick: handleConnectMetamaskClick, account: appCtx.account, visibleConnect: visibleConnect, setVisibleDisconnect: setVisibleDisconnect, setVisibleConnect: setVisibleConnect, network: appCtx.network.name }),
         children));
 };
 exports["default"] = Layout;

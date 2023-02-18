@@ -13,34 +13,36 @@ import AccountCard from "@/components/Common/AccountCard";
 import { AppContext, AppContextData } from "@/store/AppContext";
 import { Contract, JsonRpcProvider } from "ethers";
 import { SafeFactory } from "@/abi/SafeFactory";
-import walletProvider from "@/abi/walletProvider";
+import getProvider from "@/abi/walletProvider";
+
 
 const Review = () => {
   const [safeFactory, setSafeFactory] = useState();
   const { setCreateSafeStatusHandler, newSafeForm } =
     useContext<AppContextData>(AppContext);
   const { owners, name, network, quorum } = newSafeForm;
+  const appCtx = useContext<AppContextData>(AppContext);
+  const walletProvider = getProvider(appCtx.network);
 
   useEffect(() => {
     (async () => {
-      const url = "http://127.0.0.1:8545";
-      const customHttpProvider = new JsonRpcProvider(url);
-
-      const safeFactory = new Contract(
+      // const url = "http://127.0.0.1:8545";
+      // const customHttpProvider = new JsonRpcProvider(url);
+      const safeFactoryContract = new Contract(
         "0x5fbdb2315678afecb367f032d93f642f64180aa3",
         SafeFactory,
-        customHttpProvider
+        walletProvider
       );
 
-      setSafeFactory(safeFactory);
+      setSafeFactory(safeFactoryContract);
     })();
   }, []);
 
   const createSafeHandler = async () => {
-    console.log(newSafeForm);
+    console.log("SAFE >>>", safeFactory);
 
     const addresses = owners.map((owner) => owner.address);
-
+    console.log("DATA >>>", addresses, quorum)
     const signer = await walletProvider.getSigner();
     const safeFactoryWithSigner = safeFactory.connect(signer);
     const newSafe = await safeFactoryWithSigner.createSafe(addresses, quorum);
