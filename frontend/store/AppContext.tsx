@@ -3,10 +3,13 @@ import type { Network } from "@/components/SafeList/Networks";
 import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { FormOwners } from "@/components/LoadSafe/Steps/SetOwners";
+import { Contract } from "ethers";
 
 export type CreateSafeStatus = {
-  status: "init" | "owners" | "review" | "generate";
+  status: "owners" | "review" | "generate";
 };
+
+export type SafeFactoryType = null | Contract;
 
 export type NewSafeForm = {
   name: string;
@@ -39,6 +42,8 @@ export type AppContextData = {
   setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => void;
   newSafeForm: NewSafeForm;
   setNewSafeForm: (_form: NewSafeForm) => void;
+  safeFactory: SafeFactoryType;
+  setSafeFactory: (_contract: SafeFactoryType) => void;
 };
 
 export type CurrentMenuSection = {
@@ -48,6 +53,8 @@ export type TransactionsSection = {
   type: string;
 };
 export const AppContext = createContext<AppContextData>({
+  safeFactory: null,
+  setSafeFactory: (_contract: SafeFactoryType) => {},
   network: undefinedNetwork,
   setNetwork: (_network: Network) => {},
   account: "",
@@ -58,15 +65,13 @@ export const AppContext = createContext<AppContextData>({
   setTransactionsSectionHandler: (
     _transactionsSection: TransactionsSection
   ) => {},
-
-  createSafeStatus: { status: "init" },
+  createSafeStatus: { status: "owners" },
   setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => {},
   newSafeForm: {
     name: "",
     network: undefinedNetwork,
-    address: "",
     owners: [],
-    quorum: 1,
+    quorum: "",
   },
   setNewSafeForm: (_form: NewSafeForm) => {},
 });
@@ -75,12 +80,12 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   const [network, _setNetwork] = useState(undefinedNetwork);
   const [account, _setAccount] = useState("0x0");
   const [isEthereum, _setIsEthereum] = useState(false);
-
+  const [safeFactory, _setSafeFactory] = useState(null);
   const [newSafeForm, _setNewSafeForm] = useState({
     name: "",
     network: undefinedNetwork,
     owners: [],
-    quorum: 1,
+    quorum: "",
   });
 
   const [currentMenuSection, setCurrentMenuSection] = useState({
@@ -97,6 +102,10 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   function setNetwork(_network: Network) {
     _setNetwork(_network);
+  }
+
+  function setSafeFactory(_contract: SafeFactoryType) {
+    _setSafeFactory(_contract);
   }
 
   function setAccount(_account: string) {
@@ -140,6 +149,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setCreateSafeStatusHandler,
     newSafeForm,
     setNewSafeForm,
+    safeFactory,
+    setSafeFactory,
   };
 
   useEffect(() => {

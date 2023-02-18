@@ -1,4 +1,4 @@
-export const SafeFactory = [
+export const SafeFactoryAbi = [
   {
     anonymous: false,
     inputs: [

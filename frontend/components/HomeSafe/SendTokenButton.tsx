@@ -1,6 +1,6 @@
 import { Button, Text } from "@nextui-org/react";
 
-export default function NewTransactionButton({ handler }) {
+export default function SendTokenButton({ handler }) {
   return (
     <Button
       onClick={handler}
@@ -14,7 +14,7 @@ export default function NewTransactionButton({ handler }) {
       auto
     >
       <Text css={{ letterSpacing: "$wide" }} color="white" weight={"normal"}>
-        New transaction
+        Send Token
       </Text>
     </Button>
   );

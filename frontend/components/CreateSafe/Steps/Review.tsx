@@ -1,31 +1,29 @@
-import React, { useContext } from "react";
-import { Card, Grid, Table, Spacer, Text } from "@nextui-org/react";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  Card,
+  Grid,
+  Table,
+  Spacer,
+  Text,
+  Badge,
+  Button,
+} from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import AccountCard from "@/components/Common/AccountCard";
-import StepButtons from "@/components/LoadSafe/StepButtons";
-import { Owner } from "@/global";
-import { AppContext } from "@/store/AppContext";
+import { AppContext, AppContextData } from "@/store/AppContext";
+
 
 const Review = () => {
-  const owners: Owner[] = [
-    {
-      id: 1,
-      name: "Alice",
-    },
-    {
-      id: 3,
-      name: "Bob",
-    },
-  ];
-
-  const { network } = useContext(AppContext);
+  const { setCreateSafeStatusHandler, newSafeForm, safeFactory } =
+    useContext<AppContextData>(AppContext);
+  const { owners, name, network, quorum } = newSafeForm;
 
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
       <Card variant="bordered" css={{ mw: "450px", h: "$400" }}>
         <Card.Body css={{ textAlign: "center", padding: "40px" }}>
           <FormHeader
-            title={"Load Safe"}
+            title={"Create new Safe"}
             subTitle={"Review"}
             description={"Confirm loading Safe."}
           />
@@ -46,13 +44,21 @@ const Review = () => {
               <Table.Row key="2">
                 <Table.Cell>Name</Table.Cell>
                 <Table.Cell>
-                  <b>Test Safe</b>
+                  <b>{name || "untitled"}</b>
                 </Table.Cell>
               </Table.Row>
               <Table.Row key="3">
                 <Table.Cell>Owners</Table.Cell>
                 <Table.Cell>
-                  <b>3</b>
+                  <b>{owners.length}</b>
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row key="4">
+                <Table.Cell>Treshold</Table.Cell>
+                <Table.Cell>
+                  <b>
+                    {quorum} out of {owners.length} owner(s)
+                  </b>
                 </Table.Cell>
               </Table.Row>
             </Table.Body>
@@ -65,13 +71,49 @@ const Review = () => {
                   <Text css={{ textAlign: "left" }}>
                     <b>{owner.name}</b>
                   </Text>
-                  <AccountCard />
+                  <AccountCard address={owner.address} />
                   <Spacer />
                 </div>
               );
             })}
+            {/*<Spacer y={2} />*/}
+            {/*<Text css={{ textAlign: "left" }} size="$xl" color="#0077FF" b>*/}
+            {/*  Est. network fee*/}
+            {/*</Text>*/}
+            {/*<Spacer y={1} />*/}
+            {/*<Badge size="lg" variant="flat">*/}
+            {/*  /!* TODO: написать предварительный газ *!/≈ 0.02655 it's fake*/}
+            {/*</Badge>*/}
+            {/*<Text css={{ textAlign: "left" }} color="#9E9E9E">*/}
+            {/*  You will have to confirm a transaction with your connected wallet.*/}
+            {/*</Text>*/}
             <Spacer y={2} />
-            <StepButtons link="/" />
+            <Grid.Container justify="space-between">
+              <Button
+                onClick={() => setCreateSafeStatusHandler({ status: "owners" })}
+                css={{ width: "100px" }}
+                bordered
+                color="#000"
+                auto
+              >
+                Back
+              </Button>
+              <button
+                style={{
+                  background: "#000",
+                  color: "#fff",
+                  width: "300px",
+                  maxWidth: "260px",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                }}
+                onClick={() =>
+                  setCreateSafeStatusHandler({ status: "generate" })
+                }
+              >
+                Next
+              </button>
+            </Grid.Container>
           </Grid.Container>
         </Card.Body>
       </Card>

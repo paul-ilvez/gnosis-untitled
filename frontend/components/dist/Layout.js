@@ -41,18 +41,20 @@ var head_1 = require("next/head");
 var react_1 = require("react");
 var Header_1 = require("./Header");
 var Networks_1 = require("./SafeList/Networks");
+var useSafeFactory_1 = require("@/hooks/useSafeFactory");
 var Layout = function (_a) {
     var children = _a.children;
     var _b = react_1.useState(false), visibleDisconnect = _b[0], setVisibleDisconnect = _b[1];
     var _c = react_1.useState(false), visibleConnect = _c[0], setVisibleConnect = _c[1];
     var appCtx = react_1.useContext(AppContext_1.AppContext);
     var network = process.env.defaultChain;
+    useSafeFactory_1.useSafeFactory();
     react_1.useEffect(function () {
         var ethereum = window.ethereum;
         var handleChangeAccount = function (accounts) {
             appCtx.setAccount(accounts[0]);
         };
-        if (typeof window !== 'undefined' && (window === null || window === void 0 ? void 0 : window.ethereum)) {
+        if (typeof window !== "undefined" && (window === null || window === void 0 ? void 0 : window.ethereum)) {
             network = Networks_1.findNetworkById(window.ethereum.networkVersion);
             appCtx.setIsEthereum(true);
         }
@@ -60,7 +62,7 @@ var Layout = function (_a) {
         appCtx.setAccount(sessionStorage.getItem("login"));
         if (ethereum != null) {
             ethereum.on("accountsChanged", handleChangeAccount);
-            ethereum.on('chainChanged', function () { return window.location.reload(); });
+            ethereum.on("chainChanged", function () { return window.location.reload(); });
             return function () {
                 ethereum.removeListener("accountsChanged", handleDisconnectMetamaskClick);
                 ethereum.removeListener("chainChanged", handleDisconnectMetamaskClick);

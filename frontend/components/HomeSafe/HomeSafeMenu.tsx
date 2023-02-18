@@ -4,8 +4,11 @@ import safes from "@/mocks/safes";
 import ButtonsMenu from "./ButtonsMenu";
 import AssetsCounter from "./AssetsCounter";
 import NewTransactionButton from "./NewTransactionButton";
+import { useState } from "react";
+import ModalNewTransaction from "./ModalNewTransaction";
 
 export default function HomeSafeMenu() {
+  const [isVisible, setVisible] = useState(false);
   const Buttons = [
     {
       id: 1,
@@ -19,6 +22,15 @@ export default function HomeSafeMenu() {
       icon: "./AddressBook.svg",
     },
   ];
+
+  const handleClickModalTransaction = () => {
+    setVisible(true);
+  };
+
+  const handleCloseModalNewTransaction = () => {
+    setVisible(false);
+  };
+
   return (
     <Card
       variant="bordered"
@@ -42,7 +54,10 @@ export default function HomeSafeMenu() {
           </Row>
           <Spacer y={1} />
           <Row align="center" justify="center">
-            <NewTransactionButton />
+            <NewTransactionButton
+              visible={isVisible}
+              handler={handleClickModalTransaction}
+            />
           </Row>
         </Col>
       </Card.Header>
@@ -61,6 +76,10 @@ export default function HomeSafeMenu() {
           ))}
         </Grid.Container>
       </Card.Body>
+      <ModalNewTransaction
+        visible={isVisible}
+        closeHandler={handleCloseModalNewTransaction}
+      />
     </Card>
   );
 }

@@ -5,7 +5,7 @@ export type Network = {
   factoryContractAddress: string;
 };
 
-const networks: Network[] = [
+export const networks: Network[] = [
   {
     chaindId: 1,
     name: "Mainnet",

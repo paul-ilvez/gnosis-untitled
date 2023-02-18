@@ -3,8 +3,7 @@ import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import Header from "./Header";
 import { findNetworkById } from "./SafeList/Networks";
-import { Contract, ethers, JsonRpcProvider } from "ethers";
-import { SafeFactory } from "@/abi/SafeFactory";
+import { useSafeFactory } from "@/hooks/useSafeFactory";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [visibleDisconnect, setVisibleDisconnect] = useState(false);
@@ -12,25 +11,26 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const appCtx = useContext<AppContextData>(AppContext);
   let network = process.env.defaultChain;
 
+  useSafeFactory();
+
   useEffect(() => {
     const { ethereum } = window;
     const handleChangeAccount = (accounts: string) => {
       appCtx.setAccount(accounts[0]);
     };
 
-    if(typeof window !== 'undefined' && window?.ethereum) {
+    if (typeof window !== "undefined" && window?.ethereum) {
       network = findNetworkById(window.ethereum.networkVersion);
       appCtx.setIsEthereum(true);
     }
-    
-    
+
     appCtx.setNetwork(network);
     appCtx.setAccount(sessionStorage.getItem("login"));
 
     if (ethereum != null) {
       ethereum.on("accountsChanged", handleChangeAccount);
-      ethereum.on('chainChanged', () => window.location.reload());
-      
+      ethereum.on("chainChanged", () => window.location.reload());
+
       return () => {
         ethereum.removeListener(
           "accountsChanged",
