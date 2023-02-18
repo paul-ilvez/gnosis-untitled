@@ -12,7 +12,7 @@ export const useSafeFactory = () => {
       const customHttpProvider = new JsonRpcProvider(url);
 
       const safeFactory = new Contract(
-        "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+        "0x1Ef5550D3b9b9e8637A0B7b8F44B739D96F3dB59",
         SafeFactoryAbi,
         customHttpProvider
       );
