@@ -48,7 +48,7 @@ var GenerateSafe = function () {
     var _b = react_1.useContext(AppContext_1.AppContext), newSafeForm = _b.newSafeForm, safeFactory = _b.safeFactory, network = _b.network;
     var owners = newSafeForm.owners, quorum = newSafeForm.quorum;
     var createSafe = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var addresses, walletProvider_2, signer, safeFactoryWithSigner, tx, response, e_1;
+        var addresses, walletProvider, signer, safeFactoryWithSigner, tx, response, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -58,8 +58,8 @@ var GenerateSafe = function () {
                 case 1:
                     _a.trys.push([1, 5, , 6]);
                     setStateLoad("fetch");
-                    walletProvider_2 = walletProvider_1["default"](network);
-                    return [4 /*yield*/, walletProvider_2.getSigner()];
+                    walletProvider = walletProvider_1["default"](network);
+                    return [4 /*yield*/, walletProvider.getSigner()];
                 case 2:
                     signer = _a.sent();
                     safeFactoryWithSigner = safeFactory.connect(signer);

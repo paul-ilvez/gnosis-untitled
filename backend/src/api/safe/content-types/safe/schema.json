@@ -23,6 +23,12 @@
       "relation": "manyToMany",
       "target": "api::owner.owner",
       "inversedBy": "safes"
+    },
+    "chainId": {
+      "type": "string"
+    },
+    "balance": {
+      "type": "string"
     }
   }
 }

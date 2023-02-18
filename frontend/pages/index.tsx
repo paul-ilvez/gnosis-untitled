@@ -45,7 +45,7 @@ export default function Home() {
 
             <Spacer />
             <Row justify={"center"}>
-              <SafeList bgColor="#EFEFEF" title="My Safes" safes={safes} />
+              <SafeList bgColor="#EFEFEF" title="My Safes" />
             </Row>
           </Col>
         </Row>

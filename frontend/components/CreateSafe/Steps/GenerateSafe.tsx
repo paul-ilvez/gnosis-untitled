@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Card, Grid, Loading, Spacer, Button, Text } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
-import walletProvider from "@/abi/walletProvider";
 import { Contract } from "ethers";
 import { AppContext, AppContextData } from "@/store/AppContext";
 import AccountCard from "@/components/Common/AccountCard";
