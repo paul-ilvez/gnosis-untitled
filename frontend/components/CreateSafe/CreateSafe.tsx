@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Layout from "@/components/Layout";
-import SetOwners from "@/components/LoadSafe/Steps/SetOwners";
-import Review from "@/components/LoadSafe/Steps/Review";
+import SetOwners from "@/components/CreateSafe/Steps/SetOwners";
+import Review from "@/components/CreateSafe/Steps/Review";
 import { Screens } from "@/global";
 import { AppContext, AppContextData } from "@/store/AppContext";
 
