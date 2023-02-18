@@ -11,25 +11,23 @@ import {
 import FormHeader from "@/components/Common/FormHeader";
 import AccountCard from "@/components/Common/AccountCard";
 import { AppContext, AppContextData } from "@/store/AppContext";
-import { Contract, JsonRpcProvider } from "ethers";
-import { SafeFactory } from "@/abi/SafeFactory";
-import walletProvider from "@/abi/walletProvider";
+import getProvider from "@/abi/walletProvider";
 
 const Review = () => {
-  const [safeFactory, setSafeFactory] = useState();
-  const { setCreateSafeStatusHandler, newSafeForm } =
+  const { setCreateSafeStatusHandler, newSafeForm, safeFactory } =
     useContext<AppContextData>(AppContext);
   const { owners, name, network, quorum } = newSafeForm;
+  const walletProvider = getProvider(network);
 
   useEffect(() => {
     (async () => {
-      const url = "http://127.0.0.1:8545";
-      const customHttpProvider = new JsonRpcProvider(url);
+      // const url = "http://127.0.0.1:8545";
+      // const customHttpProvider = new JsonRpcProvider(url);
 
       const safeFactory = new Contract(
-        "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+        "0x1Ef5550D3b9b9e8637A0B7b8F44B739D96F3dB59",
         SafeFactory,
-        customHttpProvider
+        walletProvider
       );
 
       setSafeFactory(safeFactory);
@@ -51,6 +49,7 @@ const Review = () => {
       console.error(e);
     }
   };
+
 
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
@@ -110,17 +109,17 @@ const Review = () => {
                 </div>
               );
             })}
-            <Spacer y={2} />
-            <Text css={{ textAlign: "left" }} size="$xl" color="#0077FF" b>
-              Est. network fee
-            </Text>
-            <Spacer y={1} />
-            <Badge size="lg" variant="flat">
-              {/* TODO: написать предварительный газ */}≈ 0.02655 it's fake
-            </Badge>
-            <Text css={{ textAlign: "left" }} color="#9E9E9E">
-              You will have to confirm a transaction with your connected wallet.
-            </Text>
+            {/*<Spacer y={2} />*/}
+            {/*<Text css={{ textAlign: "left" }} size="$xl" color="#0077FF" b>*/}
+            {/*  Est. network fee*/}
+            {/*</Text>*/}
+            {/*<Spacer y={1} />*/}
+            {/*<Badge size="lg" variant="flat">*/}
+            {/*  /!* TODO: написать предварительный газ *!/≈ 0.02655 it's fake*/}
+            {/*</Badge>*/}
+            {/*<Text css={{ textAlign: "left" }} color="#9E9E9E">*/}
+            {/*  You will have to confirm a transaction with your connected wallet.*/}
+            {/*</Text>*/}
             <Spacer y={2} />
             <Grid.Container justify="space-between">
               <Button
@@ -141,7 +140,9 @@ const Review = () => {
                   borderRadius: "10px",
                   cursor: "pointer",
                 }}
-                onClick={createSafeHandler}
+                onClick={() =>
+                  setCreateSafeStatusHandler({ status: "generate" })
+                }
               >
                 Next
               </button>

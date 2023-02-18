@@ -25,6 +25,9 @@ export type AppContextData = {
   account: string;
   setAccount: (_account: string) => void;
 
+  isEthereum: boolean;
+  setIsEthereum: (_isEthereum: boolean) => void;
+
   currentMenuSection: CurrentMenuSection;
   setCurrentMenuSectionHandler: (
     _currentMenuSection: CurrentMenuSection
@@ -62,7 +65,6 @@ export const AppContext = createContext<AppContextData>({
   setTransactionsSectionHandler: (
     _transactionsSection: TransactionsSection
   ) => {},
-
   createSafeStatus: { status: "owners" },
   setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => {},
   newSafeForm: {
@@ -77,6 +79,7 @@ export const AppContext = createContext<AppContextData>({
 function ContextProvider({ children }: { children: React.ReactNode }) {
   const [network, _setNetwork] = useState(undefinedNetwork);
   const [account, _setAccount] = useState("0x0");
+  const [isEthereum, _setIsEthereum] = useState(false);
   const [safeFactory, _setSafeFactory] = useState(null);
   const [newSafeForm, _setNewSafeForm] = useState({
     name: "",
@@ -109,6 +112,10 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     _setAccount(_account);
   }
 
+  function setIsEthereum(_isEthereum: boolean) {
+    _setIsEthereum(_isEthereum);
+  }
+
   function setCurrentMenuSectionHandler(
     _currentMenuSection: CurrentMenuSection
   ) {
@@ -132,6 +139,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setNetwork,
     account,
     setAccount,
+    isEthereum,
+    setIsEthereum,
     currentMenuSection,
     setCurrentMenuSectionHandler,
     transactionsSection,

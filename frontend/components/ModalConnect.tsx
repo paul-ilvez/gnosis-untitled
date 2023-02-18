@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Modal, Text, Row, Image, Card } from "@nextui-org/react";
 import ButtonConnectMetamask from "./ButtonConnectMetamask";
 import ButtonDisconnectMetamask from "./ButtonDisconnectMetamask";
+import Link from "next/link";
+import { AppContext, AppContextData } from "@/store/AppContext";
 
 const ModalConnect = ({
   visible,
@@ -12,6 +14,7 @@ const ModalConnect = ({
   closeHandler: () => void;
   handleConnectMetamaskClick: () => void;
 }) => {
+  const appCtx = useContext<AppContextData>(AppContext);
   return (
     <div>
       <Modal
@@ -32,6 +35,8 @@ const ModalConnect = ({
             Get started
           </Text>
         </Modal.Header>
+        {appCtx.isEthereum ? (
+        <>
         <Modal.Body>
           <Row justify="center" align="center">
             <Text h1 size={18} weight="medium">
@@ -58,6 +63,23 @@ const ModalConnect = ({
             />
           </Row>
         </Modal.Footer>
+        </>
+        ) : (<>
+        <Modal.Body>
+          <Row justify="center" align="center">
+            <Text h1 size={18} weight="medium">
+            You need to install Meta mask!
+            </Text>
+          </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          <Row justify="center" align="center">
+            <Link href='https://metamask.app.link/dapp/untitle-gnosis.io' target='_blank'>
+              Install Metamask
+            </Link>
+          </Row>
+        </Modal.Footer>
+        </>)}
       </Modal>
     </div>
   );
