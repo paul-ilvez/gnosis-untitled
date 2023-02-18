@@ -13,6 +13,7 @@ import NoticePopUp from "./NoticePopUp";
 import ModalDisconnect from "./ModalDisconnect";
 import ModalConnect from "./ModalConnect";
 import Link from "next/link";
+import NetworkDropdown from "@/components/NetworkDropdown/NetworkDropdown";
 
 const Header = ({
   handleDisconnectMetamaskClick,
@@ -64,15 +65,7 @@ const Header = ({
 
           <Grid justify={"center"} xs={4}>
             <Navbar.Content css={{ cursor: "pointer" }} hideIn="xs">
-              <Button size="sm" shadow color="primary" auto rounded>
-                {network}
-              </Button>
-              <Image
-                width={18}
-                height={18}
-                src="/chevron_down.svg"
-                alt="Chevron Down"
-              />
+              <NetworkDropdown />
             </Navbar.Content>
           </Grid>
 

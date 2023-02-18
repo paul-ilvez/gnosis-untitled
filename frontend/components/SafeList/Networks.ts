@@ -8,7 +8,7 @@ export type Network = {
   shortName: string;
 };
 
-const networks: Network[] = [
+export const networks: Network[] = [
   {
     chaindId: 1,
     name: "Mainnet",

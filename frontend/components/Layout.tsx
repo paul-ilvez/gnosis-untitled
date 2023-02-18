@@ -3,13 +3,14 @@ import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import Header from "./Header";
 import { findNetworkById } from "./SafeList/Networks";
-import { Contract, ethers, JsonRpcProvider } from "ethers";
-import { SafeFactory } from "@/abi/SafeFactory";
+import { useSafeFactory } from "@/hooks/useSafeFactory";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [visibleDisconnect, setVisibleDisconnect] = useState(false);
   const [visibleConnect, setVisibleConnect] = useState(false);
   const appCtx = useContext<AppContextData>(AppContext);
+
+  useSafeFactory();
 
   useEffect(() => {
     const { ethereum } = window;
