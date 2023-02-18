@@ -7,6 +7,7 @@ const nextConfig = {
   env: {
     targetChainId: "0x7A69", // "0x5",
     factoryContractAddress: "0x000",
+    api:'http://localhost:1337/api'
   },
 };
 

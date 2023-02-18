@@ -1,20 +1,13 @@
-import {
-  Card,
-  Text,
-  Image,
-  Badge,
-  Avatar,
-  Grid,
-  Container,
-  Row,
-  Link,
-} from "@nextui-org/react";
+import { Card, Text, Badge, Grid, Row, Link } from "@nextui-org/react";
 import { SafeElementProps } from "@/components/SafeElement/SafeElement.props";
 import React from "react";
 import MenuBtn from "./menuBtn.svg";
+import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
+import getShortAddress from '@/libs/shortenAddress'
+import {ethers, formatEther, toBigInt} from "ethers";
 
 export const SafeElement = (safe: SafeElementProps): JSX.Element => {
-  const { avatar, countVoices, countOwners, symbol, address, balance, chain } =
+  const { countVoices, countOwners, symbol, address, balance, chain, shortName } =
     safe;
   return (
     <Card isPressable css={{ mt: "10px", br: "50px" }} variant={"bordered"}>
@@ -30,16 +23,16 @@ export const SafeElement = (safe: SafeElementProps): JSX.Element => {
             content={countVoices + "/" + countOwners}
             size="xs"
           >
-            <Avatar rounded size="sm" src={avatar} />
+            <Jazzicon diameter={30} seed={jsNumberForAddress(address)} />
           </Badge>
           <Grid>
             <Text b css={{ mr: "5px" }}>
-              {symbol}:
+              {shortName}:
             </Text>
-            <Text span>{address}</Text>
+            <Text span>{getShortAddress(address)}</Text>
           </Grid>
           <Badge>
-            {balance} {symbol.toUpperCase()}
+            {formatEther(toBigInt(balance))} {symbol.toUpperCase()}
           </Badge>
 
 
