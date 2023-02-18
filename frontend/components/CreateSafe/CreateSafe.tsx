@@ -4,10 +4,12 @@ import SetOwners from "@/components/CreateSafe/Steps/SetOwners";
 import Review from "@/components/CreateSafe/Steps/Review";
 import { Screens } from "@/global";
 import { AppContext, AppContextData } from "@/store/AppContext";
+import GenerateSafe from "@/components/CreateSafe/Steps/GenerateSafe";
 
 const screens: Screens = {
   owners: <SetOwners />,
   review: <Review />,
+  generate: <GenerateSafe />,
 };
 
 const CreateSafe = () => {

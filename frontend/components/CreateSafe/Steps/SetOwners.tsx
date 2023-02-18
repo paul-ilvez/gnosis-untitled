@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Button,
   Card,
+  Dropdown,
   Grid,
   Image,
   Input,
@@ -13,6 +14,7 @@ import FormHeader from "@/components/Common/FormHeader";
 import { v4 as uuidv4 } from "uuid";
 import { AppContext, AppContextData } from "@/store/AppContext";
 import { isAddress } from "ethers";
+import NetworkDropdown from "@/components/NetworkDropdown/NetworkDropdown";
 
 export type FormOwners = {
   id: string;
@@ -21,7 +23,7 @@ export type FormOwners = {
 };
 
 const SetOwners = () => {
-  const { setCreateSafeStatusHandler, setNewSafeForm, newSafeForm } =
+  const { setCreateSafeStatusHandler, setNewSafeForm, newSafeForm, network } =
     useContext<AppContextData>(AppContext);
 
   useEffect(() => {
@@ -103,8 +105,15 @@ const SetOwners = () => {
               "Set the owner wallets of your Safe and how many need to confirm to execute a valid transaction."
             }
           />
-          <Spacer y={2} />
           <form onSubmit={submitForm}>
+            <Spacer />
+            <Grid.Container justify="space-between" alignItems="center">
+              <Text color="primary" b>
+                Network
+              </Text>
+              <NetworkDropdown />
+            </Grid.Container>
+            <Spacer />
             <Input
               status={error ? "error" : ""}
               css={{ maxWidth: "400px", width: "100%" }}

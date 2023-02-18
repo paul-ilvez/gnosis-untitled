@@ -6,7 +6,7 @@ import { FormOwners } from "@/components/LoadSafe/Steps/SetOwners";
 import { Contract } from "ethers";
 
 export type CreateSafeStatus = {
-  status: "init" | "owners" | "review" | "generate";
+  status: "owners" | "review" | "generate";
 };
 
 export type SafeFactoryType = null | Contract;

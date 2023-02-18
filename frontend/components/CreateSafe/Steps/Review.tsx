@@ -20,29 +20,6 @@ const Review = () => {
     useContext<AppContextData>(AppContext);
   const { owners, name, network, quorum } = newSafeForm;
 
-  const createSafeHandler = async () => {
-    console.log(newSafeForm);
-
-    const addresses = owners.map((owner) => owner.address);
-
-    try {
-      const signer = await walletProvider.getSigner();
-      const safeFactoryWithSigner = safeFactory?.connect(signer);
-
-      safeFactoryWithSigner.on("SafeCreated", (res) => {
-        console.log(res);
-      });
-
-      const newSafe = await safeFactoryWithSigner.createSafe(addresses, quorum);
-      const countSafes = await safeFactory?.safesCount();
-
-      console.log("newSafe: ", newSafe);
-      console.log("countSafes: ", countSafes);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">
       <Card variant="bordered" css={{ mw: "450px", h: "$400" }}>
@@ -132,7 +109,9 @@ const Review = () => {
                   borderRadius: "10px",
                   cursor: "pointer",
                 }}
-                onClick={createSafeHandler}
+                onClick={() =>
+                  setCreateSafeStatusHandler({ status: "generate" })
+                }
               >
                 Next
               </button>
