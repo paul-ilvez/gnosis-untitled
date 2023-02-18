@@ -41,11 +41,15 @@ const Review = () => {
 
     const addresses = owners.map((owner) => owner.address);
 
-    const signer = await walletProvider.getSigner();
-    const safeFactoryWithSigner = safeFactory.connect(signer);
-    const newSafe = await safeFactoryWithSigner.createSafe(addresses, quorum);
+    try {
+      const signer = await walletProvider.getSigner();
+      const safeFactoryWithSigner = safeFactory.connect(signer);
+      const newSafe = await safeFactoryWithSigner.createSafe(addresses, quorum);
 
-    console.log("newSafe: ", newSafe);
+      console.log("newSafe: ", newSafe);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

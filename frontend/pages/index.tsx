@@ -6,8 +6,6 @@ import Link from "next/link";
 import safes from "@/mocks/safes";
 
 export default function Home() {
-
-
   return (
     <Layout>
       <Container>
@@ -31,21 +29,21 @@ export default function Home() {
 
             <Row justify={"center"}>
               <Link href="/create-safe">
-                <Button color="primary" css={{ w: "362px", h: "40px" }}>
+                <Button color="gradient" css={{ w: "362px", h: "40px" }}>
                   Create Safe
                 </Button>
               </Link>
             </Row>
             <Spacer />
-            <Row justify={"center"}>
-              <Link href="/load-safe">
-                <Button color="secondary" css={{ w: "362px", h: "40px" }}>
-                  Add existing Safe.
-                </Button>
-              </Link>
-            </Row>
+            {/*<Row justify={"center"}>*/}
+            {/*  <Link href="/load-safe">*/}
+            {/*    <Button color="secondary" css={{ w: "362px", h: "40px" }}>*/}
+            {/*      Add existing Safe.*/}
+            {/*    </Button>*/}
+            {/*  </Link>*/}
+            {/*</Row>*/}
 
-            <Spacer y={3} />
+            <Spacer />
             <Row justify={"center"}>
               <SafeList bgColor="#EFEFEF" title="My Safes" safes={safes} />
             </Row>

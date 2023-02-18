@@ -16,25 +16,9 @@ import { SafeFactory } from "@/abi/SafeFactory";
 import walletProvider from "@/abi/walletProvider";
 
 const Review = () => {
-  const [safeFactory, setSafeFactory] = useState();
-  const { setCreateSafeStatusHandler, newSafeForm } =
+  const { setCreateSafeStatusHandler, newSafeForm, safeFactory } =
     useContext<AppContextData>(AppContext);
   const { owners, name, network, quorum } = newSafeForm;
-
-  useEffect(() => {
-    (async () => {
-      const url = "http://127.0.0.1:8545";
-      const customHttpProvider = new JsonRpcProvider(url);
-
-      const safeFactory = new Contract(
-        "0x5fbdb2315678afecb367f032d93f642f64180aa3",
-        SafeFactory,
-        customHttpProvider
-      );
-
-      setSafeFactory(safeFactory);
-    })();
-  }, []);
 
   const createSafeHandler = async () => {
     console.log(newSafeForm);
@@ -43,10 +27,17 @@ const Review = () => {
 
     try {
       const signer = await walletProvider.getSigner();
-      const safeFactoryWithSigner = safeFactory.connect(signer);
+      const safeFactoryWithSigner = safeFactory?.connect(signer);
+
+      safeFactoryWithSigner.on("SafeCreated", (res) => {
+        console.log(res);
+      });
+
       const newSafe = await safeFactoryWithSigner.createSafe(addresses, quorum);
+      const countSafes = await safeFactory?.safesCount();
 
       console.log("newSafe: ", newSafe);
+      console.log("countSafes: ", countSafes);
     } catch (e) {
       console.error(e);
     }
@@ -110,17 +101,17 @@ const Review = () => {
                 </div>
               );
             })}
-            <Spacer y={2} />
-            <Text css={{ textAlign: "left" }} size="$xl" color="#0077FF" b>
-              Est. network fee
-            </Text>
-            <Spacer y={1} />
-            <Badge size="lg" variant="flat">
-              {/* TODO: написать предварительный газ */}≈ 0.02655 it's fake
-            </Badge>
-            <Text css={{ textAlign: "left" }} color="#9E9E9E">
-              You will have to confirm a transaction with your connected wallet.
-            </Text>
+            {/*<Spacer y={2} />*/}
+            {/*<Text css={{ textAlign: "left" }} size="$xl" color="#0077FF" b>*/}
+            {/*  Est. network fee*/}
+            {/*</Text>*/}
+            {/*<Spacer y={1} />*/}
+            {/*<Badge size="lg" variant="flat">*/}
+            {/*  /!* TODO: написать предварительный газ *!/≈ 0.02655 it's fake*/}
+            {/*</Badge>*/}
+            {/*<Text css={{ textAlign: "left" }} color="#9E9E9E">*/}
+            {/*  You will have to confirm a transaction with your connected wallet.*/}
+            {/*</Text>*/}
             <Spacer y={2} />
             <Grid.Container justify="space-between">
               <Button

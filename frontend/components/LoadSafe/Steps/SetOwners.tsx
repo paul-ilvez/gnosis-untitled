@@ -5,6 +5,7 @@ import {
   Grid,
   Image,
   Input,
+  Link,
   Spacer,
   Text,
 } from "@nextui-org/react";
@@ -39,8 +40,6 @@ const SetOwners = () => {
   }, []);
 
   const [error, setError] = useState("");
-
-  const tresholdInputRef = useRef<HTMLInputElement>();
 
   const createNewOwner = () => {
     const newOwners: FormOwners[] = [
@@ -86,8 +85,8 @@ const SetOwners = () => {
       (owner) => owner.name.length !== 0 && isAddress(owner.address)
     );
 
-    if (!emptyOwners.length || !newSafeForm.quorum) {
-      return setError("Please fill all owners and check treshold input");
+    if (!emptyOwners.length || !newSafeForm.quorum || !newSafeForm.name) {
+      return setError("Please fill in all the fields");
     }
 
     setCreateSafeStatusHandler({ status: "review" });
@@ -99,11 +98,24 @@ const SetOwners = () => {
         <Card.Body css={{ textAlign: "center", padding: "40px" }}>
           <FormHeader
             title={"Create new Safe"}
-            subTitle={"Owners and confirmations"}
-            descrtiption={"Optional: Provide a name for each owner."}
+            subTitle={"Select network and name your Safe"}
+            description={
+              "Set the owner wallets of your Safe and how many need to confirm to execute a valid transaction."
+            }
           />
           <Spacer y={2} />
           <form onSubmit={submitForm}>
+            <Input
+              status={error ? "error" : ""}
+              css={{ maxWidth: "400px", width: "100%" }}
+              labelPlaceholder="Safe name"
+              type="text"
+              value={newSafeForm.name}
+              onInput={(e) =>
+                setNewSafeForm({ ...newSafeForm, name: e.target.value })
+              }
+            />
+            <Spacer y={1} />
             {newSafeForm.owners.map((owner, i) => {
               return (
                 <>
@@ -160,8 +172,20 @@ const SetOwners = () => {
                 label="Number"
                 type="number"
               />
-              <Spacer />
             </Grid>
+            <Spacer y={2} />
+            <Text>
+              By continuing you consent to the <br />{" "}
+              <Link href="#" color="text" isExternal>
+                <b>terms of use</b>
+              </Link>
+              &nbsp; and &nbsp;
+              <Link href="#" color="text" isExternal>
+                <b>privacy policy</b>
+              </Link>
+              .
+            </Text>
+            <Spacer />
             <Grid.Container justify="space-between">
               <Button
                 onClick={() => setCreateSafeStatusHandler({ status: "init" })}

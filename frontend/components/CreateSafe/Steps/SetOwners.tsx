@@ -118,7 +118,7 @@ const SetOwners = () => {
             <Spacer y={1} />
             {newSafeForm.owners.map((owner, i) => {
               return (
-                <>
+                <div key={owner.id}>
                   <Spacer />
                   <Grid.Container justify={"space-between"} alignItems="center">
                     <Text b>owner {i + 1}</Text>
@@ -146,7 +146,7 @@ const SetOwners = () => {
                       <Text color="error">is not address</Text>
                     )}
                   </Card>
-                </>
+                </div>
               );
             })}
             <Button onClick={createNewOwner} light auto>
