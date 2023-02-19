@@ -171,6 +171,7 @@ const SetOwners = () => {
               </Text>
               <Spacer />
               <Input
+                min={1}
                 max={newSafeForm.owners.length}
                 status={error && !newSafeForm.quorum ? "error" : ""}
                 placeholder={1}

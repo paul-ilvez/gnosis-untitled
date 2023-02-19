@@ -109,7 +109,7 @@ var SetOwners = function () {
                         react_1["default"].createElement(react_2.Text, { size: "$2xl", b: true }, "Treshold"),
                         react_1["default"].createElement(react_2.Text, { size: "$md", color: "#9E9E9E" }, "Any transaction requires the confirmation of:"),
                         react_1["default"].createElement(react_2.Spacer, null),
-                        react_1["default"].createElement(react_2.Input, { max: newSafeForm.owners.length, status: error && !newSafeForm.quorum ? "error" : "", placeholder: 1, value: newSafeForm.quorum, onChange: function (e) {
+                        react_1["default"].createElement(react_2.Input, { min: 1, max: newSafeForm.owners.length, status: error && !newSafeForm.quorum ? "error" : "", placeholder: 1, value: newSafeForm.quorum, onChange: function (e) {
                                 return setNewSafeForm(__assign(__assign({}, newSafeForm), { quorum: e.target.value }));
                             }, label: "Number", type: "number" })),
                     react_1["default"].createElement(react_2.Spacer, { y: 2 }),
