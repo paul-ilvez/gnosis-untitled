@@ -49,7 +49,7 @@ const SetOwners = () => {
       {
         id: uuidv4(),
         name: "",
-        saddress: "",
+        address: "",
       },
     ];
 

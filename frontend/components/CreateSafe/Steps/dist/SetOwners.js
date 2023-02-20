@@ -44,7 +44,7 @@ var SetOwners = function () {
             {
                 id: uuid_1.v4(),
                 name: "",
-                saddress: ""
+                address: ""
             },
         ]);
         setNewSafeForm(__assign(__assign({}, newSafeForm), { owners: newOwners }));
