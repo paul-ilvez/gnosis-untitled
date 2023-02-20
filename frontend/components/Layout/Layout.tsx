@@ -1,8 +1,8 @@
 import { AppContextData, AppContext } from "@/store/AppContext";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
-import Header from "./Header";
-import { findNetworkById } from "./SafeList/Networks";
+import Header from "../Header/Header";
+import { findNetworkById } from "../SafeList/Networks";
 import { useSafeFactory } from "@/hooks/useSafeFactory";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

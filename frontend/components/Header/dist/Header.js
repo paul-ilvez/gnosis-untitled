@@ -2,9 +2,9 @@
 exports.__esModule = true;
 var react_1 = require("react");
 var react_2 = require("@nextui-org/react");
-var NoticePopUp_1 = require("./NoticeHeader/NoticePopUp");
-var ModalDisconnect_1 = require("./ModalConnect/ModalDisconnect");
-var ModalConnect_1 = require("./ModalConnect/ModalConnect");
+var NoticePopUp_1 = require("../NoticeHeader/NoticePopUp");
+var ModalDisconnect_1 = require("../ModalConnect/ModalDisconnect");
+var ModalConnect_1 = require("../ModalConnect/ModalConnect");
 var link_1 = require("next/link");
 var NetworkDropdown_1 = require("@/components/NetworkDropdown/NetworkDropdown");
 var Header = function (_a) {

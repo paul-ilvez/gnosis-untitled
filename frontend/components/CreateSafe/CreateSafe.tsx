@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import Layout from "@/components/Layout";
+import Layout from "@/components/Layout/Layout";
 import SetOwners from "@/components/CreateSafe/Steps/SetOwners";
 import Review from "@/components/CreateSafe/Steps/Review";
 import { Screens } from "@/global";

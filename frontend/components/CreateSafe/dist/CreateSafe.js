@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var react_1 = require("react");
-var Layout_1 = require("@/components/Layout");
+var Layout_1 = require("@/components/Layout/Layout");
 var SetOwners_1 = require("@/components/CreateSafe/Steps/SetOwners");
 var Review_1 = require("@/components/CreateSafe/Steps/Review");
 var AppContext_1 = require("@/store/AppContext");

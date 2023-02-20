@@ -2,7 +2,7 @@
 exports.__esModule = true;
 var react_1 = require("react");
 var react_2 = require("@nextui-org/react");
-var ButtonConnectMetamask_1 = require("./ButtonConnect/ButtonConnectMetamask");
+var ButtonConnectMetamask_1 = require("../ButtonConnect/ButtonConnectMetamask");
 var link_1 = require("next/link");
 var AppContext_1 = require("@/store/AppContext");
 var ModalConnect = function (_a) {

@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import Layout from "@/components/Layout/Layout";
 import { SafeList } from "@/components";
 import { Button, Col, Container, Row, Spacer, Text } from "@nextui-org/react";
 import Link from "next/link";

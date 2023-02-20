@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Modal, Text, Row, Image, Card } from "@nextui-org/react";
-import ButtonConnectMetamask from "./ButtonConnectMetamask";
-import ButtonDisconnectMetamask from "./ButtonDisconnectMetamask";
+import ButtonConnectMetamask from "../ButtonConnect/ButtonConnectMetamask";
 import Link from "next/link";
 import { AppContext, AppContextData } from "@/store/AppContext";
 

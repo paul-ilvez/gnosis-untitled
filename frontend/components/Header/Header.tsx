@@ -9,9 +9,9 @@ import {
   Spacer,
   Grid,
 } from "@nextui-org/react";
-import NoticePopUp from "./NoticePopUp";
-import ModalDisconnect from "./ModalDisconnect";
-import ModalConnect from "./ModalConnect";
+import NoticePopUp from "../NoticeHeader/NoticePopUp";
+import ModalDisconnect from "../ModalConnect/ModalDisconnect";
+import ModalConnect from "../ModalConnect/ModalConnect";
 import Link from "next/link";
 import NetworkDropdown from "@/components/NetworkDropdown/NetworkDropdown";
 

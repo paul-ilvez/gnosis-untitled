@@ -4,7 +4,7 @@ var react_1 = require("react");
 var react_2 = require("@nextui-org/react");
 var Jazzicon_1 = require("react-jazzicon/dist/Jazzicon");
 var react_jazzicon_1 = require("react-jazzicon");
-var ButtonDisconnectMetamask_1 = require("./ButtonConnect/ButtonDisconnectMetamask");
+var ButtonDisconnectMetamask_1 = require("../ButtonConnect/ButtonDisconnectMetamask");
 var ModalDisconnect = function (_a) {
     var handleDisconnectMetamaskClick = _a.handleDisconnectMetamaskClick, account = _a.account, networkName = _a.networkName;
     return (react_1["default"].createElement("div", null,

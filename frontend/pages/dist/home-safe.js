@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-var Layout_1 = require("@/components/Layout");
+var Layout_1 = require("@/components/Layout/Layout");
 var react_1 = require("@nextui-org/react");
 var HomeSafeMenu_1 = require("@/components/HomeSafe/HomeSafeMenu");
 var Transactions_1 = require("@/components/HomeSafe/Sections/Transactions/Transactions");

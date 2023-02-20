@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "@/components/Layout";
+import Layout from "@/components/Layout/Layout";
 import ConnectSafe from "@/components/LoadSafe/Steps/ConnectSafe";
 import SetOwners from "@/components/LoadSafe/Steps/SetOwners";
 import Review from "@/components/LoadSafe/Steps/Review";

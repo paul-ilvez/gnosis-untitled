@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import Layout from "@/components/Layout/Layout";
 import { Inter } from "@next/font/google";
 import { Grid, Spacer } from "@nextui-org/react";
 import HomeSafeMenu from "@/components/HomeSafe/HomeSafeMenu";
