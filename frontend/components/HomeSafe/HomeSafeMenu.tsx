@@ -5,7 +5,7 @@ import ButtonsMenu from "./ButtonsMenu";
 import AssetsCounter from "./AssetsCounter";
 import NewTransactionButton from "./NewTransactionButton";
 import { useEffect, useState } from "react";
-import ModalNewTransaction from "./ModalNewTransaction";
+import ModalNewTransaction from "./SendTransaction/ModalNewTransaction";
 import { Contract } from "ethers";
 
 export default function HomeSafeMenu({

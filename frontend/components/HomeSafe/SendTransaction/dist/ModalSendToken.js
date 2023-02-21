@@ -5,10 +5,19 @@ var react_2 = require("@nextui-org/react");
 var AppContext_1 = require("@/store/AppContext");
 var Jazzicon_1 = require("react-jazzicon/dist/Jazzicon");
 var react_jazzicon_1 = require("react-jazzicon");
+var ModalRewiew_1 = require("./ModalRewiew");
 var ModalSendToken = function (_a) {
     var visible = _a.visible, closeHandler = _a.closeHandler;
     var _b = react_1.useContext(AppContext_1.AppContext), setCreateSafeStatusHandler = _b.setCreateSafeStatusHandler, newSafeForm = _b.newSafeForm, safeFactory = _b.safeFactory;
     var owners = newSafeForm.owners, name = newSafeForm.name, network = newSafeForm.network, quorum = newSafeForm.quorum;
+    var _c = react_1.useState(false), visibleReview = _c[0], setVisibleReview = _c[1];
+    var handleModalReviewTransaction = function () {
+        setVisibleReview(true);
+        closeHandler();
+    };
+    var closeHandlerReview = function () {
+        setVisibleReview(false);
+    };
     return (react_1["default"].createElement("div", null,
         react_1["default"].createElement(react_2.Modal, { closeButton: true, "aria-labelledby": "modal-title", open: visible, onClose: closeHandler, width: "500px" },
             react_1["default"].createElement(react_2.Modal.Header, { justify: "flex-start" },
@@ -43,7 +52,7 @@ var ModalSendToken = function (_a) {
             react_1["default"].createElement(react_2.Card.Divider, null),
             react_1["default"].createElement(react_2.Modal.Footer, { justify: "space-between" },
                 react_1["default"].createElement(react_2.Button, { css: { width: "100px", background: "#fff" }, color: "#000", onClick: closeHandler, auto: true }, "Cancel"),
-                react_1["default"].createElement("button", { style: {
+                react_1["default"].createElement("button", { onClick: handleModalReviewTransaction, style: {
                         background: "#000",
                         color: "#fff",
                         width: "100px",
@@ -51,6 +60,7 @@ var ModalSendToken = function (_a) {
                         maxWidth: "260px",
                         borderRadius: "10px",
                         cursor: "pointer"
-                    } }, "Next")))));
+                    } }, "Next"))),
+        react_1["default"].createElement(ModalRewiew_1["default"], { visible: visibleReview, closeHandler: closeHandlerReview })));
 };
 exports["default"] = ModalSendToken;
