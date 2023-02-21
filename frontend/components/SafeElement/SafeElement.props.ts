@@ -2,13 +2,10 @@ import {DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
 
 export interface SafeElementProps extends  DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 
-    chain: string;
+    chainId: number;
     address: string;
     countOwners: number;
-    countVoices: number;
+    quorum: number;
     balance: number;
-    symbol: string;
-
-    shortName: string;
 
 }

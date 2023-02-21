@@ -6,7 +6,8 @@ import type { Network } from "@/components/SafeList/Networks";
 import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { FormOwners } from "@/components/LoadSafe/Steps/SetOwners";
-import { AbstractProvider, AbstractSigner, Contract, ethers } from "ethers";
+import {BrowserProvider, Contract} from "ethers";
+import {SafeType} from "@/types/Safe.props";
 import { SafeFactoryAbi } from "@/abi/SafeFactory";
 
 export type CreateSafeStatus = {
@@ -58,9 +59,14 @@ export const AppContext = createContext({
     quorum: "",
   },
   setNewSafeForm: (_form: NewSafeForm) => {},
+  currentSafe: SafeType,
+  setCurrentSafe: (_safe) => {},
+
   handleConnectMetamaskClick: () => {},
   handleDisconnectMetamask: () => {},
-});
+});//--------------AppContex------------------------
+
+
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
   const [network, _setNetwork] = useState(undefinedNetwork);
@@ -88,7 +94,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   const [createSafeStatus, setCreateSafeStatus] = useState({
     status: "owners",
   });
-
+  const [currentSafe, _setCurrentSafe] = useState({})
   function setNetwork(_network: Network) {
     _setNetwork(_network);
   }
@@ -159,6 +165,10 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     sessionStorage.removeItem("login");
   };
 
+  const setCurrentSafe = (safe) => {
+      _setCurrentSafe(safe)
+  }
+
   const context = {
     network,
     setNetwork,
@@ -184,6 +194,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setSafeFactory,
     handleConnectMetamaskClick,
     handleDisconnectMetamask,
+    currentSafe,
+    setCurrentSafe
   };
 
   useEffect(() => {
@@ -228,7 +240,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateEthers = async () => {
-    let tempProvider = new ethers.BrowserProvider(window.ethereum);
+    let tempProvider = new BrowserProvider(window.ethereum);
     setProvider(tempProvider);
 
     let tempNetwork = findNetworkById(window.ethereum.networkVersion);
@@ -237,7 +249,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     let tempSigner = await tempProvider.getSigner();
     setSigner(tempSigner);
 
-    let tempContract = new ethers.Contract(
+    let tempContract = new Contract(
       tempNetwork.factoryContractAddress,
       SafeFactoryAbi,
       tempSigner
@@ -248,6 +260,6 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
-}
+} // -----------------AppContext.Provider----------------------
 
 export default ContextProvider;

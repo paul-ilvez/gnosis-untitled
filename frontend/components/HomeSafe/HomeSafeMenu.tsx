@@ -61,15 +61,14 @@ export default function HomeSafeMenu({
     >
       <Card.Header>
         <Col>
-          <SafeElement
+          <SafeElement // { quorum, countOwners, address, balance, chainId }
             key={address}
-            avatar={safes[0].avatar}
             balance={balance}
-            chain={safes[0].chain}
+            chainId={safes[0].chainId}
             address={address ?? "UNKNOWN"}
             countOwners={safes[0].countOwners}
-            countVoices={safes[0].countVoices}
-            symbol={safes[0].symbol}
+            quorum={safes[0].quorum}
+
           />
           <Spacer y={0.5} />
           <Row>

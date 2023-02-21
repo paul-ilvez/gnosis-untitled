@@ -1,22 +1,20 @@
 import { Card, Text, Badge, Grid, Row, Link } from "@nextui-org/react";
 import { SafeElementProps } from "@/components/SafeElement/SafeElement.props";
-import React from "react";
+import React, {useContext} from "react";
 import MenuBtn from "./menuBtn.svg";
-import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
-import getShortAddress from "@/libs/shortenAddress";
-import { ethers, formatEther, toBigInt } from "ethers";
+import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
+import getShortAddress from '@/libs/shortenAddress'
+import {ethers, formatEther, toBigInt} from "ethers";
+import {AppContext} from "@/store/AppContext";
+import {findNetworkById} from "@/components/SafeList/Networks";
 import NextLink from "next/link";
 
 export const SafeElement = (safe: SafeElementProps): JSX.Element => {
-  const {
-    countVoices,
-    countOwners,
-    symbol,
-    address,
-    balance,
-    chain,
-    shortName,
-  } = safe;
+  const {setCurrentSafe} = useContext(AppContext)
+
+  const { quorum, countOwners, address, balance, chainId } =
+    safe;
+  const {shortName, symbol} = findNetworkById(chainId)
   return (
     <NextLink href={`/safes/${address}`}>
       <Card isPressable css={{ mt: "10px", br: "50px" }} variant={"bordered"}>
@@ -29,7 +27,7 @@ export const SafeElement = (safe: SafeElementProps): JSX.Element => {
           >
             <Badge
               disableOutline
-              content={countVoices + "/" + countOwners}
+              content={quorum + "/" + countOwners}
               size="xs"
             >
               <Jazzicon diameter={30} seed={jsNumberForAddress(address)} />
@@ -43,16 +41,10 @@ export const SafeElement = (safe: SafeElementProps): JSX.Element => {
             <Badge>
               {formatEther(toBigInt(balance))} {symbol.toUpperCase()}
             </Badge>
-            <Link
-              block
-              color="primary"
-              href="#"
-              css={{ textAlign: "center", alignItems: "center" }}
-            >
-              <Grid.Container justify={"center"} css={{ w: "10px" }}>
-                <MenuBtn />
-              </Grid.Container>
-            </Link>
+
+            <Grid.Container justify={"center"} css={{ w: "10px" }}>
+              <MenuBtn />
+            </Grid.Container>
           </Row>
         </Card.Body>
       </Card>

@@ -14,7 +14,7 @@ const screens: Screens = {
 
 const CreateSafe = () => {
   const appCtx = useContext(AppContext);
-  const screen = screens[appCtx.createSafeStatus.status as keyof Screens];
+  const screen = screens[appCtx.createSafeStatus.status];
 
   return <Layout>{screen}</Layout>;
 };
