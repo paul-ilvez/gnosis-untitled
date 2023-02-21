@@ -113,7 +113,7 @@ const GenerateSafe = () => {
               </Button>
             )}
             {stateLoad === "ready" && (
-              <Link href="/home-safe">
+              <Link href={`/safes/${safeAddr}`}>
                 <Button
                   style={{
                     background: "#000",
