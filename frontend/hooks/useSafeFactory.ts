@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
 import { Contract, JsonRpcProvider } from "ethers";
 import { SafeFactoryAbi } from "@/abi/SafeFactory";
-import { AppContext, AppContextData } from "@/store/AppContext";
+import { AppContext } from "@/store/AppContext";
 
 export const useSafeFactory = () => {
-  const appCtx = useContext<AppContextData>(AppContext);
+  const appCtx = useContext(AppContext);
 
   useEffect(() => {
     (async () => {
@@ -16,26 +16,6 @@ export const useSafeFactory = () => {
         SafeFactoryAbi,
         customHttpProvider
       );
-
-      // await new Promise(async (resolve, reject) => {
-      //   safeFactory.once("SafeCreated", async (from, to, value, event) => {
-      //     console.log("SafeCreated event fired!");
-      //     try {
-      //       let transferEvent = {
-      //         from: from,
-      //         to: to,
-      //         value: value,
-      //         eventData: event,
-      //       };
-      //       console.log(JSON.stringify(transferEvent, null, 4));
-      //
-      //       resolve();
-      //     } catch (error) {
-      //       console.log(error);
-      //       reject(error);
-      //     }
-      //   });
-      // });
 
       appCtx.setSafeFactory(safeFactory);
     })();
