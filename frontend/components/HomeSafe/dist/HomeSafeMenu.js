@@ -43,12 +43,15 @@ var ButtonsMenu_1 = require("./ButtonsMenu");
 var AssetsCounter_1 = require("./AssetsCounter");
 var NewTransactionButton_1 = require("./NewTransactionButton");
 var react_2 = require("react");
+var AppContext_1 = require("@/store/AppContext");
 var ModalNewTransaction_1 = require("./SendTransaction/ModalNewTransaction");
 function HomeSafeMenu(_a) {
     var _this = this;
     var safeContract = _a.safeContract;
+    var provider = react_2.useContext(AppContext_1.AppContext).provider;
     var _b = react_2.useState(false), isVisible = _b[0], setVisible = _b[1];
     var _c = react_2.useState(), address = _c[0], setAddress = _c[1];
+    var _d = react_2.useState(0), balance = _d[0], setBalance = _d[1];
     var Buttons = [
         {
             id: 1,
@@ -73,22 +76,27 @@ function HomeSafeMenu(_a) {
             return;
         }
         (function () { return __awaiter(_this, void 0, void 0, function () {
-            var tempAddress;
+            var tempAddress, safeBalance;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, safeContract.getAddress()];
                     case 1:
                         tempAddress = _a.sent();
+                        return [4 /*yield*/, provider.getBalance(tempAddress)];
+                    case 2:
+                        safeBalance = _a.sent();
+                        setBalance(safeBalance);
                         setAddress(tempAddress);
                         return [2 /*return*/];
                 }
             });
         }); })();
     }, [safeContract]);
+    console.log(address);
     return (React.createElement(react_1.Card, { variant: "bordered", css: { h: "499px", mw: "421px", borderRadius: "39px" } },
         React.createElement(react_1.Card.Header, null,
             React.createElement(react_1.Col, null,
-                React.createElement(components_1.SafeElement, { key: safes_1["default"][0].address, avatar: safes_1["default"][0].avatar, balance: safes_1["default"][0].balance, chain: safes_1["default"][0].chain, address: address !== null && address !== void 0 ? address : "UNKNOWN", countOwners: safes_1["default"][0].countOwners, countVoices: safes_1["default"][0].countVoices, symbol: safes_1["default"][0].symbol }),
+                React.createElement(components_1.SafeElement, { key: address, avatar: safes_1["default"][0].avatar, balance: balance, chain: safes_1["default"][0].chain, address: address !== null && address !== void 0 ? address : "UNKNOWN", countOwners: safes_1["default"][0].countOwners, countVoices: safes_1["default"][0].countVoices, symbol: safes_1["default"][0].symbol }),
                 React.createElement(react_1.Spacer, { y: 0.5 }),
                 React.createElement(react_1.Row, null,
                     React.createElement(AssetsCounter_1["default"], null)),

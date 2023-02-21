@@ -67,7 +67,7 @@ const GenerateSafe = () => {
             size="$lg"
             color={stateLoad === "fetch" ? "#0072F5" : "#889096"}
           >
-            • Your Safe address
+            ✓ &nbsp; Your Safe address
             <AccountCard address={safeAddr ?? "Not Created Yet"} />
             <Spacer y={2} />
           </Text>
@@ -76,7 +76,7 @@ const GenerateSafe = () => {
             size="$lg"
             color={stateLoad === "validate" ? "#0072F5" : "#889096"}
           >
-            • Validating transaction
+            ✓ &nbsp; Validating transaction
             <Spacer y={2} />
           </Text>
           <Text
@@ -84,7 +84,7 @@ const GenerateSafe = () => {
             size="$lg"
             color={stateLoad === "processing" ? "#0072F5" : "#889096"}
           >
-            • Processing
+            ✓ &nbsp; Processing
             <Spacer y={2} />
           </Text>
           <Text
@@ -92,7 +92,7 @@ const GenerateSafe = () => {
             size="$lg"
             color={stateLoad === "ready" ? "#0072F5" : "#889096"}
           >
-            • Safe is ready
+            ✓ &nbsp; Safe is ready
             <Spacer y={2} />
           </Text>
           <Spacer y={3} />

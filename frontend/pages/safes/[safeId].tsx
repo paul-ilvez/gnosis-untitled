@@ -50,7 +50,7 @@ export default function SafeDetails() {
   }, [query, connected, signer]);
 
   const sectionsMap: { [key: string]: JSX.Element } = {
-    Transactions: <Transactions />,
+    Transactions: <Transactions safeContract={safeContract} />,
     Setup: <Setup />,
     Assets: <Assets />,
   };

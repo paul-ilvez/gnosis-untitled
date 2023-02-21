@@ -81,8 +81,8 @@ const Review = () => {
             {/*</Text>*/}
             {/*<Spacer y={1} />*/}
             {/*<Badge size="lg" variant="flat">*/}
-            {/*  /!* TODO: написать предварительный газ *!/≈ 0.02655 it's fake*/}
-            {/*</Badge>*/}
+            {/*  /!* TODO: написать предварительный газ */}
+            {/*</Badge> !/≈ 0.02655 it's fake*/}
             {/*<Text css={{ textAlign: "left" }} color="#9E9E9E">*/}
             {/*  You will have to confirm a transaction with your connected wallet.*/}
             {/*</Text>*/}
