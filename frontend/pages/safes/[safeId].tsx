@@ -58,7 +58,7 @@ export default function SafeDetails() {
     <Layout>
       <Grid.Container css={{ mt: "40px" }} justify="center" alignItems="center">
         <Grid xs={5} md={5} alignItems="center" justify="flex-end">
-          <HomeSafeMenu />
+          <HomeSafeMenu safeContract={safeContract} />
         </Grid>
         <Spacer x={1.85} />
         <Grid

@@ -4,11 +4,17 @@ import safes from "@/mocks/safes";
 import ButtonsMenu from "./ButtonsMenu";
 import AssetsCounter from "./AssetsCounter";
 import NewTransactionButton from "./NewTransactionButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalNewTransaction from "./ModalNewTransaction";
+import { Contract } from "ethers";
 
-export default function HomeSafeMenu() {
+export default function HomeSafeMenu({
+  safeContract,
+}: {
+  safeContract: Contract;
+}) {
   const [isVisible, setVisible] = useState(false);
+  const [address, setAddress] = useState<string>();
   const Buttons = [
     {
       id: 1,
@@ -31,6 +37,16 @@ export default function HomeSafeMenu() {
     setVisible(false);
   };
 
+  useEffect(() => {
+    if (safeContract == null) {
+      return;
+    }
+    (async () => {
+      const tempAddress = await safeContract.getAddress();
+      setAddress(tempAddress);
+    })();
+  }, [safeContract]);
+
   return (
     <Card
       variant="bordered"
@@ -43,7 +59,7 @@ export default function HomeSafeMenu() {
             avatar={safes[0].avatar}
             balance={safes[0].balance}
             chain={safes[0].chain}
-            address={safes[0].address}
+            address={address ?? "UNKNOWN"}
             countOwners={safes[0].countOwners}
             countVoices={safes[0].countVoices}
             symbol={safes[0].symbol}

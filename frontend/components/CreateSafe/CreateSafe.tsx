@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Layout from "@/components/Layout/Layout";
 import SetOwners from "@/components/CreateSafe/Steps/SetOwners";
 import Review from "@/components/CreateSafe/Steps/Review";
