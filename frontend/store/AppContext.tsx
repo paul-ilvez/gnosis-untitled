@@ -219,6 +219,12 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const accountChangedHandler = async (newAccount: string) => {
     setAccount(newAccount);
+    console.log({ newAccount });
+
+    if (!newAccount || newAccount.length == 0) {
+      setConnected(false);
+      return;
+    }
     setConnected(true);
     await updateEthers();
   };
