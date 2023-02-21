@@ -1,68 +1,32 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Card, Grid, Loading, Spacer, Button, Text } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
-import { Contract } from "ethers";
-import { AppContext, AppContextData } from "@/store/AppContext";
+import { AppContext } from "@/store/AppContext";
 import AccountCard from "@/components/Common/AccountCard";
 import Link from "next/link";
-import getProvider from "@/abi/walletProvider";
 
 type StateLoadType = "idle" | "fetch" | "validate" | "processing" | "ready";
 
 const GenerateSafe = () => {
   const [stateLoad, setStateLoad] = useState("idle");
-  const { newSafeForm, safeFactory, network } =
-    useContext<AppContextData>(AppContext);
+  const { newSafeForm, safeFactory } = useContext(AppContext);
   const { owners, quorum } = newSafeForm;
   const [safeAddr, setSafeAddr] = useState<string>("");
 
   const createSafe = async () => {
-    console.log(newSafeForm);
     const addresses = owners.map((owner) => owner.address);
 
     try {
       setStateLoad("fetch");
-      const walletProvider = getProvider(network);
-      const signer = await walletProvider.getSigner();
-      const safeFactoryWithSigner: Contract = safeFactory.connect(signer);
 
-      console.log("safeFactoryWithSigner: ", safeFactoryWithSigner);
+      const tx = await safeFactory.createSafe(addresses, quorum);
 
-      const tx = await safeFactoryWithSigner.createSafe(addresses, quorum);
-      console.log("tx started: ", tx);
-
-      // safeFactoryWithSigner.on("SafeCreated", (from, to, value, event) => {
-      //   let info = {
-      //     from: from,
-      //     to: to,
-      //     value: value,
-      //     data: event,
-      //   };
-      //   console.log(">>> SAFE CREATED !!! <<<");
-
-      //   console.log(JSON.stringify(info, null, 4));
-      // });
-
-      safeFactoryWithSigner.on(
+      safeFactory.on(
         "SafeCreated",
         (from: string, to: string, value: number) => {
           setSafeAddr(from);
         }
       );
-
-      // const filter = {
-      //   address: "0x1Ef5550D3b9b9e8637A0B7b8F44B739D96F3dB59",
-      //   topics: [
-      //     // the name of the event, parnetheses containing the data type of each event, no spaces
-      //     utils.id("SafeCreated(address,address,uint256)"),
-      //   ],
-      // };
-      // walletProvider.on(filter, (log, event) => {
-      //   console.log({ log, event });
-
-      //   // do whatever you want here
-      //   // I'm pretty sure this returns a promise, so don't forget to resolve it
-      // });
 
       setStateLoad("validate");
 
@@ -73,9 +37,6 @@ const GenerateSafe = () => {
       console.log("response: ", response);
 
       setStateLoad("ready");
-
-      // const firstSafe = await safeFactory.getSafe(0);
-      // console.log("1st safe: ", firstSafe);
     } catch (e) {
       console.error(e);
     }
@@ -138,7 +99,7 @@ const GenerateSafe = () => {
           <Grid.Container justify="center">
             {stateLoad === "idle" && (
               <Button
-                onClick={createSafe}
+                onPress={createSafe}
                 style={{
                   background: "#000",
                   color: "#fff",

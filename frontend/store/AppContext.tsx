@@ -238,6 +238,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
       SafeFactoryAbi,
       tempSigner
     );
+    tempContract.connect(tempSigner);
     setSafeFactory(tempContract);
     setConnected(true);
   };
