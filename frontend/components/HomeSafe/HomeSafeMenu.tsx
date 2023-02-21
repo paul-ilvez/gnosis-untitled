@@ -4,17 +4,20 @@ import safes from "@/mocks/safes";
 import ButtonsMenu from "./ButtonsMenu";
 import AssetsCounter from "./AssetsCounter";
 import NewTransactionButton from "./NewTransactionButton";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalNewTransaction from "./ModalNewTransaction";
-import { Contract } from "ethers";
+import { Contract, formatEther, toBigInt } from "ethers";
+import { AppContext } from "@/store/AppContext";
 
 export default function HomeSafeMenu({
   safeContract,
 }: {
   safeContract: Contract;
 }) {
+  const { provider } = useContext(AppContext);
   const [isVisible, setVisible] = useState(false);
   const [address, setAddress] = useState<string>();
+  const [balance, setBalance] = useState<number>(0);
   const Buttons = [
     {
       id: 1,
@@ -43,9 +46,13 @@ export default function HomeSafeMenu({
     }
     (async () => {
       const tempAddress = await safeContract.getAddress();
+      const safeBalance = await provider.getBalance(tempAddress);
+
+      setBalance(safeBalance);
       setAddress(tempAddress);
     })();
   }, [safeContract]);
+  console.log(address);
 
   return (
     <Card
@@ -55,9 +62,9 @@ export default function HomeSafeMenu({
       <Card.Header>
         <Col>
           <SafeElement
-            key={safes[0].address}
+            key={address}
             avatar={safes[0].avatar}
-            balance={safes[0].balance}
+            balance={balance}
             chain={safes[0].chain}
             address={address ?? "UNKNOWN"}
             countOwners={safes[0].countOwners}

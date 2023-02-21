@@ -1,9 +1,9 @@
 import Layout from "@/components/Layout/Layout";
 import { SafeList } from "@/components";
 import { Button, Col, Container, Row, Spacer, Text } from "@nextui-org/react";
-import Link from "next/link";
 
 import safes from "@/mocks/safes";
+import NextLink from "next/link";
 
 export default function Home() {
   return (
@@ -28,11 +28,11 @@ export default function Home() {
             <Spacer />
 
             <Row justify={"center"}>
-              <Link href="/create-safe">
+              <NextLink href={"/create-safe/"}>
                 <Button color="gradient" css={{ w: "362px", h: "40px" }}>
                   Create Safe
                 </Button>
-              </Link>
+              </NextLink>
             </Row>
             <Spacer />
             {/*<Row justify={"center"}>*/}

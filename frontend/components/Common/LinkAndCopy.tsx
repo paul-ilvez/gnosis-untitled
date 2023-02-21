@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Grid, Image, Spacer, Tooltip } from "@nextui-org/react";
+import { AppContext } from "@/store/AppContext";
+import { add } from "@noble/hashes/_u64";
 
-const LinkAndCopy = ({ address = "", link = "no link" }) => {
+const LinkAndCopy = ({ address = "" }) => {
+  const { network } = useContext(AppContext);
+
   const [copy, setCopy] = useState(false);
 
   useEffect(() => {
@@ -14,6 +18,8 @@ const LinkAndCopy = ({ address = "", link = "no link" }) => {
     navigator.clipboard.writeText(address);
     setCopy(true);
   };
+
+  if (!address) return null;
 
   return (
     <Grid.Container
@@ -32,8 +38,8 @@ const LinkAndCopy = ({ address = "", link = "no link" }) => {
         />
       </Tooltip>
       <Spacer />
-      <Tooltip content={link}>
-        <a href={link === "no link" ? "" : `View on goerli.etherscan.io`}>
+      <Tooltip content={"View on etherscan"}>
+        <a target="_blank" href={`${network.blockExplorer}address/${address}`}>
           <Image
             alt="etherscan"
             src="./link-external.svg"
