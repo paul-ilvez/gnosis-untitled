@@ -10,12 +10,11 @@ import {
 } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import AccountCard from "@/components/Common/AccountCard";
-import { AppContext, AppContextData } from "@/store/AppContext";
-
+import { AppContext } from "@/store/AppContext";
 
 const Review = () => {
   const { setCreateSafeStatusHandler, newSafeForm, safeFactory } =
-    useContext<AppContextData>(AppContext);
+    useContext(AppContext);
   const { owners, name, network, quorum } = newSafeForm;
 
   return (

@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import { v4 as uuidv4 } from "uuid";
-import { AppContext, AppContextData } from "@/store/AppContext";
+import { AppContext } from "@/store/AppContext";
 import { isAddress } from "ethers";
 import NetworkDropdown from "@/components/NetworkDropdown/NetworkDropdown";
 
@@ -24,7 +24,7 @@ export type FormOwners = {
 
 const SetOwners = () => {
   const { setCreateSafeStatusHandler, setNewSafeForm, newSafeForm, network } =
-    useContext<AppContextData>(AppContext);
+    useContext(AppContext);
 
   useEffect(() => {
     if (newSafeForm.owners.length === 0) {
@@ -49,7 +49,7 @@ const SetOwners = () => {
       {
         id: uuidv4(),
         name: "",
-        saddress: "",
+        address: "",
       },
     ];
 
@@ -158,7 +158,7 @@ const SetOwners = () => {
                 </div>
               );
             })}
-            <Button onClick={createNewOwner} light auto>
+            <Button onPress={createNewOwner} light auto>
               + Add new owner
             </Button>
             <Spacer y={2} />

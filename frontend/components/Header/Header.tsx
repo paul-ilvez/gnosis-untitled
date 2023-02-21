@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Navbar,
   Button,
@@ -14,30 +14,19 @@ import ModalDisconnect from "../ModalConnect/ModalDisconnect";
 import ModalConnect from "../ModalConnect/ModalConnect";
 import Link from "next/link";
 import NetworkDropdown from "@/components/NetworkDropdown/NetworkDropdown";
+import { AppContext } from "@/store/AppContext";
 
 const Header = ({
-  handleDisconnectMetamaskClick,
-  handleConnectMetamaskClick,
-  account,
-  visibleConnect,
   setVisibleConnect,
   setVisibleDisconnect,
-  network,
 }: {
-  handleDisconnectMetamaskClick: () => void;
-  handleConnectMetamaskClick: () => void;
-  account: string | null;
-  visibleConnect: boolean;
   setVisibleConnect: (visibleConnect: boolean) => void;
   setVisibleDisconnect: (visibleDisconnect: boolean) => void;
-  network: string;
 }) => {
   const [variant, setVariant] = useState("static");
   const variants = ["static", "floating", "sticky"];
-
-  const handelModalConnect = () => {
-    setVisibleConnect(true);
-  };
+  const appCtx = useContext(AppContext);
+  const { handleConnectMetamaskClick, isEthereum, handleDisconnectMetamask } = appCtx;
 
   const handleCloseModalConnect = () => {
     setVisibleConnect(false);
@@ -73,7 +62,7 @@ const Header = ({
             <Navbar.Content>
               <NoticePopUp />
               <Navbar.Item>
-                {account ? (
+                {appCtx.connected ? (
                   <Popover>
                     <Popover.Trigger>
                       <Button
@@ -90,10 +79,11 @@ const Header = ({
                         <div>
                           <Text size="$md" b>
                             &nbsp;{" "}
-                            {"gor:" +
-                              account?.toString().slice(0, 5) +
+                            {appCtx.network.shortName +
+                              ": " +
+                              appCtx.account?.toString().slice(0, 5) +
                               "..." +
-                              account?.toString().slice(38)}
+                              appCtx.account?.toString().slice(38)}
                           </Text>
                         </div>
                         <Spacer />
@@ -107,11 +97,11 @@ const Header = ({
                     </Popover.Trigger>
                     <Popover.Content>
                       <ModalDisconnect
-                        account={account}
+                        account={appCtx.account}
                         handleDisconnectMetamaskClick={
-                          handleDisconnectMetamaskClick
+                          handleDisconnectMetamask
                         }
-                        networkName={network}
+                        networkName={appCtx.network.name}
                       />
                     </Popover.Content>
                   </Popover>
@@ -121,7 +111,7 @@ const Header = ({
                     icon={lockIcon}
                     flat
                     color="gray"
-                    onPress={handelModalConnect}
+                    onPress={handleConnectMetamaskClick}
                   >
                     <Text color="error">Connect Wallet</Text>
                   </Button>
@@ -132,7 +122,7 @@ const Header = ({
         </Grid.Container>
       </Navbar>
       <ModalConnect
-        visible={visibleConnect}
+        visible={false} //TODO change this
         handleConnectMetamaskClick={handleConnectMetamaskClick}
         closeHandler={handleCloseModalConnect}
       />
