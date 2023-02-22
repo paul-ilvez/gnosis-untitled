@@ -26,16 +26,19 @@ export default function Transactions({ safeContract }) {
   };
 
   useEffect(() => {
+    if (!provider) {
+      console.error('Not found provider');
+    } 
     (async () => {
-      // const count = await safeContract.signerCount();
-      // console.log(count);
+      // const count = await provider.getLogs();
+      console.log(provider);
     })();
   }, []);
 
   return (
     <Card
       variant="bordered"
-      css={{ h: "499px", mw: "522px", borderRadius: "39px" }}
+      css={{ minHeight: "499px", mw: "522px", borderRadius: "39px" }}
     >
       <Card.Header>
         <Spacer y={2} />

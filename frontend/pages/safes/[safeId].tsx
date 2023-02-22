@@ -56,7 +56,7 @@ export default function SafeDetails() {
   };
   return (
     <Layout>
-      <Grid.Container css={{ mt: "40px" }} justify="center" alignItems="center">
+      <Grid.Container css={{ mt: "40px" }} justify="center" alignItems="flex-start">
         <Grid xs={5} md={5} alignItems="center" justify="flex-end">
           <HomeSafeMenu safeContract={safeContract} />
         </Grid>
@@ -66,7 +66,6 @@ export default function SafeDetails() {
           md={5}
           direction="column"
           justify="center"
-          alignItems="flex-start"
         >
           {sectionsMap[currentMenuSection.title]}
         </Grid>

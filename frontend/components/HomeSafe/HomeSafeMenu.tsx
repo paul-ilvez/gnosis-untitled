@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import { Contract, formatEther, toBigInt } from "ethers";
 import { AppContext } from "@/store/AppContext";
 import ModalNewTransaction from "./SendTransaction/ModalNewTransaction";
+import LinkAndCopy from "../Common/LinkAndCopy";
 
 export default function HomeSafeMenu({
   safeContract,
@@ -28,7 +29,7 @@ export default function HomeSafeMenu({
     {
       id: 3,
       title: "Setup",
-      icon: "./AddressBook.svg",
+      icon: "/AddressBook.svg",
     },
   ];
 
@@ -52,7 +53,6 @@ export default function HomeSafeMenu({
       setAddress(tempAddress);
     })();
   }, [safeContract]);
-  console.log(address);
 
   return (
     <Card
@@ -71,10 +71,11 @@ export default function HomeSafeMenu({
 
           />
           <Spacer y={0.5} />
-          <Row>
+          <Row align="center" justify="space-between">
             <AssetsCounter />
+            <LinkAndCopy address={address} />
           </Row>
-          <Spacer y={1} />
+          <Spacer y={2} />
           <Row align="center" justify="center">
             <NewTransactionButton
               visible={isVisible}

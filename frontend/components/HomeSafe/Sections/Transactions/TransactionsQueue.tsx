@@ -1,7 +1,32 @@
-import { Grid, Spacer, Text, Image } from "@nextui-org/react";
+import { Grid, Spacer, Text, Image, Table, Card, Row } from "@nextui-org/react";
+import TransactionCard from "./TransactionCard";
+
+const transactions = [
+  {
+    id: 0,
+    action: "Recived",
+    value: "0,05 GOR",
+    time: "7:03 PM",
+    status: "Success",
+  },
+  {
+    id: 1,
+    action: "Sent",
+    value: "-0,05 GOR",
+    time: "6:59 PM",
+    status: "Success",
+  },
+  {
+    id: 2,
+    action: "Recived",
+    value: "1,23 GOR",
+    time: "10:56 PM",
+    status: "Success",
+  },
+];
 
 export default function TransactionsQueue() {
-  return (
+  const empty = (
     <Grid.Container direction="column" justify="center" alignItems="center">
       <Spacer y={2} />
       <Image src="/QueueIcon.svg" alt="QueueIcon" />
@@ -11,4 +36,9 @@ export default function TransactionsQueue() {
       </Text>
     </Grid.Container>
   );
+  return transactions.length
+    ? transactions.map((transaction) => (
+        <TransactionCard key={transaction.id} transaction={transaction} />
+      ))
+    : empty;
 }

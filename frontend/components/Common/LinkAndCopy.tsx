@@ -31,7 +31,7 @@ const LinkAndCopy = ({ address = "" }) => {
         <Image
           onClick={copyText}
           css={{ cursor: "pointer" }}
-          src="./copy.svg"
+          src="/copy.svg"
           alt="copy"
           width={16}
           height={16}
@@ -42,7 +42,7 @@ const LinkAndCopy = ({ address = "" }) => {
         <a target="_blank" href={`${network.blockExplorer}address/${address}`}>
           <Image
             alt="etherscan"
-            src="./link-external.svg"
+            src="/link-external.svg"
             width={16}
             height={16}
           />
