@@ -1,20 +1,19 @@
 export default [
 	{
-		avatar: "/avatar-2.png",
-		balance: 15,
-		chain: "bsc",
+		balance: 15000000000,
+		chainId: 5,
 		address: "0xA016...BA6b",
 		countOwners: 5,
-		countVoices: 3,
-		symbol: "bnb"
+		quorum : 3,
+		name: "kapiton"
 	},
 	{
-		avatar: "/avatar-1.png",
-		balance: 100,
-		chain: "Ethereum",
-		address: "0xA01f...AA6A",
+		balance: 16000000000,
+		chainId: 1,
+		address: "0xA016...BA6b",
 		countOwners: 4,
-		countVoices: 2,
-		symbol: "eth"
-	}
+		quorum : 2,
+		name: "kapiton-2"
+	},
 ]
+

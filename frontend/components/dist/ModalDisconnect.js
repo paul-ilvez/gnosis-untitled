@@ -4,9 +4,9 @@ var react_1 = require("react");
 var react_2 = require("@nextui-org/react");
 var Jazzicon_1 = require("react-jazzicon/dist/Jazzicon");
 var react_jazzicon_1 = require("react-jazzicon");
-var ButtonDisconnectMetamask_1 = require("./ButtonDisconnectMetamask");
+var ButtonDisconnectMetamask_1 = require("./ButtonConnect/ButtonDisconnectMetamask");
 var ModalDisconnect = function (_a) {
-    var handleDisconnectMetamaskClick = _a.handleDisconnectMetamaskClick, account = _a.account;
+    var handleDisconnectMetamaskClick = _a.handleDisconnectMetamaskClick, account = _a.account, networkName = _a.networkName;
     return (react_1["default"].createElement("div", null,
         react_1["default"].createElement(react_2.Modal.Header, null,
             react_1["default"].createElement(react_2.Row, { justify: "center", align: "center" },
@@ -20,7 +20,8 @@ var ModalDisconnect = function (_a) {
                 react_1["default"].createElement(react_2.Text, { size: "$xs", css: { color: "#868686", textAlign: "left" } },
                     "Wallet: Metamask ",
                     react_1["default"].createElement("br", null),
-                    "Connected network: Goerli"))),
+                    "Connected network: ",
+                    networkName))),
         react_1["default"].createElement(react_2.Modal.Footer, null,
             react_1["default"].createElement(react_2.Row, { justify: "center", align: "center" },
                 react_1["default"].createElement(ButtonDisconnectMetamask_1["default"], { handleClickDisconnect: handleDisconnectMetamaskClick })))));

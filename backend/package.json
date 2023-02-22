@@ -11,6 +11,7 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "@strapi/plugin-documentation": "^4.6.1",
     "@strapi/plugin-i18n": "4.6.1",
     "@strapi/plugin-users-permissions": "4.6.1",
     "@strapi/strapi": "4.6.1",

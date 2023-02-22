@@ -3,9 +3,10 @@ import { SafeListProps } from "@/components/SafeList/SafeList.props";
 import VectorSvg from "./vector.svg";
 import {SafeElement} from "@/components";
 import {useEffect, useState} from "react";
-import Account from "@/db/repository";
+import {getSafes} from "@/db/repository";
 import {findNetworkById} from "@/components/SafeList/Networks";
-import {ethers} from "ethers";
+import groupBy from "@/libs/groupArrayBy";
+
 
 
 export const SafeList = ({
@@ -15,13 +16,15 @@ export const SafeList = ({
 }: SafeListProps): JSX.Element => {
   const [mySafes, setMySafes] = useState({})
 
+
   useEffect(()=> {
     (async ()=>{
-      const account = new Account('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
-      await account.loadSafes()
-      setMySafes(account.safes)
+      const safes = await getSafes('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266')
+      const groupedSafes = groupBy('chainId')(safes)
+      setMySafes(groupedSafes)
     })()
   }, [])
+
 
 
   return (
@@ -42,20 +45,17 @@ export const SafeList = ({
         <Container>
           <Collapse.Group shadow divider={false} accordion={false}>
             {Object.keys(mySafes).map(chainId => {
-              const chain = findNetworkById(chainId)
               return (
-                <Collapse title={chain.name} expanded={true} key={chainId}>
+                <Collapse title={findNetworkById(chainId).name} expanded={true} key={chainId}>
                   {mySafes[chainId].map(safe => {
                     return (
                       <SafeElement
                         key={safe.address}
                         balance={safe.balance}
-                        chain={safe.chainId}
+                        chainId={safe.chainId}
                         address={safe.address}
-                        countOwners={3}
-                        countVoices={1}
-                        shortName={chain.shortName}
-                        symbol={chain.symbol}
+                        countOwners={safe.signers.length}
+                        quorum={safe.quorum}
                       />
                     )
                   })}

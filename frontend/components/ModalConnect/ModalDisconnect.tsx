@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, Text, Row, Card } from "@nextui-org/react";
 import Jazzicon from "react-jazzicon/dist/Jazzicon";
 import { jsNumberForAddress } from "react-jazzicon";
-import ButtonDisconnectMetamask from "./ButtonDisconnectMetamask";
+import ButtonDisconnectMetamask from "../ButtonConnect/ButtonDisconnectMetamask";
 
 const ModalDisconnect = ({
   handleDisconnectMetamaskClick,

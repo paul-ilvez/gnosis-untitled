@@ -4,11 +4,20 @@ import safes from "@/mocks/safes";
 import ButtonsMenu from "./ButtonsMenu";
 import AssetsCounter from "./AssetsCounter";
 import NewTransactionButton from "./NewTransactionButton";
-import { useState } from "react";
-import ModalNewTransaction from "./ModalNewTransaction";
+import { useContext, useEffect, useState } from "react";
+import { Contract, formatEther, toBigInt } from "ethers";
+import { AppContext } from "@/store/AppContext";
+import ModalNewTransaction from "./SendTransaction/ModalNewTransaction";
 
-export default function HomeSafeMenu() {
+export default function HomeSafeMenu({
+  safeContract,
+}: {
+  safeContract: Contract;
+}) {
+  const { provider } = useContext(AppContext);
   const [isVisible, setVisible] = useState(false);
+  const [address, setAddress] = useState<string>();
+  const [balance, setBalance] = useState<number>(0);
   const Buttons = [
     {
       id: 1,
@@ -31,6 +40,20 @@ export default function HomeSafeMenu() {
     setVisible(false);
   };
 
+  useEffect(() => {
+    if (safeContract == null) {
+      return;
+    }
+    (async () => {
+      const tempAddress = await safeContract.getAddress();
+      const safeBalance = await provider.getBalance(tempAddress);
+
+      setBalance(safeBalance);
+      setAddress(tempAddress);
+    })();
+  }, [safeContract]);
+  console.log(address);
+
   return (
     <Card
       variant="bordered"
@@ -38,15 +61,14 @@ export default function HomeSafeMenu() {
     >
       <Card.Header>
         <Col>
-          <SafeElement
-            key={safes[0].address}
-            avatar={safes[0].avatar}
-            balance={safes[0].balance}
-            chain={safes[0].chain}
-            address={safes[0].address}
+          <SafeElement // { quorum, countOwners, address, balance, chainId }
+            key={address}
+            balance={balance}
+            chainId={safes[0].chainId}
+            address={address ?? "UNKNOWN"}
             countOwners={safes[0].countOwners}
-            countVoices={safes[0].countVoices}
-            symbol={safes[0].symbol}
+            quorum={safes[0].quorum}
+
           />
           <Spacer y={0.5} />
           <Row>

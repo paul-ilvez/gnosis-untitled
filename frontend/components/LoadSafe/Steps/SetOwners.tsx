@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import { v4 as uuidv4 } from "uuid";
-import { AppContext, AppContextData } from "@/store/AppContext";
+import { AppContext } from "@/store/AppContext";
 import { isAddress } from "ethers";
 
 export type FormOwners = {
@@ -22,7 +22,7 @@ export type FormOwners = {
 
 const SetOwners = () => {
   const { setCreateSafeStatusHandler, setNewSafeForm, newSafeForm } =
-    useContext<AppContextData>(AppContext);
+    useContext(AppContext);
 
   useEffect(() => {
     if (newSafeForm.owners.length === 0) {
@@ -149,7 +149,7 @@ const SetOwners = () => {
                 </>
               );
             })}
-            <Button onClick={createNewOwner} light auto>
+            <Button onPress={createNewOwner} light auto>
               + Add new owner
             </Button>
             <Spacer y={2} />

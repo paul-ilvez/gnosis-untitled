@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Button,
   Card,
-  Dropdown,
   Grid,
   Image,
   Input,
@@ -12,9 +11,10 @@ import {
 } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import { v4 as uuidv4 } from "uuid";
-import { AppContext, AppContextData } from "@/store/AppContext";
+import { AppContext } from "@/store/AppContext";
 import { isAddress } from "ethers";
 import NetworkDropdown from "@/components/NetworkDropdown/NetworkDropdown";
+import LinkNext from "next/link";
 
 export type FormOwners = {
   id: string;
@@ -24,7 +24,7 @@ export type FormOwners = {
 
 const SetOwners = () => {
   const { setCreateSafeStatusHandler, setNewSafeForm, newSafeForm, network } =
-    useContext<AppContextData>(AppContext);
+    useContext(AppContext);
 
   useEffect(() => {
     if (newSafeForm.owners.length === 0) {
@@ -49,7 +49,7 @@ const SetOwners = () => {
       {
         id: uuidv4(),
         name: "",
-        saddress: "",
+        address: "",
       },
     ];
 
@@ -83,11 +83,11 @@ const SetOwners = () => {
     e.preventDefault();
     setError("");
 
-    const emptyOwners: FormOwners[] = newSafeForm.owners.filter(
-      (owner) => owner.name.length !== 0 && isAddress(owner.address)
+    const notValidOwners: FormOwners[] = newSafeForm.owners.filter(
+      (owner) => owner.name.length === 0 || !isAddress(owner.address)
     );
 
-    if (!emptyOwners.length || !newSafeForm.quorum || !newSafeForm.name) {
+    if (notValidOwners.length || !newSafeForm.quorum || !newSafeForm.name) {
       return setError("Please fill in all the fields");
     }
 
@@ -115,7 +115,7 @@ const SetOwners = () => {
             </Grid.Container>
             <Spacer />
             <Input
-              status={error ? "error" : ""}
+              status={error && !newSafeForm.name.length ? "error" : ""}
               css={{ maxWidth: "400px", width: "100%" }}
               labelPlaceholder="Safe name"
               type="text"
@@ -158,7 +158,7 @@ const SetOwners = () => {
                 </div>
               );
             })}
-            <Button onClick={createNewOwner} light auto>
+            <Button onPress={createNewOwner} light auto>
               + Add new owner
             </Button>
             <Spacer y={2} />
@@ -171,6 +171,7 @@ const SetOwners = () => {
               </Text>
               <Spacer />
               <Input
+                min={1}
                 max={newSafeForm.owners.length}
                 status={error && !newSafeForm.quorum ? "error" : ""}
                 placeholder={1}
@@ -185,26 +186,32 @@ const SetOwners = () => {
             <Spacer y={2} />
             <Text>
               By continuing you consent to the <br />{" "}
-              <Link href="#" color="text" isExternal>
+              <Link
+                target="_blank"
+                href="https://safe.global/terms/"
+                color="text"
+                isExternal
+              >
                 <b>terms of use</b>
               </Link>
               &nbsp; and &nbsp;
-              <Link href="#" color="text" isExternal>
+              <Link
+                target="_blank"
+                href="https://safe.global/privacy/"
+                color="text"
+                isExternal
+              >
                 <b>privacy policy</b>
               </Link>
               .
             </Text>
             <Spacer />
             <Grid.Container justify="space-between">
-              <Button
-                onClick={() => setCreateSafeStatusHandler({ status: "init" })}
-                css={{ width: "100px" }}
-                bordered
-                color="#000"
-                auto
-              >
-                Back
-              </Button>
+              <LinkNext href="/">
+                <Button css={{ width: "100px" }} bordered color="#000" auto>
+                  Back
+                </Button>
+              </LinkNext>
               <button
                 style={{
                   background: "#000",

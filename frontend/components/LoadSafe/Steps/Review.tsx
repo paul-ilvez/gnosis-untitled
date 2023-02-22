@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Card,
   Grid,
@@ -10,29 +10,14 @@ import {
 } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import AccountCard from "@/components/Common/AccountCard";
-import { AppContext, AppContextData } from "@/store/AppContext";
+import { AppContext } from "@/store/AppContext";
 import getProvider from "@/abi/walletProvider";
 
 const Review = () => {
   const { setCreateSafeStatusHandler, newSafeForm, safeFactory } =
-    useContext<AppContextData>(AppContext);
+    useContext(AppContext);
   const { owners, name, network, quorum } = newSafeForm;
   const walletProvider = getProvider(network);
-
-  useEffect(() => {
-    (async () => {
-      // const url = "http://127.0.0.1:8545";
-      // const customHttpProvider = new JsonRpcProvider(url);
-
-      const safeFactory = new Contract(
-        "0x1Ef5550D3b9b9e8637A0B7b8F44B739D96F3dB59",
-        SafeFactory,
-        walletProvider
-      );
-
-      setSafeFactory(safeFactory);
-    })();
-  }, []);
 
   const createSafeHandler = async () => {
     console.log(newSafeForm);
@@ -40,16 +25,13 @@ const Review = () => {
     const addresses = owners.map((owner) => owner.address);
 
     try {
-      const signer = await walletProvider.getSigner();
-      const safeFactoryWithSigner = safeFactory.connect(signer);
-      const newSafe = await safeFactoryWithSigner.createSafe(addresses, quorum);
+      const newSafe = await safeFactory.createSafe(addresses, quorum);
 
       console.log("newSafe: ", newSafe);
     } catch (e) {
       console.error(e);
     }
   };
-
 
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">

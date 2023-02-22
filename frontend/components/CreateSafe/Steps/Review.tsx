@@ -10,12 +10,11 @@ import {
 } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import AccountCard from "@/components/Common/AccountCard";
-import { AppContext, AppContextData } from "@/store/AppContext";
-
+import { AppContext } from "@/store/AppContext";
 
 const Review = () => {
   const { setCreateSafeStatusHandler, newSafeForm, safeFactory } =
-    useContext<AppContextData>(AppContext);
+    useContext(AppContext);
   const { owners, name, network, quorum } = newSafeForm;
 
   return (
@@ -82,8 +81,8 @@ const Review = () => {
             {/*</Text>*/}
             {/*<Spacer y={1} />*/}
             {/*<Badge size="lg" variant="flat">*/}
-            {/*  /!* TODO: написать предварительный газ *!/≈ 0.02655 it's fake*/}
-            {/*</Badge>*/}
+            {/*  /!* TODO: написать предварительный газ */}
+            {/*</Badge> !/≈ 0.02655 it's fake*/}
             {/*<Text css={{ textAlign: "left" }} color="#9E9E9E">*/}
             {/*  You will have to confirm a transaction with your connected wallet.*/}
             {/*</Text>*/}

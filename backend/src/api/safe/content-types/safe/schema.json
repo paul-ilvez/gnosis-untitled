@@ -29,6 +29,9 @@
     },
     "balance": {
       "type": "string"
+    },
+    "quorum": {
+      "type": "integer"
     }
   }
 }
