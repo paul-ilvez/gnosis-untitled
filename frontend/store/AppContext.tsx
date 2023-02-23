@@ -7,8 +7,9 @@ import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { FormOwners } from "@/components/LoadSafe/Steps/SetOwners";
 import {BrowserProvider, Contract} from "ethers";
-import {SafeType} from "@/types/Safe.props";
+import SafeType from "@/types/Safe.props";
 import { SafeFactoryAbi } from "@/abi/SafeFactory";
+import SafeProps from "@/types/Safe.props";
 
 export type CreateSafeStatus = {
   status: "owners" | "review" | "generate";
@@ -29,6 +30,7 @@ export type CurrentMenuSection = {
 export type TransactionsSection = {
   type: string;
 };
+
 export const AppContext = createContext({
   safeFactory: undefined,
   setSafeFactory: (_contract: SafeFactoryType) => {},
@@ -59,8 +61,9 @@ export const AppContext = createContext({
     quorum: "",
   },
   setNewSafeForm: (_form: NewSafeForm) => {},
-  currentSafe: SafeType,
-  setCurrentSafe: (_safe) => {},
+
+  currentSafe: {},
+  setCurrentSafe: (_safe: SafeType) => {},
 
   handleConnectMetamaskClick: () => {},
   handleDisconnectMetamask: () => {},
@@ -99,6 +102,9 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     _setNetwork(_network);
   }
 
+  const setCurrentSafe = (safe: SafeType) => {
+    _setCurrentSafe(safe)
+  }
   function setConnected(_connected: boolean) {
     _setConnected(_connected);
   }
@@ -141,6 +147,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const setNewSafeForm = (_form: NewSafeForm) => _setNewSafeForm(_form);
 
+
   const handleConnectMetamaskClick = async () => {
     if (window.ethereum) {
       const result = await window.ethereum.request({
@@ -165,9 +172,6 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     sessionStorage.removeItem("login");
   };
 
-  const setCurrentSafe = (safe) => {
-      _setCurrentSafe(safe)
-  }
 
   const context = {
     network,

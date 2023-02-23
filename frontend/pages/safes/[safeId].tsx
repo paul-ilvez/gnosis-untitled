@@ -10,6 +10,8 @@ import { AppContext } from "@/store/AppContext";
 import { useContext, useEffect, useState } from "react";
 import { Contract } from "ethers";
 import { GnosisUntitledAbi } from "@/abi/GnosisUntitled";
+import {getSafe} from "@/db/repository";
+import {findNetworkById} from "@/components/SafeList/Networks";
 
 export default function SafeDetails() {
   const { currentMenuSection } = useContext(AppContext);
@@ -17,6 +19,8 @@ export default function SafeDetails() {
   const [safeContract, setSafeContract] = useState<Contract>();
   const { query } = useRouter();
   const { connected, signer } = useContext(AppContext);
+  const { currentSafe, setCurrentSafe } = useContext(AppContext);
+
 
   useEffect(() => {
     if (!connected) {
@@ -43,17 +47,38 @@ export default function SafeDetails() {
         );
 
         setSafeContract(tempContract);
+        const safeFromDb = await getSafe(contractAddress)
+        const {shortName, symbol, factoryContractAddress, name} = findNetworkById(safeFromDb.chainId)
+        const {quorum, address, balance, chainId} = safeFromDb
+        const countOwners = safeFromDb.signers.length
+        const safe = {
+          address,
+          balance,
+          chainId,
+          quorum,
+          shortName,
+          symbol,
+          countOwners,
+          factoryContractAddress,
+          networkName: name
+        }
+        setCurrentSafe(safe)
+
+
       } catch (e) {
         setErrorMessage("Unknown error");
       }
     })();
   }, [query, connected, signer]);
 
+
   const sectionsMap: { [key: string]: JSX.Element } = {
     Transactions: <Transactions safeContract={safeContract} />,
     Setup: <Setup />,
     Assets: <Assets />,
   };
+
+
   return (
     <Layout>
       <Grid.Container css={{ mt: "40px" }} justify="center" alignItems="flex-start">

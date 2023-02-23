@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Card, Grid, Loading, Spacer, Button, Text } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import { AppContext } from "@/store/AppContext";
 import AccountCard from "@/components/Common/AccountCard";
 import Link from "next/link";
+import {createSafeDb} from "@/db/repository";
 
 type StateLoadType = "idle" | "fetch" | "validate" | "processing" | "ready";
 
@@ -12,6 +13,16 @@ const GenerateSafe = () => {
   const { newSafeForm, safeFactory } = useContext(AppContext);
   const { owners, quorum } = newSafeForm;
   const [safeAddr, setSafeAddr] = useState<string>("");
+
+  useEffect(()=>{
+
+    // (async ()=> {
+    //   await createSafeDb({owners, quorum, address: '0x27e3615461447ddF5F7E2fD877364374b8Ac7zzz', chainId: "5" })
+    // })()
+
+
+
+  }, [])
 
   const createSafe = async () => {
     const addresses = owners.map((owner) => owner.address);
@@ -25,6 +36,8 @@ const GenerateSafe = () => {
         "SafeCreated",
         (from: string, to: string, value: number) => {
           setSafeAddr(from);
+          createSafeDb({owners: newSafeForm.owners, chainId: "11155111", quorum: newSafeForm.quorum, address: from })
+            .then(()=>{console.log('safe created')})
         }
       );
 
