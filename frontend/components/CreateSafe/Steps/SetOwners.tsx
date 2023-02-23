@@ -164,7 +164,7 @@ const SetOwners = () => {
             <Spacer y={2} />
             <Grid css={{ textAlign: "left" }}>
               <Text size="$2xl" b>
-                Treshold
+                Threshold
               </Text>
               <Text size="$md" color="#9E9E9E">
                 Any transaction requires the confirmation of:

@@ -172,7 +172,7 @@ export default function TransactionCard({
                           );
                         }}
                       >
-                        Exectute
+                        Execute
                       </Button>
                     </Grid.Container>
                   </Row>

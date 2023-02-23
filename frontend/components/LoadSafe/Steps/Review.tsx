@@ -69,7 +69,7 @@ const Review = () => {
                 </Table.Cell>
               </Table.Row>
               <Table.Row key="4">
-                <Table.Cell>Treshold</Table.Cell>
+                <Table.Cell>Threshold</Table.Cell>
                 <Table.Cell>
                   <b>
                     {quorum} out of {owners.length} owner(s)
