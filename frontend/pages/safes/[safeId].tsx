@@ -10,8 +10,6 @@ import { AppContext } from "@/store/AppContext";
 import { useContext, useEffect, useState } from "react";
 import { Contract } from "ethers";
 import { GnosisUntitledAbi } from "@/abi/GnosisUntitled";
-import { getSafe } from "@/db/repository";
-import { findNetworkById } from "@/components/SafeList/Networks";
 
 export default function SafeDetails() {
   const { currentMenuSection, currentSafe, setCurrentSafe, connected, signer } =
@@ -49,7 +47,6 @@ export default function SafeDetails() {
         ) as unknown as GnosisUntitled;
 
         setCurrentSafe(tempContract);
-
         const txCount = Number(
           (await tempContract.getTransactionCount()) as BigInt
         );
@@ -64,21 +61,15 @@ export default function SafeDetails() {
             data: tx[2],
             executed: tx[3],
             numConfirmations: tx[4],
-            type: TxType[tx[5]],
+            type: Number(tx[5]),
             date: new Date(Number(tx[6]) * 1000),
           };
           tempTxs.push(newTx);
         }
-
         setTxs(tempTxs);
-
-        const safeFromDb = await getSafe(contractAddress);
-        const { shortName, symbol, factoryContractAddress, name } =
-          findNetworkById(safeFromDb.chainId);
-        const { quorum, address, balance, chainId } = safeFromDb;
-        const countOwners = safeFromDb.signers.length;
       } catch (e) {
         setErrorMessage("Unknown error");
+        console.error(e);
       }
     })();
   }, [query, connected, signer]);

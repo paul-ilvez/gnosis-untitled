@@ -21,7 +21,7 @@ declare global {
     executed: boolean;
     numConfirmations: BigInt;
     date: Date;
-    type: string;
+    type: TxType;
   };
 
   type SafeFactory = SF;
