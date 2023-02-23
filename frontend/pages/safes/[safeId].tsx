@@ -15,6 +15,7 @@ export default function SafeDetails() {
   const { currentMenuSection } = useContext(AppContext);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [safeContract, setSafeContract] = useState<Contract>();
+  const [txs, setTxs] = useState<GnosisTransaction[]>([]);
   const { query } = useRouter();
   const { connected, signer } = useContext(AppContext);
 
@@ -42,6 +43,29 @@ export default function SafeDetails() {
           signer
         );
 
+        const txCount = Number(
+          (await tempContract.getTransactionCount()) as BigInt
+        );
+        const tempTxs: GnosisTransaction[] = [];
+
+        for (let i = 0; i < txCount; i++) {
+          const tx = await tempContract.getTransaction(i);
+          const newTx: GnosisTransaction = {
+            //TODO: Get all of these from smart contract!!!
+            id: i,
+            to: tx[0],
+            value: tx[1],
+            data: tx[2],
+            executed: tx[3],
+            numConfirmations: tx[4],
+            date: new Date(),
+            type: "Value Transfer",
+          };
+          tempTxs.push(newTx);
+        }
+
+        setTxs(tempTxs);
+
         setSafeContract(tempContract);
       } catch (e) {
         setErrorMessage("Unknown error");
@@ -50,23 +74,22 @@ export default function SafeDetails() {
   }, [query, connected, signer]);
 
   const sectionsMap: { [key: string]: JSX.Element } = {
-    Transactions: <Transactions safeContract={safeContract} />,
+    Transactions: <Transactions txs={txs} />,
     Setup: <Setup />,
     Assets: <Assets />,
   };
   return (
     <Layout>
-      <Grid.Container css={{ mt: "40px" }} justify="center" alignItems="flex-start">
+      <Grid.Container
+        css={{ mt: "40px" }}
+        justify="center"
+        alignItems="flex-start"
+      >
         <Grid xs={5} md={5} alignItems="center" justify="flex-end">
           <HomeSafeMenu safeContract={safeContract} />
         </Grid>
         <Spacer x={1.85} />
-        <Grid
-          xs={5}
-          md={5}
-          direction="column"
-          justify="center"
-        >
+        <Grid xs={5} md={5} direction="column" justify="center">
           {sectionsMap[currentMenuSection.title]}
         </Grid>
       </Grid.Container>

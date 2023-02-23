@@ -1,4 +1,4 @@
-import {CreateSafeStatus} from "@/store/AppContext";
+import { CreateSafeStatus } from "@/store/AppContext";
 
 export type Screens = Record<CreateSafeStatus, React.ReactNode>;
 export type Owner = {
@@ -10,4 +10,15 @@ declare global {
   interface Window {
     ethereum: import("ethers").providers.ExternalProvider;
   }
+
+  type GnosisTransaction = {
+    id: number;
+    to: string;
+    value: BigInt;
+    data: string;
+    executed: boolean;
+    numConfirmations: BigInt;
+    date: Date;
+    type: string;
+  };
 }
