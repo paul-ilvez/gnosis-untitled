@@ -137,19 +137,6 @@ export const GnosisUntitledAbi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_signer",
-        type: "address",
-      },
-    ],
-    name: "addSigner",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "uint256",
         name: "_txIndex",
         type: "uint256",
@@ -334,19 +321,6 @@ export const GnosisUntitledAbi = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_signer",
-        type: "address",
-      },
-    ],
-    name: "removeSigner",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {

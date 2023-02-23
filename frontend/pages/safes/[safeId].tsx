@@ -21,6 +21,7 @@ export default function SafeDetails() {
     signer,
   } = useContext(AppContext);
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [signers, setSigners] = useState<string[]>([]);
   const [txs, setTxs] = useState<GnosisTransaction[]>([]);
   const [history, setHistory] = useState<GnosisTransaction[]>([]);
   const [quorum, setQuorum] = useState<number>();
@@ -54,7 +55,7 @@ export default function SafeDetails() {
           signer
         ) as unknown as GnosisUntitled;
 
-        tempContract.signerCount
+        tempContract.getS;
 
         setCurrentSafe(tempContract);
         setQuorum(Number(await tempContract.quorum()));
