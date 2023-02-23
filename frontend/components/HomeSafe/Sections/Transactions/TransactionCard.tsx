@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import { formatEther } from "ethers";
 import { useContext, useState } from "react";
-import { Send, TickSquare } from "react-iconly";
+import { CloseSquare, Send, TickSquare } from "react-iconly";
 
 export default function TransactionCard({
   transaction,
@@ -75,7 +75,7 @@ export default function TransactionCard({
           auto
           // rounded
           bordered
-          icon={<TickSquare />}
+          icon={<CloseSquare />}
         >
           Revoke
         </Button>
