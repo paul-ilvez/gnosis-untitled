@@ -26,7 +26,7 @@ declare global {
 
   type SafeFactory = SF;
   type GnosisUntitled = GU;
-  enum TxType {
+  export enum TxType {
     VALUE_TRANSFER,
     SEND_BYTECODE,
     ADD_SIGNER,

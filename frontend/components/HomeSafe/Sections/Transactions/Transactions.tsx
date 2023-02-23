@@ -16,11 +16,17 @@ const headerButtons = [
   },
 ];
 
-export default function Transactions({ txs }: { txs: GnosisTransaction[] }) {
+export default function Transactions({
+  txs,
+  quorum,
+}: {
+  txs: GnosisTransaction[];
+  quorum: number;
+}) {
   const { transactionsSection } = useContext(AppContext);
 
   const sectionMap: { [key: string]: JSX.Element } = {
-    Queue: <TransactionsQueue txs={txs} />,
+    Queue: <TransactionsQueue quorum={quorum} txs={txs} />,
     History: <TransactionsHistory />,
   };
 

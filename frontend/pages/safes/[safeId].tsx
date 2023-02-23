@@ -16,6 +16,7 @@ export default function SafeDetails() {
     useContext(AppContext);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [txs, setTxs] = useState<GnosisTransaction[]>([]);
+  const [quorum, setQuorum] = useState<number>([]);
   const { query } = useRouter();
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function SafeDetails() {
         ) as unknown as GnosisUntitled;
 
         setCurrentSafe(tempContract);
+        setQuorum(Number(await tempContract.quorum()));
         const txCount = Number(
           (await tempContract.getTransactionCount()) as BigInt
         );
@@ -75,7 +77,7 @@ export default function SafeDetails() {
   }, [query, connected, signer]);
 
   const sectionsMap: { [key: string]: JSX.Element } = {
-    Transactions: <Transactions txs={txs} />,
+    Transactions: <Transactions quorum={quorum} txs={txs} />,
     Setup: <Setup />,
     Assets: <Assets />,
   };
