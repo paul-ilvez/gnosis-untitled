@@ -59,7 +59,13 @@ contract GnosisUntitled {
 
     Transaction[] private transactions;
 
-    uint256 public signerCount;
+    /// @notice The array containing all signers.
+    address[] private signers;
+    /// @notice Get signer's index from address.
+    mapping(address => uint256) signersLuT;
+    /// @notice Check wether the address is a singer in this Safe.
+    /// @dev This automatically generates a getter for us!
+    mapping(address => bool) public isSigner;
 
     /// @notice Signature nonce, incremented with each successful execution or state change
     /// @dev This is used to prevent signature reuse
@@ -68,23 +74,19 @@ contract GnosisUntitled {
 
     /// @notice The amount of required signatures to execute a transaction or change the state
     uint256 public quorum;
-    /// @notice A list of signers, and wether they're trusted by this contract
-    /// @dev This automatically generates a getter for us!
-    mapping(address => bool) public isSigner;
 
-    constructor(address[] memory signers, uint256 _quorum) payable {
+    constructor(address[] memory _signers, uint256 _quorum) payable {
         require(_quorum > 0, "quorum must be > 0 ");
-        require(signers.length > 0, "must be at least 1 signer");
-        uint256 length = signers.length;
-        signerCount = length;
+        require(_signers.length > 0, "must be at least 1 signer");
+        uint256 length = _signers.length;
 
         unchecked {
             for (uint256 i = 0; i < length; i++) {
-                address signer = signers[i];
+                address signer = _signers[i];
                 if (signer == address(0)) {
                     revert("Signer cannot be address(0)");
                 }
-                isSigner[signer] = true;
+                addSigner(signer);
             }
         }
 
@@ -113,13 +115,13 @@ contract GnosisUntitled {
         address _to,
         uint256 _value,
         bytes memory _data
-    ) public onlySigner {
+    ) external onlySigner {
         require(_to != address(0), "cannot send to nowhere");
         require(_data.length > 0, "cannot send null tx");
         submitTx(_to, _value, _data, TxType.SEND_BYTECODE);
     }
 
-    function submitNewSigner(address _newSigner) public onlySigner {
+    function submitNewSigner(address _newSigner) external onlySigner {
         require(_newSigner != address(0), "Signer cannot be address(0)");
         submitTx(
             _newSigner,
@@ -129,7 +131,7 @@ contract GnosisUntitled {
         );
     }
 
-    function submitRemoveSigner(address _newSigner) public onlySigner {
+    function submitRemoveSigner(address _newSigner) external onlySigner {
         require(_newSigner != address(0), "Signer cannot be address(0)");
         submitTx(
             _newSigner,
@@ -139,7 +141,7 @@ contract GnosisUntitled {
         );
     }
 
-    function submitChangeQuorum(uint256 _quorum) public onlySigner {
+    function submitChangeQuorum(uint256 _quorum) external onlySigner {
         require(_quorum != 0, "Quorum cannot be 0");
         submitTx(
             address(0),
@@ -147,6 +149,109 @@ contract GnosisUntitled {
             abi.encodePacked(uint256(0)),
             TxType.CHANGE_QUORUM
         );
+    }
+
+    function confirmTransaction(uint256 _txIndex)
+        external
+        onlySigner
+        txExists(_txIndex)
+        notExecuted(_txIndex)
+        notConfirmed(_txIndex)
+    {
+        Transaction storage transaction = transactions[_txIndex];
+        transaction.numConfirmations += 1;
+        isConfirmed[_txIndex][msg.sender] = true;
+
+        emit ConfirmTransaction(msg.sender, _txIndex);
+    }
+
+    function executeTransaction(uint256 _txIndex)
+        external
+        onlySigner
+        txExists(_txIndex)
+        notExecuted(_txIndex)
+    {
+        Transaction storage transaction = transactions[_txIndex];
+
+        require(transaction.numConfirmations >= quorum, "cannot execute tx");
+
+        transaction.executed = true;
+        emit ExecuteTransaction(msg.sender, _txIndex);
+
+        if (transaction.txType == TxType.ADD_SIGNER) {
+            addSigner(transaction.to);
+            return;
+        }
+
+        if (transaction.txType == TxType.REMOVE_SIGNER) {
+            removeSigner(transaction.to);
+            return;
+        }
+
+        if (transaction.txType == TxType.CHANGE_QUORUM) {
+            quorum = transaction.value;
+            return;
+        }
+
+        (bool success, ) = transaction.to.call{value: transaction.value}(
+            transaction.data
+        );
+        require(success, "tx failed");
+    }
+
+    function revokeConfirmation(uint256 _txIndex)
+        external
+        onlySigner
+        txExists(_txIndex)
+        notExecuted(_txIndex)
+    {
+        Transaction storage transaction = transactions[_txIndex];
+
+        require(isConfirmed[_txIndex][msg.sender], "tx not confirmed");
+
+        transaction.numConfirmations -= 1;
+        isConfirmed[_txIndex][msg.sender] = false;
+
+        emit RevokeConfirmation(msg.sender, _txIndex);
+    }
+
+    function getTransactionCount() external view returns (uint256) {
+        return transactions.length;
+    }
+
+    function getTransaction(uint256 _txIndex)
+        external
+        view
+        returns (
+            address to,
+            uint256 value,
+            bytes memory data,
+            bool executed,
+            uint256 numConfirmations,
+            TxType txType,
+            uint256 date
+        )
+    {
+        Transaction storage transaction = transactions[_txIndex];
+
+        return (
+            transaction.to,
+            transaction.value,
+            transaction.data,
+            transaction.executed,
+            transaction.numConfirmations,
+            transaction.txType,
+            transaction.date
+        );
+    }
+
+    function getSigner(uint256 _signerId) external view returns (address) {
+        require(_signerId < signers.length, "index out of bound signer array");
+        return signers[_signerId];
+    }
+
+    function getSignerCount() external view returns (uint256) {
+        return signers.length;
     }
 
     function submitTx(
@@ -175,100 +280,25 @@ contract GnosisUntitled {
         emit SubmitTransaction(msg.sender, txIndex, _to, _value, txType);
     }
 
-    function confirmTransaction(uint256 _txIndex)
-        public
-        onlySigner
-        txExists(_txIndex)
-        notExecuted(_txIndex)
-        notConfirmed(_txIndex)
-    {
-        Transaction storage transaction = transactions[_txIndex];
-        transaction.numConfirmations += 1;
-        isConfirmed[_txIndex][msg.sender] = true;
-
-        emit ConfirmTransaction(msg.sender, _txIndex);
-    }
-
-    function executeTransaction(uint256 _txIndex)
-        public
-        onlySigner
-        txExists(_txIndex)
-        notExecuted(_txIndex)
-    {
-        Transaction storage transaction = transactions[_txIndex];
-
-        require(transaction.numConfirmations >= quorum, "cannot execute tx");
-
-        transaction.executed = true;
-        emit ExecuteTransaction(msg.sender, _txIndex);
-
-        if (transaction.txType == TxType.ADD_SIGNER) {
-            isSigner[transaction.to] = true;
-            signerCount++;
-            return;
-        }
-
-        if (transaction.txType == TxType.REMOVE_SIGNER) {
-            isSigner[transaction.to] = false;
-            signerCount--;
-            return;
-        }
-
-        if (transaction.txType == TxType.CHANGE_QUORUM) {
-            quorum = transaction.value;
-            return;
-        }
-
-        (bool success, ) = transaction.to.call{value: transaction.value}(
-            transaction.data
+    function removeSigner(address _signer) private {
+        require(isSigner[_signer], "cannot delete not a signer!");
+        require(
+            quorum <= signers.length - 1,
+            "cannot have quorum > num of remaining signers!"
         );
-        require(success, "tx failed");
+        uint256 index = signersLuT[_signer];
+        signers[index] = signers[signers.length - 1];
+        signers.pop();
+        delete signersLuT[_signer];
+        delete isSigner[_signer];
     }
 
-    function revokeConfirmation(uint256 _txIndex)
-        public
-        onlySigner
-        txExists(_txIndex)
-        notExecuted(_txIndex)
-    {
-        Transaction storage transaction = transactions[_txIndex];
-
-        require(isConfirmed[_txIndex][msg.sender], "tx not confirmed");
-
-        transaction.numConfirmations -= 1;
-        isConfirmed[_txIndex][msg.sender] = false;
-
-        emit RevokeConfirmation(msg.sender, _txIndex);
-    }
-
-    function getTransactionCount() public view returns (uint256) {
-        return transactions.length;
-    }
-
-    function getTransaction(uint256 _txIndex)
-        public
-        view
-        returns (
-            address to,
-            uint256 value,
-            bytes memory data,
-            bool executed,
-            uint256 numConfirmations,
-            TxType txType,
-            uint256 date
-        )
-    {
-        Transaction storage transaction = transactions[_txIndex];
-
-        return (
-            transaction.to,
-            transaction.value,
-            transaction.data,
-            transaction.executed,
-            transaction.numConfirmations,
-            transaction.txType,
-            transaction.date
-        );
+    function addSigner(address _signer) private {
+        require(!isSigner[_signer], "cannot add already a signer!");
+        uint256 index = signers.length;
+        signers.push(_signer);
+        signersLuT[_signer] = index;
+        isSigner[_signer] = true;
     }
 
     receive() external payable {
