@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
 import "./GnosisUntitled.sol";
 
+/// @title Untitled Gnosis
+/// @author Untitled_Team
 contract SafeFactory {
     event SafeCreated(
         address indexed safeAddress,
@@ -41,6 +43,6 @@ contract SafeFactory {
     }
 
     function getNumberOfSafes() external view returns (uint256) {
-        return safes.length; 
+        return safes.length;
     }
 }

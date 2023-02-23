@@ -112,7 +112,7 @@ const GenerateSafe = () => {
           <Grid.Container justify="center">
             {stateLoad === "idle" && (
               <Button
-                onPress={createSafe}
+                onClick={createSafe}
                 style={{
                   background: "#000",
                   color: "#fff",

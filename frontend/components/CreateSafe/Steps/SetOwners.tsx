@@ -158,7 +158,7 @@ const SetOwners = () => {
                 </div>
               );
             })}
-            <Button onPress={createNewOwner} light auto>
+            <Button onClick={createNewOwner} light auto>
               + Add new owner
             </Button>
             <Spacer y={2} />

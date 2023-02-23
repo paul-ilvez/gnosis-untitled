@@ -6,16 +6,17 @@ import type { Network } from "@/components/SafeList/Networks";
 import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { FormOwners } from "@/components/LoadSafe/Steps/SetOwners";
-import {BrowserProvider, Contract} from "ethers";
-import SafeType from "@/types/Safe.props";
+import {
+  AbstractProvider,
+  AbstractSigner,
+  BrowserProvider,
+  Contract,
+} from "ethers";
 import { SafeFactoryAbi } from "@/abi/SafeFactory";
-import SafeProps from "@/types/Safe.props";
 
 export type CreateSafeStatus = {
   status: "owners" | "review" | "generate";
 };
-
-export type SafeFactoryType = null | Contract;
 
 export type NewSafeForm = {
   name: string;
@@ -33,7 +34,7 @@ export type TransactionsSection = {
 
 export const AppContext = createContext({
   safeFactory: undefined,
-  setSafeFactory: (_contract: SafeFactoryType) => {},
+  setSafeFactory: (_contract: SafeFactory) => {},
   network: undefinedNetwork,
   setNetwork: (_network: Network) => {},
   account: "",
@@ -63,21 +64,19 @@ export const AppContext = createContext({
   setNewSafeForm: (_form: NewSafeForm) => {},
 
   currentSafe: {},
-  setCurrentSafe: (_safe: SafeType) => {},
+  setCurrentSafe: (_safe: GnosisUntitled) => {},
 
   handleConnectMetamaskClick: () => {},
   handleDisconnectMetamask: () => {},
-});//--------------AppContex------------------------
-
-
+}); //--------------AppContex------------------------
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
   const [network, _setNetwork] = useState(undefinedNetwork);
   const [account, _setAccount] = useState("0x0");
   const [isEthereum, _setIsEthereum] = useState(false);
-  const [safeFactory, _setSafeFactory] = useState<Contract>();
+  const [safeFactory, _setSafeFactory] = useState<SafeFactory>();
   const [connected, _setConnected] = useState(false);
-  const [provider, _setProvider] = useState<AbstractProvider>();
+  const [provider, _setProvider] = useState<BrowserProvider>();
   const [signer, _setSigner] = useState<AbstractSigner>();
   const [newSafeForm, _setNewSafeForm] = useState({
     name: "",
@@ -97,23 +96,23 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   const [createSafeStatus, setCreateSafeStatus] = useState({
     status: "owners",
   });
-  const [currentSafe, _setCurrentSafe] = useState({})
+  const [currentSafe, _setCurrentSafe] = useState<GnosisUntitled>();
   function setNetwork(_network: Network) {
     _setNetwork(_network);
   }
 
-  const setCurrentSafe = (safe: SafeType) => {
-    _setCurrentSafe(safe)
-  }
+  const setCurrentSafe = (safe: GnosisUntitled) => {
+    _setCurrentSafe(safe);
+  };
   function setConnected(_connected: boolean) {
     _setConnected(_connected);
   }
 
-  function setSafeFactory(_contract: SafeFactoryType) {
-    _setSafeFactory(_contract as Contract);
+  function setSafeFactory(_contract: SafeFactory) {
+    _setSafeFactory(_contract as SafeFactory);
   }
 
-  function setProvider(_provider: AbstractProvider) {
+  function setProvider(_provider: BrowserProvider) {
     _setProvider(_provider);
   }
 
@@ -147,7 +146,6 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const setNewSafeForm = (_form: NewSafeForm) => _setNewSafeForm(_form);
 
-
   const handleConnectMetamaskClick = async () => {
     if (window.ethereum) {
       const result = await window.ethereum.request({
@@ -171,7 +169,6 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setNetwork(undefinedNetwork);
     sessionStorage.removeItem("login");
   };
-
 
   const context = {
     network,
@@ -199,7 +196,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     handleConnectMetamaskClick,
     handleDisconnectMetamask,
     currentSafe,
-    setCurrentSafe
+    setCurrentSafe,
   };
 
   useEffect(() => {
@@ -257,7 +254,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
       tempNetwork.factoryContractAddress,
       SafeFactoryAbi,
       tempSigner
-    );
+    ) as unknown as SafeFactory;
     tempContract.connect(tempSigner);
     setSafeFactory(tempContract);
     setConnected(true);

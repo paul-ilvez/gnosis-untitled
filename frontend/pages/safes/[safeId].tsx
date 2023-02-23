@@ -10,18 +10,15 @@ import { AppContext } from "@/store/AppContext";
 import { useContext, useEffect, useState } from "react";
 import { Contract } from "ethers";
 import { GnosisUntitledAbi } from "@/abi/GnosisUntitled";
-import {getSafe} from "@/db/repository";
-import {findNetworkById} from "@/components/SafeList/Networks";
+import { getSafe } from "@/db/repository";
+import { findNetworkById } from "@/components/SafeList/Networks";
 
 export default function SafeDetails() {
-  const { currentMenuSection } = useContext(AppContext);
+  const { currentMenuSection, currentSafe, setCurrentSafe, connected, signer } =
+    useContext(AppContext);
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [safeContract, setSafeContract] = useState<Contract>();
   const [txs, setTxs] = useState<GnosisTransaction[]>([]);
   const { query } = useRouter();
-  const { connected, signer } = useContext(AppContext);
-  const { currentSafe, setCurrentSafe } = useContext(AppContext);
-
 
   useEffect(() => {
     if (!connected) {
@@ -40,12 +37,18 @@ export default function SafeDetails() {
     }
 
     (async () => {
+      if (signer == null) {
+        return;
+      }
+
       try {
         const tempContract = new Contract(
           contractAddress,
           GnosisUntitledAbi,
           signer
-        );
+        ) as unknown as GnosisUntitled;
+
+        setCurrentSafe(tempContract);
 
         const txCount = Number(
           (await tempContract.getTransactionCount()) as BigInt
@@ -53,55 +56,38 @@ export default function SafeDetails() {
         const tempTxs: GnosisTransaction[] = [];
 
         for (let i = 0; i < txCount; i++) {
-          const tx = await tempContract.getTransaction(i);
+          const tx = await tempContract.getTransaction(BigInt(i));
           const newTx: GnosisTransaction = {
-            //TODO: Get all of these from smart contract!!!
             id: i,
             to: tx[0],
             value: tx[1],
             data: tx[2],
             executed: tx[3],
             numConfirmations: tx[4],
-            date: new Date(),
-            type: "Value Transfer",
+            type: TxType[tx[5]],
+            date: new Date(Number(tx[6]) * 1000),
           };
           tempTxs.push(newTx);
         }
 
         setTxs(tempTxs);
 
-        setSafeContract(tempContract);
-        const safeFromDb = await getSafe(contractAddress)
-        const {shortName, symbol, factoryContractAddress, name} = findNetworkById(safeFromDb.chainId)
-        const {quorum, address, balance, chainId} = safeFromDb
-        const countOwners = safeFromDb.signers.length
-        const safe = {
-          address,
-          balance,
-          chainId,
-          quorum,
-          shortName,
-          symbol,
-          countOwners,
-          factoryContractAddress,
-          networkName: name
-        }
-        setCurrentSafe(safe)
-
-
+        const safeFromDb = await getSafe(contractAddress);
+        const { shortName, symbol, factoryContractAddress, name } =
+          findNetworkById(safeFromDb.chainId);
+        const { quorum, address, balance, chainId } = safeFromDb;
+        const countOwners = safeFromDb.signers.length;
       } catch (e) {
         setErrorMessage("Unknown error");
       }
     })();
   }, [query, connected, signer]);
 
-
   const sectionsMap: { [key: string]: JSX.Element } = {
     Transactions: <Transactions txs={txs} />,
     Setup: <Setup />,
     Assets: <Assets />,
   };
-
 
   return (
     <Layout>
@@ -111,7 +97,7 @@ export default function SafeDetails() {
         alignItems="flex-start"
       >
         <Grid xs={5} md={5} alignItems="center" justify="flex-end">
-          <HomeSafeMenu safeContract={safeContract} />
+          <HomeSafeMenu />
         </Grid>
         <Spacer x={1.85} />
         <Grid xs={5} md={5} direction="column" justify="center">

@@ -1,20 +1,16 @@
 import { Card, Text, Badge, Grid, Row, Link } from "@nextui-org/react";
 import { SafeElementProps } from "@/components/SafeElement/SafeElement.props";
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import MenuBtn from "./menuBtn.svg";
-import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
-import getShortAddress from '@/libs/shortenAddress'
-import {ethers, formatEther, toBigInt} from "ethers";
-import {AppContext} from "@/store/AppContext";
-import {findNetworkById} from "@/components/SafeList/Networks";
+import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
+import getShortAddress from "@/libs/shortenAddress";
+import { ethers, formatEther, toBigInt } from "ethers";
+import { AppContext } from "@/store/AppContext";
 import NextLink from "next/link";
 
 export const SafeElement = (safe: SafeElementProps): JSX.Element => {
-  const {setCurrentSafe} = useContext(AppContext)
-
-  const { quorum, countOwners, address, balance, chainId } =
-    safe;
-  const {shortName, symbol} = findNetworkById(chainId)
+  const { quorum, countOwners, address, balance } = safe;
+  const { shortName, symbol } = useContext(AppContext).network;
   return (
     <NextLink href={`/safes/${address}`}>
       <Card isPressable css={{ mt: "10px", br: "50px" }} variant={"bordered"}>
@@ -39,7 +35,7 @@ export const SafeElement = (safe: SafeElementProps): JSX.Element => {
               <Text span>{getShortAddress(address)}</Text>
             </Grid>
             <Badge>
-              {formatEther(toBigInt(balance))} {symbol.toUpperCase()}
+              {formatEther(BigInt(balance))} {symbol.toUpperCase()}
             </Badge>
 
             <Grid.Container justify={"center"} css={{ w: "10px" }}>

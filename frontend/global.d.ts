@@ -1,4 +1,6 @@
 import { CreateSafeStatus } from "@/store/AppContext";
+import { GnosisUntitled as GU } from "../hardhat/typechain-types/GnosisUntitled_v6";
+import { SafeFactory as SF } from "../hardhat/typechain-types/SafeFactory";
 
 export type Screens = Record<CreateSafeStatus, React.ReactNode>;
 export type Owner = {
@@ -21,4 +23,14 @@ declare global {
     date: Date;
     type: string;
   };
+
+  type SafeFactory = SF;
+  type GnosisUntitled = GU;
+  enum TxType {
+    VALUE_TRANSFER,
+    SEND_BYTECODE,
+    ADD_SIGNER,
+    REMOVE_SIGNER,
+    CHANGE_QUORUM,
+  }
 }

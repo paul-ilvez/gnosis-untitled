@@ -1,17 +1,18 @@
 import { Button, Text } from "@nextui-org/react";
 import React, { useContext } from "react";
-import { AppContext, AppContextData } from "@/store/AppContext";
+import { AppContext } from "@/store/AppContext";
 
 export default function TransactionsHeaderButtons({ type }: { type: string }) {
-  const {setTransactionsSectionHandler,transactionsSection} = useContext<AppContextData>(AppContext);
-  const isActive = transactionsSection.type === type
+  const { setTransactionsSectionHandler, transactionsSection } =
+    useContext(AppContext);
+  const isActive = transactionsSection.type === type;
 
   return (
     <>
       <Button
         animated={false}
         size={"xs"}
-        css={{ backgroundColor: isActive ? '#e8e8e8' : "transparent" }}
+        css={{ backgroundColor: isActive ? "#e8e8e8" : "transparent" }}
         onClick={() => setTransactionsSectionHandler({ type })}
       >
         <Text

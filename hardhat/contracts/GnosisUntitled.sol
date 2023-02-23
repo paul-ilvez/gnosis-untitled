@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
-/// @title Untitled Gnosis 
+/// @title Untitled Gnosis
 /// @author Untitled_Team
 contract GnosisUntitled {
     enum TxType {
@@ -13,10 +13,10 @@ contract GnosisUntitled {
     }
     event Deposit(address indexed sender, uint256 amount, uint256 balance);
     event SubmitTransaction(
-        address indexed sender,   
+        address indexed sender,
         uint256 indexed txIndex,
         address indexed to,
-        uint256 value,    
+        uint256 value,
         TxType txType
     );
     event ConfirmTransaction(address indexed sender, uint256 indexed txIndex);
@@ -31,6 +31,7 @@ contract GnosisUntitled {
         bool executed;
         uint256 numConfirmations;
         TxType txType;
+        uint256 date;
     }
 
     modifier onlySigner() {
@@ -164,7 +165,8 @@ contract GnosisUntitled {
                 data: _data,
                 executed: false,
                 numConfirmations: 1,
-                txType: txType
+                txType: txType,
+                date: block.timestamp
             })
         );
 
@@ -251,7 +253,9 @@ contract GnosisUntitled {
             uint256 value,
             bytes memory data,
             bool executed,
-            uint256 numConfirmations
+            uint256 numConfirmations,
+            TxType txType,
+            uint256 date
         )
     {
         Transaction storage transaction = transactions[_txIndex];
@@ -261,7 +265,9 @@ contract GnosisUntitled {
             transaction.value,
             transaction.data,
             transaction.executed,
-            transaction.numConfirmations
+            transaction.numConfirmations,
+            transaction.txType,
+            transaction.date
         );
     }
 

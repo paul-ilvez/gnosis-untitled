@@ -195,6 +195,16 @@ export const GnosisUntitledAbi = [
         name: "numConfirmations",
         type: "uint256",
       },
+      {
+        internalType: "enum GnosisUntitled.TxType",
+        name: "txType",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "date",
+        type: "uint256",
+      },
     ],
     stateMutability: "view",
     type: "function",

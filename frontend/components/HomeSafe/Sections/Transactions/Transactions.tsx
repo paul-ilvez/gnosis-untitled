@@ -17,22 +17,12 @@ const headerButtons = [
 ];
 
 export default function Transactions({ txs }: { txs: GnosisTransaction[] }) {
-  const { transactionsSection, provider } = useContext(AppContext);
+  const { transactionsSection } = useContext(AppContext);
 
   const sectionMap: { [key: string]: JSX.Element } = {
     Queue: <TransactionsQueue txs={txs} />,
     History: <TransactionsHistory />,
   };
-
-  useEffect(() => {
-    if (!provider) {
-      console.error("Not found provider");
-    }
-    (async () => {
-      // const count = await provider.getLogs();
-      console.log(provider);
-    })();
-  }, []);
 
   return (
     <Card
@@ -43,9 +33,7 @@ export default function Transactions({ txs }: { txs: GnosisTransaction[] }) {
         <Spacer y={2} />
         <Row justify="flex-start">
           {headerButtons.map((button, i) => (
-            <>
-              <TransactionsHeaderButtons key={i} type={button.type} />
-            </>
+            <TransactionsHeaderButtons key={i} type={button.type} />
           ))}
         </Row>
       </Card.Header>
