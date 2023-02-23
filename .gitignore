@@ -38,3 +38,5 @@ next-env.d.ts
 hardhat/cache
 hardhat/artifacts
 hardhat/contracts/artifacts
+*/.yarn
+frontend/.yarn/install-state.gz

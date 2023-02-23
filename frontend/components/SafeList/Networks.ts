@@ -29,7 +29,7 @@ export const networks: Network[] = [
     chaindId: 11155111,
     name: "Sepolia",
     blockExplorer: "https://sepolia.etherscan.io/",
-    factoryContractAddress: "",
+    factoryContractAddress: "0xd78f965B341B7f74c038362886E0A58d67deeCF7",
     symbol: "eth",
     shortName: "sep",
   },
