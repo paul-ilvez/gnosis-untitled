@@ -9,24 +9,22 @@ import {
 import { SafeListProps } from "@/components/SafeList/SafeList.props";
 import VectorSvg from "./vector.svg";
 import { SafeElement } from "@/components";
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import { getSafes } from "@/db/repository";
 import { findNetworkById } from "@/components/SafeList/Networks";
 import groupBy from "@/libs/groupArrayBy";
-import {AppContext} from "@/store/AppContext";
+import { AppContext } from "@/store/AppContext";
 
 export const SafeList = ({
   bgColor = "#EFEFEF",
   title,
 }: SafeListProps): JSX.Element => {
   const [mySafes, setMySafes] = useState({});
-  const {account} = useContext(AppContext)
+  const { account } = useContext(AppContext);
 
   useEffect(() => {
     (async () => {
-
       const safes = await getSafes(account);
-      console.log(account)
       const groupedSafes = groupBy("chainId")(safes);
       setMySafes(groupedSafes);
     })();

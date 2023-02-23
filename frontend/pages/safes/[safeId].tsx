@@ -55,8 +55,13 @@ export default function SafeDetails() {
           signer
         ) as unknown as GnosisUntitled;
 
-        tempContract.getS;
-
+        const signerCount = Number(await tempContract.getSignerCount());
+        const tempSigners: string[] = [];
+        for (let i = 0; i < signerCount; i++) {
+          const signer = await tempContract.getSigner(BigInt(i));
+          tempSigners.push(signer);
+        }
+        setSigners(tempSigners);
         setCurrentSafe(tempContract);
         setQuorum(Number(await tempContract.quorum()));
         const txCount = Number(
