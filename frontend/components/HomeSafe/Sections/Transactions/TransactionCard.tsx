@@ -50,6 +50,10 @@ export default function TransactionCard({
     return `${transaction.numConfirmations}/${quorum}`;
   }
 
+  function isCanBeExecuted(): boolean {
+    return Number(transaction.numConfirmations) >= quorum;
+  }
+
   const value = formatEther(transaction.value) + " ETH";
 
   return (
@@ -110,7 +114,13 @@ export default function TransactionCard({
                       Approve
                     </Button>
                     <Spacer />
-                    <Button icon={<Send />} auto rounded color="gradient">
+                    <Button
+                      icon={<Send />}
+                      auto
+                      rounded
+                      color="gradient"
+                      disabled={!isCanBeExecuted()}
+                    >
                       Exectute
                     </Button>
                   </Grid.Container>
