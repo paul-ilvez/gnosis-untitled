@@ -73,7 +73,8 @@ export default function TransactionCard({
           }}
           color="error"
           auto
-          rounded
+          // rounded
+          bordered
           icon={<TickSquare />}
         >
           Revoke
@@ -85,7 +86,8 @@ export default function TransactionCard({
       <Button
         color="success"
         auto
-        rounded
+        // rounded
+        bordered
         icon={<TickSquare />}
         onPress={() => {
           handleApproveTx(currentSafe as GnosisUntitled, transaction.id);
@@ -100,7 +102,7 @@ export default function TransactionCard({
 
   return (
     <>
-      <Card variant="flat">
+      <Card variant="shadow">
         <Card.Header css={{ cursor: "pointer" }} onClick={() => setOpen(!open)}>
           <Row justify="space-between" wrap="nowrap">
             <Text b># {transaction.id}</Text>
@@ -146,31 +148,35 @@ export default function TransactionCard({
                   <Spacer />
                   <Text b>{transaction.numConfirmations.toString()}</Text>
                 </Row>
-                <Row>
-                  <Grid.Container
-                    direction="row"
-                    justify="center"
-                    alignItems="center"
-                  >
-                    {renderConfirmRevokeButton()}
-                    <Spacer />
-                    <Button
-                      icon={<Send />}
-                      auto
-                      rounded
-                      color="gradient"
-                      disabled={!isCanBeExecuted()}
-                      onPress={() => {
-                        handleExecuteTx(
-                          currentSafe as GnosisUntitled,
-                          transaction.id
-                        );
-                      }}
+                <Card.Divider />
+                <Card.Footer>
+                  <Row>
+                    <Grid.Container
+                      direction="row"
+                      justify="center"
+                      alignItems="center"
                     >
-                      Exectute
-                    </Button>
-                  </Grid.Container>
-                </Row>
+                      {renderConfirmRevokeButton()}
+                      <Spacer />
+                      <Button
+                        icon={<Send />}
+                        auto
+                        rounded
+                        // color="gradient"
+                        disabled={!isCanBeExecuted()}
+                        light
+                        onPress={() => {
+                          handleExecuteTx(
+                            currentSafe as GnosisUntitled,
+                            transaction.id
+                          );
+                        }}
+                      >
+                        Exectute
+                      </Button>
+                    </Grid.Container>
+                  </Row>
+                </Card.Footer>
               </Col>
             </Card.Body>
           </>
