@@ -54,13 +54,15 @@ export default function SafeDetails() {
           signer
         ) as unknown as GnosisUntitled;
 
+        tempContract.signerCount
+
         setCurrentSafe(tempContract);
         setQuorum(Number(await tempContract.quorum()));
         const txCount = Number(
           (await tempContract.getTransactionCount()) as BigInt
         );
         const tempTxs: GnosisTransaction[] = [];
-        const tempHistory: GnosisTransaction[] = [];
+        const tempHistory: any[] = [];
 
         for (let i = 0; i < txCount; i++) {
           const tx = await tempContract.getTransaction(BigInt(i));
@@ -86,6 +88,9 @@ export default function SafeDetails() {
 
           tempHistory.push(newTx);
         }
+
+        // let eventFilter = contract.filters.ContractEvent();
+        // let events = await contract.queryFilter(eventFilter);
         setTxs(tempTxs);
         setHistory(tempHistory);
       } catch (e) {
@@ -94,8 +99,6 @@ export default function SafeDetails() {
       }
     })();
   }, [query, connected, signer]);
-
-
 
   const sectionsMap: { [key: string]: JSX.Element } = {
     Transactions: (

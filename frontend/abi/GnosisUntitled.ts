@@ -3,7 +3,7 @@ export const GnosisUntitledAbi = [
     inputs: [
       {
         internalType: "address[]",
-        name: "signers",
+        name: "_signers",
         type: "address[]",
       },
       {
@@ -137,6 +137,19 @@ export const GnosisUntitledAbi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_signer",
+        type: "address",
+      },
+    ],
+    name: "addSigner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "_txIndex",
         type: "uint256",
@@ -158,6 +171,38 @@ export const GnosisUntitledAbi = [
     name: "executeTransaction",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_signerId",
+        type: "uint256",
+      },
+    ],
+    name: "getSigner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getSignerCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -294,6 +339,19 @@ export const GnosisUntitledAbi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_signer",
+        type: "address",
+      },
+    ],
+    name: "removeSigner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "_txIndex",
         type: "uint256",
@@ -302,19 +360,6 @@ export const GnosisUntitledAbi = [
     name: "revokeConfirmation",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "signerCount",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
