@@ -1,3 +1,4 @@
+import { AppContext } from "@/store/AppContext";
 import {
   Grid,
   Spacer,
@@ -9,7 +10,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { formatEther } from "ethers";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Send, TickSquare } from "react-iconly";
 
 export default function TransactionCard({
@@ -20,6 +21,12 @@ export default function TransactionCard({
   quorum: number;
 }) {
   const [open, setOpen] = useState(false);
+  const {
+    handleApproveTx,
+    handleRevokeConfirmation,
+    handleExecuteTx,
+    currentSafe,
+  } = useContext(AppContext);
 
   enum TxType {
     VALUE_TRANSFER,
@@ -52,6 +59,41 @@ export default function TransactionCard({
 
   function isCanBeExecuted(): boolean {
     return Number(transaction.numConfirmations) >= quorum;
+  }
+
+  function renderConfirmRevokeButton(): React.ReactElement {
+    if (transaction.isConfirmedByUser) {
+      return (
+        <Button
+          onPress={() => {
+            handleRevokeConfirmation(
+              currentSafe as GnosisUntitled,
+              transaction.id
+            );
+          }}
+          color="error"
+          auto
+          rounded
+          icon={<TickSquare />}
+        >
+          Revoke
+        </Button>
+      );
+    }
+
+    return (
+      <Button
+        color="success"
+        auto
+        rounded
+        icon={<TickSquare />}
+        onPress={() => {
+          handleApproveTx(currentSafe as GnosisUntitled, transaction.id);
+        }}
+      >
+        Approve
+      </Button>
+    );
   }
 
   const value = formatEther(transaction.value) + " ETH";
@@ -110,9 +152,7 @@ export default function TransactionCard({
                     justify="center"
                     alignItems="center"
                   >
-                    <Button auto rounded icon={<TickSquare />}>
-                      Approve
-                    </Button>
+                    {renderConfirmRevokeButton()}
                     <Spacer />
                     <Button
                       icon={<Send />}
@@ -120,6 +160,12 @@ export default function TransactionCard({
                       rounded
                       color="gradient"
                       disabled={!isCanBeExecuted()}
+                      onPress={() => {
+                        handleExecuteTx(
+                          currentSafe as GnosisUntitled,
+                          transaction.id
+                        );
+                      }}
                     >
                       Exectute
                     </Button>

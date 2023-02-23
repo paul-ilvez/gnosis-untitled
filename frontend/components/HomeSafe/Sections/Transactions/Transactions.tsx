@@ -18,16 +18,18 @@ const headerButtons = [
 
 export default function Transactions({
   txs,
+  history,
   quorum,
 }: {
   txs: GnosisTransaction[];
+  history: GnosisTransaction[];
   quorum: number;
 }) {
   const { transactionsSection } = useContext(AppContext);
 
   const sectionMap: { [key: string]: JSX.Element } = {
     Queue: <TransactionsQueue quorum={quorum} txs={txs} />,
-    History: <TransactionsHistory />,
+    History: <TransactionsHistory history={history} />,
   };
 
   return (

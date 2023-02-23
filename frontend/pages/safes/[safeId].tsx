@@ -8,15 +8,22 @@ import Setup from "@/components/HomeSafe/Sections/Setup";
 import Assets from "@/components/HomeSafe/Sections/Assets";
 import { AppContext } from "@/store/AppContext";
 import { useContext, useEffect, useState } from "react";
-import { Contract } from "ethers";
+import { AbstractSigner, Contract } from "ethers";
 import { GnosisUntitledAbi } from "@/abi/GnosisUntitled";
 
 export default function SafeDetails() {
-  const { currentMenuSection, currentSafe, setCurrentSafe, connected, signer } =
-    useContext(AppContext);
+  const {
+    account,
+    currentMenuSection,
+    currentSafe,
+    setCurrentSafe,
+    connected,
+    signer,
+  } = useContext(AppContext);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [txs, setTxs] = useState<GnosisTransaction[]>([]);
-  const [quorum, setQuorum] = useState<number>([]);
+  const [history, setHistory] = useState<GnosisTransaction[]>([]);
+  const [quorum, setQuorum] = useState<number>();
   const { query } = useRouter();
 
   useEffect(() => {
@@ -53,9 +60,14 @@ export default function SafeDetails() {
           (await tempContract.getTransactionCount()) as BigInt
         );
         const tempTxs: GnosisTransaction[] = [];
+        const tempHistory: GnosisTransaction[] = [];
 
         for (let i = 0; i < txCount; i++) {
           const tx = await tempContract.getTransaction(BigInt(i));
+          const isConfirmedByUser = await tempContract.isConfirmed(
+            BigInt(i),
+            account
+          );
           const newTx: GnosisTransaction = {
             id: i,
             to: tx[0],
@@ -65,10 +77,17 @@ export default function SafeDetails() {
             numConfirmations: tx[4],
             type: Number(tx[5]),
             date: new Date(Number(tx[6]) * 1000),
+            isConfirmedByUser,
           };
-          tempTxs.push(newTx);
+          if (!newTx.executed) {
+            tempTxs.push(newTx);
+            continue;
+          }
+
+          tempHistory.push(newTx);
         }
         setTxs(tempTxs);
+        setHistory(tempHistory);
       } catch (e) {
         setErrorMessage("Unknown error");
         console.error(e);
@@ -76,8 +95,12 @@ export default function SafeDetails() {
     })();
   }, [query, connected, signer]);
 
+
+
   const sectionsMap: { [key: string]: JSX.Element } = {
-    Transactions: <Transactions quorum={quorum} txs={txs} />,
+    Transactions: (
+      <Transactions quorum={quorum ?? 1} txs={txs} history={history} />
+    ),
     Setup: <Setup />,
     Assets: <Assets />,
   };

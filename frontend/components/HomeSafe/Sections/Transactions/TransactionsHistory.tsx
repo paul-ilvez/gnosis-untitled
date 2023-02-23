@@ -2,7 +2,19 @@ import { Grid, Spacer } from "@nextui-org/react";
 import TransactionsHistoryElement from "./TransactionsHistoryElement";
 import transactionsHistory from "@/mocks/transactionsHistory";
 
-export default function TransactionsHistory() {
+export default function TransactionsHistory({
+  history,
+}: {
+  history: GnosisTransaction[];
+}) {
+  function getIcon(tx: GnosisTransaction): string {
+    if (tx.type == 1) {
+      return "/SentIcon.svg";
+    }
+
+    return "/ReceivedIcon.svg";
+  }
+
   return (
     <Grid.Container direction="column" justify="center" alignItems="center">
       <Spacer y={2} />

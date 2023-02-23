@@ -22,6 +22,7 @@ declare global {
     numConfirmations: BigInt;
     date: Date;
     type: TxType;
+    isConfirmedByUser: boolean;
   };
 
   type SafeFactory = SF;

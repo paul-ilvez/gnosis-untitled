@@ -68,6 +68,9 @@ export const AppContext = createContext({
 
   handleConnectMetamaskClick: () => {},
   handleDisconnectMetamask: () => {},
+  handleApproveTx: (_safe: GnosisUntitled, txId: number) => {},
+  handleRevokeConfirmation: (_safe: GnosisUntitled, txId: number) => {},
+  handleExecuteTx: (_safe: GnosisUntitled, txId: number) => {},
 }); //--------------AppContex------------------------
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
@@ -170,6 +173,27 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     sessionStorage.removeItem("login");
   };
 
+  async function handleApproveTx(
+    safe: GnosisUntitled,
+    txId: number
+  ): Promise<any> {
+    return await safe.confirmTransaction(BigInt(txId));
+  }
+
+  async function handleRevokeConfirmation(
+    safe: GnosisUntitled,
+    txId: number
+  ): Promise<any> {
+    return await safe.revokeConfirmation(BigInt(txId));
+  }
+
+  async function handleExecuteTx(
+    safe: GnosisUntitled,
+    txId: number
+  ): Promise<any> {
+    return await safe.executeTransaction(BigInt(txId));
+  }
+
   const context = {
     network,
     setNetwork,
@@ -197,6 +221,9 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     handleDisconnectMetamask,
     currentSafe,
     setCurrentSafe,
+    handleApproveTx,
+    handleRevokeConfirmation,
+    handleExecuteTx,
   };
 
   useEffect(() => {
