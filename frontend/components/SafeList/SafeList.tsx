@@ -4,7 +4,8 @@ import {
   Card,
   Text,
   Button,
-  Collapse, Spacer,
+  Collapse,
+  Spacer,
 } from "@nextui-org/react";
 import { SafeListProps } from "@/components/SafeList/SafeList.props";
 import VectorSvg from "./vector.svg";
@@ -24,10 +25,15 @@ export const SafeList = ({
   const { account } = useContext(AppContext);
 
   useEffect(() => {
+    if (account == "0x0") {
+      return;
+    }
     (async () => {
       const safes = await getSafes(account);
       const groupedSafes = groupBy("chainId")(safes);
       setMySafes(groupedSafes);
+      console.log({ account });
+      console.log({ safes });
     })();
   }, [account]);
 
