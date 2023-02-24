@@ -10,6 +10,7 @@ import { AppContext } from "@/store/AppContext";
 import { useContext, useEffect, useState } from "react";
 import { AbstractSigner, Contract } from "ethers";
 import { GnosisUntitledAbi } from "@/abi/GnosisUntitled";
+import ErrorModal from "@/components/ErrorModal/ErrorModal";
 
 export default function SafeDetails() {
   const {
@@ -20,7 +21,8 @@ export default function SafeDetails() {
     connected,
     signer,
   } = useContext(AppContext);
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorVisible, setErrorVisible] = useState<boolean>(false);
   const [txs, setTxs] = useState<GnosisTransaction[]>([]);
   const [history, setHistory] = useState<GnosisTransaction[]>([]);
   const [quorum, setQuorum] = useState<number>();
@@ -84,18 +86,42 @@ export default function SafeDetails() {
             continue;
           }
 
+        }
+
+        const filter = tempContract.filters.ExecuteTransaction();
+        const events = await tempContract.queryFilter(filter);
+
+        for (let i = 0; i < events.length; i++) {
+          const txI = events[0].args[1]
+          
+          const tx = await tempContract.getTransaction(txI);
+          const newTx: GnosisTransaction = {
+            id: i,
+            to: tx[0],
+            value: tx[1],
+            data: tx[2],
+            executed: tx[3],
+            numConfirmations: tx[4],
+            type: Number(tx[5]),
+            date: new Date(Number(tx[6]) * 1000),
+            isConfirmedByUser: true,
+            txHash: events[0].transactionHash,
+            safeHash: events[0].blockHash
+          };
+
           tempHistory.push(newTx);
         }
+
+        
         setTxs(tempTxs);
         setHistory(tempHistory);
       } catch (e) {
-        setErrorMessage("Unknown error");
+        setErrorMessage("Uncorrect safe data. Try change need network.");
+        setErrorVisible(true);
         console.error(e);
       }
     })();
   }, [query, connected, signer]);
-
-
 
   const sectionsMap: { [key: string]: JSX.Element } = {
     Transactions: (
@@ -109,17 +135,17 @@ export default function SafeDetails() {
     <Layout>
       <Grid.Container
         css={{ mt: "40px" }}
-        justify="center"
         alignItems="flex-start"
       >
         <Grid xs={5} md={5} alignItems="center" justify="flex-end">
           <HomeSafeMenu />
         </Grid>
-        <Spacer x={1.85} />
+        <Spacer x={0.5} />
         <Grid xs={5} md={5} direction="column" justify="center">
           {sectionsMap[currentMenuSection.title]}
         </Grid>
       </Grid.Container>
+      {errorVisible && <ErrorModal errorMessage={errorMessage} />}
     </Layout>
   );
 }

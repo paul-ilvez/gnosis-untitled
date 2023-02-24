@@ -174,7 +174,6 @@ const SetOwners = () => {
                 min={1}
                 max={newSafeForm.owners.length}
                 status={error && !newSafeForm.quorum ? "error" : ""}
-                placeholder={1}
                 value={newSafeForm.quorum}
                 onChange={(e) =>
                   setNewSafeForm({ ...newSafeForm, quorum: e.target.value })

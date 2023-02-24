@@ -13,9 +13,10 @@ import AccountCard from "@/components/Common/AccountCard";
 import { AppContext } from "@/store/AppContext";
 
 const Review = () => {
-  const { setCreateSafeStatusHandler, newSafeForm, safeFactory } =
+  const { setCreateSafeStatusHandler, newSafeForm, network } =
     useContext(AppContext);
-  const { owners, name, network, quorum } = newSafeForm;
+  const { owners, name, quorum } = newSafeForm;
+
 
   return (
     <Grid.Container gap={2} css={{ mt: 40 }} justify="center">

@@ -35,7 +35,7 @@ export default function Transactions({
   return (
     <Card
       variant="bordered"
-      css={{ minHeight: "499px", mw: "522px", borderRadius: "39px" }}
+      css={{ minHeight: "499px", mw: "720px", borderRadius: "39px" }}
     >
       <Card.Header>
         <Spacer y={2} />

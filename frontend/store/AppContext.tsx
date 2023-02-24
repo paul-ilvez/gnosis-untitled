@@ -59,7 +59,7 @@ export const AppContext = createContext({
     name: "",
     network: undefinedNetwork,
     owners: [],
-    quorum: "",
+    quorum: "1",
   },
   setNewSafeForm: (_form: NewSafeForm) => {},
 
@@ -85,7 +85,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     name: "",
     network: undefinedNetwork,
     owners: [],
-    quorum: "",
+    quorum: "1",
   });
 
   const [currentMenuSection, setCurrentMenuSection] = useState({

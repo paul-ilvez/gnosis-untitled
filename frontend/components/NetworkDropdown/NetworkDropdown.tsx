@@ -5,6 +5,7 @@ import { Network, networks } from "@/components/SafeList/Networks";
 
 const NetworkDropdown = () => {
   const { network, setNetwork } = useContext<AppContextData>(AppContext);
+  
 
   const changeNetwork = (networkItem: Network) => {
     const newNetwork = networks.find((item) => {
