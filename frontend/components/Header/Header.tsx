@@ -73,15 +73,13 @@ const Header = ({
                         <Avatar
                           color="secondary"
                           textColor="white"
-                          text="Bob"
+                          text="You"
                           size="sm"
                         />
                         <div>
                           <Text size="$md" b>
                             &nbsp;{" "}
-                            {appCtx.network.shortName +
-                              ": " +
-                              appCtx.account?.toString().slice(0, 5) +
+                            {appCtx.account?.toString().slice(0, 5) +
                               "..." +
                               appCtx.account?.toString().slice(38)}
                           </Text>
