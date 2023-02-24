@@ -2,6 +2,7 @@ import Layout from "@/components/Layout/Layout";
 import { SafeList } from "@/components";
 import { Button, Col, Container, Row, Spacer, Text } from "@nextui-org/react";
 
+
 import NextLink from "next/link";
 
 export default function Home() {
@@ -21,8 +22,8 @@ export default function Home() {
               weight="normal"
               css={{ lineHeight: "$sm", textAlign: "center" }}
             >
-              The trusted decentralized custody protocol and collective
-              asset management platform.
+              The trusted decentralized custody protocol and collective asset
+              management platform.
             </Text>
             <Spacer />
 
@@ -34,20 +35,13 @@ export default function Home() {
               </NextLink>
             </Row>
             <Spacer />
-            {/*<Row justify={"center"}>*/}
-            {/*  <Link href="/load-safe">*/}
-            {/*    <Button color="secondary" css={{ w: "362px", h: "40px" }}>*/}
-            {/*      Add existing Safe.*/}
-            {/*    </Button>*/}
-            {/*  </Link>*/}
-            {/*</Row>*/}
-
             <Spacer />
             <Row justify={"center"}>
               <SafeList bgColor="#EFEFEF" title="My Safes" />
             </Row>
           </Col>
         </Row>
+
       </Container>
     </Layout>
   );

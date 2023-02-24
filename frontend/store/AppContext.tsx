@@ -81,7 +81,7 @@ export const AppContext = createContext({
   handleDisconnectMetamask: () => {},
   handleApproveTx: (_safe: GnosisUntitled, txId: number) => {},
   handleRevokeConfirmation: (_safe: GnosisUntitled, txId: number) => {},
-  handleExecuteTx: (_safe: GnosisUntitled, txId: number) => {},
+  handleExecuteTx: (_safe: GnosisUntitled, txId: number) => {},g
 }); //--------------AppContex------------------------
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
