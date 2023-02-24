@@ -195,7 +195,7 @@ const ModalReview = ({
       >
         <Modal.Header>
           <Text b size={18}>
-            Transaction is successfully send!
+            Transaction is successfully sent!
           </Text>
         </Modal.Header>
       </Modal>
