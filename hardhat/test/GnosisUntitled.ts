@@ -91,7 +91,7 @@ describe("GnosisUntitled", function () {
   it("check safe created with correct state", async () => {
     const { users, gnosisSafe } = await loadFixture(deployWithSafe);
     const [user1, user2, user3, user4] = users;
-    expect(await gnosisSafe.signerCount()).to.eq(3);
+    expect(await gnosisSafe.getSignerCount()).to.eq(3);
     expect(await gnosisSafe.quorum()).to.eq(2);
 
     expect(await gnosisSafe.isSigner(user1.address)).to.eq(true);

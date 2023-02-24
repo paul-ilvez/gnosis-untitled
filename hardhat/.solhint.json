@@ -1,0 +1,20 @@
+{
+  "extends": "solhint:recommended",
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "avoid-suicide": "error",
+    "avoid-sha3": "warn",
+    "ordering": "warn",
+    "mark-callable-contracts": "off",
+    "compiler-version": [
+      "error",
+      "0.8.19"
+    ],
+    "reason-string": [
+      "off"
+    ],
+    "prettier/prettier": "warn"
+  }
+}

@@ -13,9 +13,13 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
-      name: "Gnosis_Old",
+      name: "Ownable",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Gnosis_Old__factory>;
+    ): Promise<Contracts.Ownable__factory>;
+    getContractFactory(
+      name: "Pausable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Pausable__factory>;
     getContractFactory(
       name: "GnosisUntitled",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -26,10 +30,15 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.SafeFactory__factory>;
 
     getContractAt(
-      name: "Gnosis_Old",
+      name: "Ownable",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.Gnosis_Old>;
+    ): Promise<Contracts.Ownable>;
+    getContractAt(
+      name: "Pausable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Pausable>;
     getContractAt(
       name: "GnosisUntitled",
       address: string,
