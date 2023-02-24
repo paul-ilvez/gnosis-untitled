@@ -54,8 +54,6 @@ const Header = ({
             <Link href="/">
               <Navbar.Brand
                 onClick={() => {
-                  console.log(logoClickedCounter);
-
                   incrementLogoClickedCounter();
                 }}
               >

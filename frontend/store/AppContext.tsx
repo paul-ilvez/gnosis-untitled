@@ -137,8 +137,6 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   function incrementLogoClickedCounter() {
     _setLogoClickedCounter((state) => {
-      console.log("here");
-
       return state + 1;
     });
   }
