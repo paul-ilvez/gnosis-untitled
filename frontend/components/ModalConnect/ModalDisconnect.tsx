@@ -4,6 +4,7 @@ import Jazzicon from "react-jazzicon/dist/Jazzicon";
 import { jsNumberForAddress } from "react-jazzicon";
 import ButtonDisconnectMetamask from "../ButtonConnect/ButtonDisconnectMetamask";
 import { AppContext } from "@/store/AppContext";
+import LinkAndCopy from "../Common/LinkAndCopy";
 
 const ModalDisconnect = ({
   handleDisconnectMetamaskClick,
@@ -27,12 +28,15 @@ const ModalDisconnect = ({
       <Modal.Body>
         <Card variant="bordered">
           <Card.Body css={{ padding: "$2" }}>
-            <Text>
+            <Row justify='space-between'>
+            <Text size={"$sm"}>
               {`${network.shortName}: ` +
                 account?.toString().slice(0, 10) +
                 "..." +
                 account?.toString().slice(38)}
             </Text>
+            <LinkAndCopy address={account} />
+            </Row>
           </Card.Body>
         </Card>
         <Row justify="flex-start" align="center">

@@ -124,7 +124,7 @@ var ModalSendToken = function (_a) {
                             react_1["default"].createElement(Jazzicon_1["default"], { diameter: 40, seed: react_jazzicon_1.jsNumberForAddress(contractAddress) })),
                         react_1["default"].createElement(react_2.Row, null,
                             react_1["default"].createElement(react_2.Text, { size: "$xs", css: { textAlign: "left", marginLeft: "20px" } },
-                                react_1["default"].createElement("b", null, "Test"),
+                                react_1["default"].createElement("b", null, "Bob"),
                                 react_1["default"].createElement("br", null),
                                 react_1["default"].createElement(react_2.Text, { b: true, css: { mr: "5px" } },
                                     shortName,
@@ -156,8 +156,8 @@ var ModalSendToken = function (_a) {
                         react_1["default"].createElement(react_2.Row, null))) : null),
                 react_1["default"].createElement(react_2.Card.Divider, null),
                 react_1["default"].createElement(react_2.Modal.Footer, { justify: "space-between" },
-                    react_1["default"].createElement(react_2.Button, { css: { width: "100px", background: "#fff" }, color: "#000", onClick: closeHandler, auto: true }, "Cancel"),
-                    react_1["default"].createElement("button", { style: {
+                    react_1["default"].createElement(react_2.Button, { css: { width: "100px", background: "#fff" }, color: "#000", onPress: closeHandler, auto: true }, "Cancel"),
+                    react_1["default"].createElement(react_2.Button, { type: "submit", style: {
                             background: "#000",
                             color: "#fff",
                             width: "100px",

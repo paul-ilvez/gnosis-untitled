@@ -124,7 +124,7 @@ const ModalSendToken = ({
                   size={"$xs"}
                   css={{ textAlign: "left", marginLeft: "20px" }}
                 >
-                  <b>Test</b>
+                  <b>Bob</b>
                   <br />
                   <Text b css={{ mr: "5px" }}>
                     {shortName}:
@@ -194,7 +194,8 @@ const ModalSendToken = ({
             >
               Cancel
             </Button>
-            <button
+            <Button
+            type="submit"
               style={{
                 background: "#000",
                 color: "#fff",
@@ -206,7 +207,7 @@ const ModalSendToken = ({
               }}
             >
               Next
-            </button>
+            </Button>
           </Modal.Footer>
         </form>
       </Modal>
