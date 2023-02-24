@@ -33,7 +33,7 @@ export const SafeList = ({
       const groupedSafes = groupBy("chainId")(safes);
       setMySafes(groupedSafes);
       console.log({ account });
-      console.log({ safes });
+      console.log({ safes });``
     })();
   }, [account]);
 
