@@ -46,9 +46,10 @@ var ModalReview = function (_a) {
     var visible = _a.visible, closeHandler = _a.closeHandler, addressFrom = _a.addressFrom, shortName = _a.shortName;
     var _b = react_1.useState("0x0"), recipient = _b[0], setRecipient = _b[1];
     var _c = react_1.useState(false), isLoad = _c[0], setLoad = _c[1];
-    var _d = react_1.useContext(AppContext_1.AppContext), provider = _d.provider, connected = _d.connected, currentSafe = _d.currentSafe, signer = _d.signer, valueTransfer = _d.valueTransfer;
+    var _d = react_1.useState(false), success = _d[0], setSuccess = _d[1];
+    var _e = react_1.useContext(AppContext_1.AppContext), provider = _e.provider, connected = _e.connected, currentSafe = _e.currentSafe, signer = _e.signer, valueTransfer = _e.valueTransfer;
     var handleSendTransactionForm = function (event) { return __awaiter(void 0, void 0, void 0, function () {
-        var tx, error_1;
+        var tx, response, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -56,70 +57,82 @@ var ModalReview = function (_a) {
                     console.log("Current Safe >>>", currentSafe);
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 3, 4, 5]);
+                    _a.trys.push([1, 4, 5, 6]);
                     setLoad(true);
                     console.log("Transaction >>>", valueTransfer.recipient, valueTransfer.amount);
                     return [4 /*yield*/, currentSafe.submitValueTransfer(valueTransfer.recipient, ethers_1.ethers.parseEther(valueTransfer.amount))];
                 case 2:
                     tx = _a.sent();
-                    tx.wait();
-                    return [3 /*break*/, 5];
+                    return [4 /*yield*/, tx.wait()];
                 case 3:
+                    response = _a.sent();
+                    return [3 /*break*/, 6];
+                case 4:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    return [3 /*break*/, 5];
-                case 4:
-                    setLoad(false);
-                    closeHandler();
+                    return [3 /*break*/, 6];
+                case 5:
+                    setSuccess(true);
+                    setTimeout(function () {
+                        setLoad(false);
+                        setSuccess(false);
+                        closeHandler();
+                    }, 5000);
                     return [7 /*endfinally*/];
-                case 5: return [2 /*return*/];
+                case 6: return [2 /*return*/];
             }
         });
     }); };
-    return (react_1["default"].createElement(react_2.Modal, { closeButton: true, "aria-labelledby": "modal-title", open: visible, onClose: closeHandler, width: "500px" },
-        react_1["default"].createElement("form", { onSubmit: handleSendTransactionForm },
-            react_1["default"].createElement(react_2.Modal.Header, { justify: "flex-start" },
-                react_1["default"].createElement(react_2.Text, { weight: "bold" }, "Rewiew transaction"),
-                react_1["default"].createElement(react_2.Text, { size: "$xs", css: { marginLeft: "20px" } }, "step 2 out of 2")),
-            react_1["default"].createElement(react_2.Card.Divider, null),
-            react_1["default"].createElement(react_2.Modal.Body, { css: { textAlign: "center" } },
-                react_1["default"].createElement(react_2.Row, null,
-                    react_1["default"].createElement(react_2.Text, null,
-                        "Amount transfer: ",
-                        react_1["default"].createElement("b", null, valueTransfer.amount))),
-                react_1["default"].createElement(react_2.Row, null,
-                    react_1["default"].createElement(react_2.Text, { size: "$sm", css: { textAlign: "left" } }, "Sending From:")),
-                react_1["default"].createElement(react_2.Row, { justify: "space-between" },
-                    react_1["default"].createElement(react_2.Row, { css: { width: "40px" } }, addressFrom ? (react_1["default"].createElement(Jazzicon_1["default"], { diameter: 40, seed: react_jazzicon_1.jsNumberForAddress(addressFrom) })) : null),
+    return (react_1["default"].createElement(react_1["default"].Fragment, null,
+        react_1["default"].createElement(react_2.Modal, { closeButton: true, "aria-labelledby": "modal-title", open: visible, onClose: closeHandler, width: "500px" },
+            react_1["default"].createElement("form", { onSubmit: handleSendTransactionForm },
+                react_1["default"].createElement(react_2.Modal.Header, { justify: "flex-start" },
+                    react_1["default"].createElement(react_2.Text, { weight: "bold" }, "Rewiew transaction"),
+                    react_1["default"].createElement(react_2.Text, { size: "$xs", css: { marginLeft: "20px" } }, "step 2 out of 2")),
+                react_1["default"].createElement(react_2.Card.Divider, null),
+                react_1["default"].createElement(react_2.Modal.Body, { css: { textAlign: "center" } },
                     react_1["default"].createElement(react_2.Row, null,
-                        react_1["default"].createElement(react_2.Text, { size: "$xs", css: { textAlign: "left", marginLeft: "20px" } },
-                            react_1["default"].createElement("b", null, "Test"),
-                            react_1["default"].createElement("br", null),
-                            shortName,
-                            ": ",
-                            addressFrom))),
-                react_1["default"].createElement(react_2.Row, null,
-                    react_1["default"].createElement(react_2.Text, { size: "$sm", css: { textAlign: "left" } }, "Recipient:")),
-                react_1["default"].createElement(react_2.Row, { justify: "space-between" },
-                    react_1["default"].createElement(react_2.Row, { css: { width: "40px" } }, recipient ? (react_1["default"].createElement(Jazzicon_1["default"], { diameter: 40, seed: react_jazzicon_1.jsNumberForAddress(recipient) })) : null),
+                        react_1["default"].createElement(react_2.Text, null,
+                            "Amount transfer: ",
+                            react_1["default"].createElement("b", null, valueTransfer.amount))),
                     react_1["default"].createElement(react_2.Row, null,
-                        react_1["default"].createElement(react_2.Text, { size: "$xs", css: { textAlign: "left", marginLeft: "20px" } },
-                            react_1["default"].createElement("b", null, "Test"),
-                            react_1["default"].createElement("br", null),
-                            shortName,
-                            ": ",
-                            valueTransfer.recipient)))),
-            react_1["default"].createElement(react_2.Card.Divider, null),
-            react_1["default"].createElement(react_2.Modal.Footer, { justify: "space-between" },
-                react_1["default"].createElement(react_2.Button, { css: { width: "100px", background: "#fff" }, color: "#000", onClick: closeHandler, auto: true }, "Back"),
-                react_1["default"].createElement(react_2.Button, { disabled: isLoad, type: "submit", style: {
-                        background: "#000",
-                        color: "#fff",
-                        width: "100px",
-                        height: "35px",
-                        maxWidth: "260px",
-                        borderRadius: "10px",
-                        cursor: "pointer"
-                    } }, "Submit")))));
+                        react_1["default"].createElement(react_2.Text, { size: "$sm", css: { textAlign: "left" } }, "Sending From:")),
+                    react_1["default"].createElement(react_2.Row, { justify: "space-between" },
+                        react_1["default"].createElement(react_2.Row, { css: { width: "40px" } }, addressFrom ? (react_1["default"].createElement(Jazzicon_1["default"], { diameter: 40, seed: react_jazzicon_1.jsNumberForAddress(addressFrom) })) : null),
+                        react_1["default"].createElement(react_2.Row, null,
+                            react_1["default"].createElement(react_2.Text, { size: "$xs", css: { textAlign: "left", marginLeft: "20px" } },
+                                react_1["default"].createElement("b", null, "Test"),
+                                react_1["default"].createElement("br", null),
+                                shortName,
+                                ": ",
+                                addressFrom))),
+                    react_1["default"].createElement(react_2.Row, null,
+                        react_1["default"].createElement(react_2.Text, { size: "$sm", css: { textAlign: "left" } }, "Recipient:")),
+                    react_1["default"].createElement(react_2.Row, { justify: "space-between" },
+                        react_1["default"].createElement(react_2.Row, { css: { width: "40px" } }, recipient ? (react_1["default"].createElement(Jazzicon_1["default"], { diameter: 40, seed: react_jazzicon_1.jsNumberForAddress(recipient) })) : null),
+                        react_1["default"].createElement(react_2.Row, null,
+                            react_1["default"].createElement(react_2.Text, { size: "$xs", css: { textAlign: "left", marginLeft: "20px" } },
+                                react_1["default"].createElement("b", null, "Test"),
+                                react_1["default"].createElement("br", null),
+                                shortName,
+                                ": ",
+                                valueTransfer.recipient)))),
+                react_1["default"].createElement(react_2.Card.Divider, null),
+                react_1["default"].createElement(react_2.Modal.Footer, { justify: "space-between" },
+                    react_1["default"].createElement(react_2.Button, { css: { width: "100px", background: "#fff" }, color: "#000", onClick: closeHandler, auto: true }, "Back"),
+                    isLoad ? (react_1["default"].createElement(react_2.Grid, null,
+                        react_1["default"].createElement(react_2.Loading, { type: "points" }))) : null,
+                    react_1["default"].createElement(react_2.Button, { disabled: isLoad, type: "submit", style: {
+                            background: "#000",
+                            color: "#fff",
+                            width: "100px",
+                            height: "35px",
+                            maxWidth: "260px",
+                            borderRadius: "10px",
+                            cursor: "pointer"
+                        } }, "Submit")))),
+        react_1["default"].createElement(react_2.Modal, { animated: true, "aria-labelledby": "modal-title", open: success, onClose: closeHandler, css: { backgroundColor: "#7FFFD4" }, blur: true },
+            react_1["default"].createElement(react_2.Modal.Header, null,
+                react_1["default"].createElement(react_2.Text, { b: true, size: 18 }, "Transaction is successfully send!")))));
 };
 exports["default"] = ModalReview;
