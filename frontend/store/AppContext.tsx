@@ -23,7 +23,7 @@ export type NewSafeForm = {
   name: string;
   network: Network;
   owners: FormOwners[];
-  quorum: string;
+  quorum: number;
 };
 
 export type CurrentMenuSection = {
@@ -60,7 +60,7 @@ export const AppContext = createContext({
     name: "",
     network: undefinedNetwork,
     owners: [],
-    quorum: "",
+    quorum: 1,
   },
   setNewSafeForm: (_form: NewSafeForm) => {},
 
@@ -86,7 +86,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     name: "",
     network: undefinedNetwork,
     owners: [],
-    quorum: "",
+    quorum: 1,
   });
 
   const router = useRouter();
