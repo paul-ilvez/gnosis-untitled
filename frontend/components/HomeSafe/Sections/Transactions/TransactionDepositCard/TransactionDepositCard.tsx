@@ -19,11 +19,21 @@ const TransactionDepositCard = ({
     <>
       <Card variant="shadow">
         <Card.Header css={{ cursor: "pointer" }} onClick={() => setOpen(!open)}>
-          <Row justify="space-between" align="center" wrap="nowrap">
+          <Row align="center" wrap="nowrap">
+            <Spacer y={2} />
+            <Grid justify="center" direction="column">
+              <Image
+                width={16}
+                height={16}
+                src="/ReceivedIcon.svg"
+                alt="ReceivedIcon"
+              />
+            </Grid>
+            <Spacer y={2} />
             <Row align="center">
-              <Image src="/ReceivedIcon.svg" alt="ReceivedIcon" />
-              <Text css={{ width: "120px" }}> Received</Text>
-              <Spacer y={1} />
+              <Text b>&nbsp;</Text>
+              <Text css={{ width: "80px" }}> Received</Text>
+              <Spacer y={3} />
               <Text>+{value} ETH</Text>
             </Row>
             <Spacer y={2} />
