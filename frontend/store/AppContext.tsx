@@ -43,7 +43,7 @@ export const AppContext = createContext({
   connected: false,
   setConnected: (_connected: boolean) => {},
   provider: undefined,
-  setProvider: (_provider: AbstractProvider) => {},
+  setProvider: (_provider: BrowserProvider) => {},
   signer: undefined,
   setSigner: (_signer: AbstractSigner) => {},
   isEthereum: false,
