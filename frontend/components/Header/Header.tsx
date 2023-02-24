@@ -15,6 +15,8 @@ import ModalConnect from "../ModalConnect/ModalConnect";
 import Link from "next/link";
 import NetworkDropdown from "@/components/NetworkDropdown/NetworkDropdown";
 import { AppContext } from "@/store/AppContext";
+import { jsNumberForAddress } from "react-jazzicon";
+import Jazzicon from "react-jazzicon/dist/Jazzicon";
 
 const Header = ({
   setVisibleConnect,
@@ -80,12 +82,7 @@ const Header = ({
                         color="gray"
                         onPress={handlerModalDisconnect}
                       >
-                        <Avatar
-                          color="secondary"
-                          textColor="white"
-                          text="You"
-                          size="sm"
-                        />
+                      <Jazzicon diameter={30}   seed={jsNumberForAddress(appCtx.account)} /> 
                         <div>
                           <Text size="$md" b>
                             &nbsp;{" "}
