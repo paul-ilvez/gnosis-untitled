@@ -43,7 +43,7 @@ export const networks: Network[] = [
   {
     chaindId: 80001,
     name: "Mumbai",
-    factoryContractAddress: "",
+    factoryContractAddress: "0xFa19705AB3BCf9B85B3aE5cf834CbB420fccFb30",
     symbol: "MATIC",
     shortName: "mum",
   },

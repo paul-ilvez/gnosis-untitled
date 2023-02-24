@@ -39,6 +39,13 @@ const config: HardhatUserConfig = {
       chainId: 11155111,
       accounts: [process.env.PRIVATE_KEY!],
     },
+    mumbai: {
+      // url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
+      url: "https://rpc-mumbai.maticvigil.com",
+      gasPrice: 875000000,
+      chainId: 80001,
+      accounts: [process.env.PRIVATE_KEY!],
+    },
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
