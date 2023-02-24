@@ -68,7 +68,7 @@ const Header = ({
                       <Button
                         size="lg"
                         color="gray"
-                        onClick={handlerModalDisconnect}
+                        onPress={handlerModalDisconnect}
                       >
                         <Avatar
                           color="secondary"
@@ -109,7 +109,7 @@ const Header = ({
                     icon={lockIcon}
                     flat
                     color="gray"
-                    onClick={handleConnectMetamaskClick}
+                    onPress={handleConnectMetamaskClick}
                   >
                     <Text color="error">Connect Wallet</Text>
                   </Button>
