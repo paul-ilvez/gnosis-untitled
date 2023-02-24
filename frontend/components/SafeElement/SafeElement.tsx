@@ -34,9 +34,9 @@ export const SafeElement = (safe: SafeElementProps): JSX.Element => {
               </Text>
               <Text span>{getShortAddress(address)}</Text>
             </Grid>
-            <Badge>
-              {formatEther(BigInt(balance))} {symbol.toUpperCase()}
-            </Badge>
+            {/*<Badge>*/}
+            {/*  {formatEther(BigInt(balance))} {symbol.toUpperCase()}*/}
+            {/*</Badge>*/}
 
             <Grid.Container justify={"center"} css={{ w: "10px" }}>
               <MenuBtn />

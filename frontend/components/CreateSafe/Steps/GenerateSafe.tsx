@@ -10,9 +10,10 @@ type StateLoadType = "idle" | "fetch" | "validate" | "processing" | "ready";
 
 const GenerateSafe = () => {
   const [stateLoad, setStateLoad] = useState("idle");
-  const { newSafeForm, safeFactory } = useContext(AppContext);
+  const { newSafeForm, safeFactory, provider } = useContext(AppContext);
   const { owners, quorum } = newSafeForm;
   const [safeAddr, setSafeAddr] = useState<string>("");
+
 
   useEffect(()=>{
 
@@ -31,12 +32,16 @@ const GenerateSafe = () => {
       setStateLoad("fetch");
 
       const tx = await safeFactory.createSafe(addresses, quorum);
+      const { chainId } = await provider.getNetwork()
 
       safeFactory.on(
         "SafeCreated",
         (from: string, to: string, value: number) => {
           setSafeAddr(from);
-          createSafeDb({owners: newSafeForm.owners, chainId: "11155111", quorum: newSafeForm.quorum, address: from })
+          const owners = newSafeForm.owners.map(owner => {
+            return {...owner, address: owner.address.toLowerCase()}
+          })
+          createSafeDb({owners, chainId: Number(chainId), quorum: newSafeForm.quorum, address: from })
             .then(()=>{console.log('safe created')})
         }
       );

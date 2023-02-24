@@ -16,25 +16,36 @@ const getSafes = async (address) => {
 }
 
 const  createSafeDb = async (safe) => {
-  console.log(safe)
-  const {address, chainId, quorum, signers} = safe
+  const {address, chainId, quorum, owners} = safe
+
   const qs = process.env.api + '/safes';
-  //проверить есть сигнерсы в базе и если есть - взять их id?
-  //если кого-то нет - создать
 
-
-  const body = {
-    data: {
-      address,
-      name: "Без имени",
-      chainId,
-      // signers: [
-      //   "string or id",
-      //   "string or id"
-      // ]
+  const signersIds = owners.map( async (owner) => {
+    const id = await getOwner(owner.address)
+    if (id) {
+      return id
+    } else {
+      const id = await createOwner(owner.address)
+      return id
     }
-  }
-  await ky.post(qs, {json: body})
+  })
+
+  await Promise.all(signersIds).then(async (data) => {
+    const body = {
+      data: {
+        address,
+        name: "Без имени",
+        chainId: String(chainId),
+        quorum,
+        signers: data.map(id=>{
+          return {id}
+        })
+      }
+    }
+    await ky.post(qs, {json: body})
+  })
+
+
 }
 
 const getSafe = async (address) => {
@@ -43,6 +54,29 @@ const getSafe = async (address) => {
   const tempSafe = result.data[0].attributes
   const safe = {...tempSafe, signers: tempSafe.signers.data.map(el=> el.attributes)}
   return safe
+}
+
+const getOwner = async (address: string) => {
+  const qs = process.env.api + `/owners?fields[0]=address&filters[address][$eq]=${address}`;
+  const result = await ky.get(qs).json()
+
+  if (result?.data?.length > 0) {
+    return  result.data[0].id
+  }
+  return null
+}
+
+const createOwner = async (address: string) => {
+  const qs = process.env.api + '/owners';
+  const body = {
+    data: {
+      address
+    }
+  }
+
+  await ky.post(qs, {json: body})
+  const id = await getOwner(address)
+  return id
 }
 
 export {getSafe, getSafes, createSafeDb }
