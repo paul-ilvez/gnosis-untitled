@@ -18,7 +18,7 @@ export default function ErrorModal({
               Error
             </Text>
             <Spacer />
-            <Text size={18}>{errorMessage}</Text>
+            <Text css={{ textAlign: "left" }} size={16}>{errorMessage}</Text>
           </Col>
         </Modal.Header>
         <Modal.Footer>
