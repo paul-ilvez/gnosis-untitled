@@ -6,12 +6,7 @@ import type { Network } from "@/components/SafeList/Networks";
 import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { FormOwners } from "@/components/LoadSafe/Steps/SetOwners";
-import {
-  AbstractProvider,
-  AbstractSigner,
-  BrowserProvider,
-  Contract,
-} from "ethers";
+import { AbstractSigner, BrowserProvider, Contract } from "ethers";
 import { SafeFactoryAbi } from "@/abi/SafeFactory";
 import { useRouter } from "next/router";
 
@@ -82,6 +77,8 @@ export const AppContext = createContext({
   handleApproveTx: (_safe: GnosisUntitled, txId: number) => {},
   handleRevokeConfirmation: (_safe: GnosisUntitled, txId: number) => {},
   handleExecuteTx: (_safe: GnosisUntitled, txId: number) => {},
+  logoClickedCounter: 0,
+  incrementLogoClickedCounter: () => {},
 }); //--------------AppContex------------------------
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
@@ -90,6 +87,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   const [isEthereum, _setIsEthereum] = useState(false);
   const [safeFactory, _setSafeFactory] = useState<SafeFactory>();
   const [connected, _setConnected] = useState(false);
+  const [logoClickedCounter, _setLogoClickedCounter] = useState(0);
   const [provider, _setProvider] = useState<BrowserProvider>();
   const [signer, _setSigner] = useState<AbstractSigner>();
   const [newSafeForm, _setNewSafeForm] = useState({
@@ -135,6 +133,14 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   function setSafeFactory(_contract: SafeFactory) {
     _setSafeFactory(_contract as SafeFactory);
+  }
+
+  function incrementLogoClickedCounter() {
+    _setLogoClickedCounter((state) => {
+      console.log("here");
+
+      return state + 1;
+    });
   }
 
   function setProvider(_provider: BrowserProvider) {
@@ -261,6 +267,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     handleApproveTx,
     handleRevokeConfirmation,
     handleExecuteTx,
+    logoClickedCounter,
+    incrementLogoClickedCounter,
   };
 
   useEffect(() => {

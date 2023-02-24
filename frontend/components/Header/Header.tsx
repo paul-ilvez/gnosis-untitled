@@ -26,7 +26,13 @@ const Header = ({
   const [variant, setVariant] = useState("static");
   const variants = ["static", "floating", "sticky"];
   const appCtx = useContext(AppContext);
-  const { handleConnectMetamaskClick, isEthereum, handleDisconnectMetamask } = appCtx;
+  const {
+    handleConnectMetamaskClick,
+    isEthereum,
+    handleDisconnectMetamask,
+    logoClickedCounter,
+    incrementLogoClickedCounter,
+  } = appCtx;
 
   const handleCloseModalConnect = () => {
     setVisibleConnect(false);
@@ -46,7 +52,13 @@ const Header = ({
         <Grid.Container justify={"space-between"}>
           <Grid xs={4}>
             <Link href="/">
-              <Navbar.Brand>
+              <Navbar.Brand
+                onClick={() => {
+                  console.log(logoClickedCounter);
+
+                  incrementLogoClickedCounter();
+                }}
+              >
                 <Image width={85} height={50} src="/logo.svg" alt="logo" />
               </Navbar.Brand>
             </Link>
@@ -96,9 +108,7 @@ const Header = ({
                     <Popover.Content>
                       <ModalDisconnect
                         account={appCtx.account}
-                        handleDisconnectMetamaskClick={
-                          handleDisconnectMetamask
-                        }
+                        handleDisconnectMetamaskClick={handleDisconnectMetamask}
                         networkName={appCtx.network.name}
                       />
                     </Popover.Content>

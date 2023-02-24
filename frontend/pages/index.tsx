@@ -1,13 +1,17 @@
 import Layout from "@/components/Layout/Layout";
 import { SafeList } from "@/components";
+import Snowfall from "react-snowfall";
 import { Button, Col, Container, Row, Spacer, Text } from "@nextui-org/react";
 
-
 import NextLink from "next/link";
+import { useContext } from "react";
+import { AppContext } from "@/store/AppContext";
 
 export default function Home() {
+  const { logoClickedCounter } = useContext(AppContext);
   return (
     <Layout>
+      {logoClickedCounter > 7 && <Snowfall />}
       <Container>
         <Row justify={"center"}>
           <Col span={3}>
@@ -41,7 +45,6 @@ export default function Home() {
             </Row>
           </Col>
         </Row>
-
       </Container>
     </Layout>
   );
