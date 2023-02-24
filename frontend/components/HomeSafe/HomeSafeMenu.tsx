@@ -8,8 +8,6 @@ import { BrowserProvider } from "ethers";
 import { AppContext } from "@/store/AppContext";
 import ModalNewTransaction from "./SendTransaction/ModalNewTransaction";
 import LinkAndCopy from "../Common/LinkAndCopy";
-import {chain} from "@react-aria/utils";
-import {Network} from "@/components/SafeList/Networks";
 
 export default function HomeSafeMenu() {
   const {
@@ -90,7 +88,7 @@ export default function HomeSafeMenu() {
           />
           <Spacer y={0.5} />
           <Row align="center" justify="space-between">
-            <AssetsCounter />
+            <AssetsCounter balance={balance} />
             <LinkAndCopy address={contractAddress} />
           </Row>
           <Spacer y={2} />
