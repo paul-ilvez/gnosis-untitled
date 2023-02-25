@@ -4,7 +4,7 @@ import {
   Card,
   Text,
   Button,
-  Collapse,
+  Collapse, Spacer,
 } from "@nextui-org/react";
 import { SafeListProps } from "@/components/SafeList/SafeList.props";
 import VectorSvg from "./vector.svg";
@@ -28,7 +28,7 @@ export const SafeList = ({
       const groupedSafes = groupBy("chainId")(safes);
       setMySafes(groupedSafes);
     })();
-  }, []);
+  }, [account]);
 
   return (
     <Card
@@ -56,14 +56,17 @@ export const SafeList = ({
                 >
                   {mySafes[chainId].map((safe) => {
                     return (
-                      <SafeElement
-                        key={safe.address}
-                        balance={safe.balance}
-                        chainId={safe.chainId}
-                        address={safe.address}
-                        countOwners={safe.signers.length}
-                        quorum={safe.quorum}
-                      />
+                      <>
+                        <SafeElement
+                          key={safe.address}
+                          balance={safe.balance}
+                          chainId={safe.chainId}
+                          address={safe.address}
+                          countOwners={safe.signers.length}
+                          quorum={safe.quorum}
+                        />
+                        <Spacer />
+                      </>
                     );
                   })}
                 </Collapse>

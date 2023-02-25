@@ -7,13 +7,16 @@ import getShortAddress from "@/libs/shortenAddress";
 import { ethers, formatEther, toBigInt } from "ethers";
 import { AppContext } from "@/store/AppContext";
 import NextLink from "next/link";
+import {findNetworkById} from "@/components/SafeList/Networks";
+
 
 export const SafeElement = (safe: SafeElementProps): JSX.Element => {
-  const { quorum, countOwners, address, balance } = safe;
-  const { shortName, symbol } = useContext(AppContext).network;
+  const { quorum, countOwners, address, balance, chainId } = safe;
+  //const { shortName, symbol } = useContext(AppContext).network;
+  const {shortName, symbol} = findNetworkById(chainId)
   return (
     <NextLink href={`/safes/${address}`}>
-      <Card isPressable css={{ mt: "10px", br: "50px" }} variant={"bordered"}>
+      <Card isPressable css={{ br: "50px", mt: "20px" }} variant={"bordered"}>
         <Card.Body>
           <Row
             justify={"space-between"}
