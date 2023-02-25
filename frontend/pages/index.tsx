@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { AppContext } from "@/store/AppContext";
 
 export default function Home() {
-  const { logoClickedCounter } = useContext(AppContext);
+  const { logoClickedCounter, connected } = useContext(AppContext);
   return (
     <Layout>
       {logoClickedCounter > 7 && <Snowfall />}
@@ -33,7 +33,7 @@ export default function Home() {
 
             <Row justify={"center"}>
               <NextLink href={"/create-safe/"}>
-                <Button color="gradient" css={{ w: "362px", h: "40px" }}>
+                <Button disabled={!connected} color="gradient" css={{ w: "362px", h: "40px" }}>
                   Create Safe
                 </Button>
               </NextLink>
