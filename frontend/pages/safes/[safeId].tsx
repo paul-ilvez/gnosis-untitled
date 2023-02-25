@@ -136,7 +136,7 @@ export default function SafeDetails() {
     Transactions: (
       <Transactions quorum={quorum ?? 1} txs={txs} history={history} />
     ),
-    Setup: <Setup />,
+    Setup: <Setup signers={signers} />,
     Assets: <Assets />,
   };
 

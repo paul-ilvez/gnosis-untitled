@@ -1,11 +1,4 @@
-import {
-  Grid,
-  Spacer,
-  Text,
-  Image,
-  Card,
-  Row,
-} from "@nextui-org/react";
+import { Grid, Spacer, Text, Image, Card, Row } from "@nextui-org/react";
 import { formatEther } from "ethers";
 import { useState } from "react";
 import TransactionInfo from "./TransactionInfo";
@@ -18,7 +11,6 @@ export default function TransactionCard({
   quorum?: number;
 }) {
   const [open, setOpen] = useState(false);
-
 
   enum TxType {
     VALUE_TRANSFER,
@@ -51,17 +43,26 @@ export default function TransactionCard({
 
   const value = formatEther(transaction.value) + " ETH";
 
+  function renderValue(): string {
+    if (txTypeToString(transaction.type) == "Change Quorum") {
+      return transaction.value + "";
+    }
+    return value;
+  }
+
   return (
     <>
       <Card variant="shadow">
         <Card.Header css={{ cursor: "pointer" }} onClick={() => setOpen(!open)}>
           <Row justify="space-between" align="center" wrap="nowrap">
-            <Row align='center'>
+            <Row align="center">
               <Text b>{transaction.id}</Text>
               <Spacer y={2} />
-              <Text css={{ width: '120px' }}>&nbsp;{txTypeToString(transaction.type)}</Text>
+              <Text css={{ width: "120px" }}>
+                &nbsp;{txTypeToString(transaction.type)}
+              </Text>
               <Spacer y={1} />
-              <Text>{transaction.value ? value : ""}</Text>
+              <Text>{renderValue()}</Text>
             </Row>
 
             <Spacer y={2} />
@@ -77,12 +78,17 @@ export default function TransactionCard({
                 }
                 css={{
                   display: "flex",
-                  alignItems: 'center'
+                  alignItems: "center",
                 }}
               >
                 {formatNumOfConfirmations()}
                 <Spacer />
-                <Image alt="chevron" width={16} height={16} src="/chevron.svg" />
+                <Image
+                  alt="chevron"
+                  width={16}
+                  height={16}
+                  src="/chevron.svg"
+                />
               </Text>
             </Grid>
           </Row>
