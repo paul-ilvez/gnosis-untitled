@@ -32,9 +32,9 @@ const ModalReview = ({
   visible: boolean;
   closeHandler: () => void;
 }) => {
-  // const [currentSafe, setCurrentSafe] = useState();
   const [recipient, setRecipient] = useState("0x0");
   const [currentAmount, setCurrentAmount] = useState("0");
+  const [isLoad, setLoad] = useState(false);
   const {
     provider,
     connected,
@@ -49,17 +49,20 @@ const ModalReview = ({
   useEffect(() => {
     setRecipient(sessionStorage.getItem("recipient"))
     setCurrentAmount(sessionStorage.getItem("amount"))
-  }, [currentAmount]);
+  }, []);
 
   const handleSendTransactionForm = async (event: any) => {
     event.preventDefault();
     console.log('Current Safe >>>', currentSafe);
     try {
+      setLoad(true);
       console.log("Transaction >>>", recipient, currentAmount);
       const tx = await currentSafe.submitValueTransfer(recipient, ethers.parseEther(currentAmount));
+      tx.wait();
     } catch (error) {
       console.error(error);
     } finally {
+      setLoad(false);
       closeHandler()
       sessionStorage.removeItem("recipient");
       sessionStorage.removeItem("amount");
@@ -146,6 +149,7 @@ const ModalReview = ({
             Back
           </Button>
           <Button
+          disabled={isLoad}
             type="submit"
             style={{
               background: "#000",

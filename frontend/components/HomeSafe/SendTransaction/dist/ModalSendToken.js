@@ -89,16 +89,10 @@ var ModalSendToken = function (_a) {
             });
         }); })();
     }, [currentSafe, provider, connected]);
-    var menuItems = [
-        { key: "new", name: "New File" },
-        { key: "copy", name: "Copy Link" },
-        { key: "edit", name: "Edit File" },
-        { key: "delete", name: "Delete File" },
-    ];
-    var handleModalReviewTransaction = function () {
-    };
     var closeHandlerReview = function () {
         setVisibleReview(false);
+        sessionStorage.removeItem("recipient");
+        sessionStorage.removeItem("amount");
     };
     var handleSendFormReview = function (event) {
         event.preventDefault();
@@ -147,9 +141,7 @@ var ModalSendToken = function (_a) {
                 react_1["default"].createElement(react_2.Card.Divider, null),
                 react_1["default"].createElement(react_2.Modal.Footer, { justify: "space-between" },
                     react_1["default"].createElement(react_2.Button, { css: { width: "100px", background: "#fff" }, color: "#000", onClick: closeHandler, auto: true }, "Cancel"),
-                    react_1["default"].createElement("button", { 
-                        // onClick={handleModalReviewTransaction}
-                        style: {
+                    react_1["default"].createElement("button", { style: {
                             background: "#000",
                             color: "#fff",
                             width: "100px",

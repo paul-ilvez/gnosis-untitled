@@ -30,6 +30,8 @@ const ModalNewTransaction = ({
 
   const handleClickModalSendNFT = () => {
     setIsVisibleModalNFT(true);
+    sessionStorage.removeItem("recipient");
+    sessionStorage.removeItem("amount");
     closeHandler()
   };
 

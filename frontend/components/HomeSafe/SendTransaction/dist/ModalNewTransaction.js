@@ -21,6 +21,8 @@ var ModalNewTransaction = function (_a) {
     };
     var handleClickModalSendNFT = function () {
         setIsVisibleModalNFT(true);
+        sessionStorage.removeItem("recipient");
+        sessionStorage.removeItem("amount");
         closeHandler();
     };
     return (react_1["default"].createElement("div", null,

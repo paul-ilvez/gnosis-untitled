@@ -36,9 +36,7 @@ const ModalSendToken = ({
     currentSafe,
     connected,
   }: {
-    provider: BrowserProvider;
     currentSafe: GnosisUntitled;
-    connected: boolean;
   } = useContext(AppContext);
   const { shortName, symbol } = useContext(AppContext).network;
 
@@ -71,19 +69,10 @@ const ModalSendToken = ({
     })();
   }, [currentSafe, provider, connected]);
 
-  const menuItems = [
-    { key: "new", name: "New File" },
-    { key: "copy", name: "Copy Link" },
-    { key: "edit", name: "Edit File" },
-    { key: "delete", name: "Delete File" },
-  ];
-
-  const handleModalReviewTransaction = () => {
-
-  };
-
   const closeHandlerReview = () => {
     setVisibleReview(false);
+    sessionStorage.removeItem("recipient");
+    sessionStorage.removeItem("amount");
   };
 
   const handleSendFormReview = (event: any) => {
@@ -182,7 +171,6 @@ const ModalSendToken = ({
             Cancel
           </Button>
           <button
-            // onClick={handleModalReviewTransaction}
             style={{
               background: "#000",
               color: "#fff",
