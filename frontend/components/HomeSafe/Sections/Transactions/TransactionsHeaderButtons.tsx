@@ -13,7 +13,7 @@ export default function TransactionsHeaderButtons({ type }: { type: string }) {
         animated={false}
         size={"xs"}
         css={{ backgroundColor: isActive ? "#e8e8e8" : "transparent" }}
-        onClick={() => setTransactionsSectionHandler({ type })}
+        onPress={() => setTransactionsSectionHandler({ type })}
       >
         <Text
           weight={"normal"}

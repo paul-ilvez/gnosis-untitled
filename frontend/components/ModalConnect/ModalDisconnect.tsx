@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Modal, Text, Row, Card } from "@nextui-org/react";
 import Jazzicon from "react-jazzicon/dist/Jazzicon";
 import { jsNumberForAddress } from "react-jazzicon";
 import ButtonDisconnectMetamask from "../ButtonConnect/ButtonDisconnectMetamask";
+import { AppContext } from "@/store/AppContext";
 
 const ModalDisconnect = ({
   handleDisconnectMetamaskClick,
@@ -13,6 +14,9 @@ const ModalDisconnect = ({
   account: string;
   networkName: string ;
 }) => {
+
+  const {network} = useContext(AppContext);
+
   return (
     <div>
       <Modal.Header>
@@ -24,7 +28,7 @@ const ModalDisconnect = ({
         <Card variant="bordered">
           <Card.Body css={{ padding: "$2" }}>
             <Text>
-              {"gor: " +
+              {`${network.shortName}: ` +
                 account?.toString().slice(0, 10) +
                 "..." +
                 account?.toString().slice(38)}

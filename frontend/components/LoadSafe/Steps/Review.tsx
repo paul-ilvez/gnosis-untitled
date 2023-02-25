@@ -105,7 +105,7 @@ const Review = () => {
             <Spacer y={2} />
             <Grid.Container justify="space-between">
               <Button
-                onClick={() => setCreateSafeStatusHandler({ status: "owners" })}
+                onPress={() => setCreateSafeStatusHandler({ status: "owners" })}
                 css={{ width: "100px" }}
                 bordered
                 color="#000"
@@ -122,7 +122,7 @@ const Review = () => {
                   borderRadius: "10px",
                   cursor: "pointer",
                 }}
-                onClick={() =>
+                onPress={() =>
                   setCreateSafeStatusHandler({ status: "generate" })
                 }
               >

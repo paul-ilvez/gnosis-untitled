@@ -6,4 +6,6 @@ export interface SafeElementProps
   countOwners: number;
   quorum: number;
   balance: number;
+
+  chainId: number;
 }

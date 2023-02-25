@@ -130,13 +130,14 @@ const SetOwners = () => {
                 <div key={owner.id}>
                   <Spacer />
                   <Grid.Container justify={"space-between"} alignItems="center">
-                    <Text b>owner {i + 1}</Text>
+                    <Text b>Owner {i + 1}</Text>
                     {i !== 0 && (
                       <Grid onClick={() => removeOwnerHandler(owner.id)}>
                         <Image css={{ cursor: "pointer" }} src="/trash.svg" />
                       </Grid>
                     )}
                   </Grid.Container>
+                  <br />
                   <Card css={{ padding: "30px 15px" }}>
                     <Input
                       status={error && !owner.name ? "error" : ""}
@@ -158,7 +159,7 @@ const SetOwners = () => {
                 </div>
               );
             })}
-            <Button onClick={createNewOwner} light auto>
+            <Button onPress={createNewOwner} light auto>
               + Add new owner
             </Button>
             <Spacer y={2} />
