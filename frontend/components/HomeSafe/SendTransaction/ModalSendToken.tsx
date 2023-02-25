@@ -35,10 +35,9 @@ const ModalSendToken = ({
     provider,
     currentSafe,
     connected,
+    setValueTransfer,
   }: {
-    provider: BrowserProvider;
     currentSafe: GnosisUntitled;
-    connected: boolean;
   } = useContext(AppContext);
   const { shortName, symbol } = useContext(AppContext).network;
 
@@ -71,28 +70,23 @@ const ModalSendToken = ({
     })();
   }, [currentSafe, provider, connected]);
 
-  const menuItems = [
-    { key: "new", name: "New File" },
-    { key: "copy", name: "Copy Link" },
-    { key: "edit", name: "Edit File" },
-    { key: "delete", name: "Delete File" },
-  ];
-
-  const handleModalReviewTransaction = () => {
-
-  };
-
   const closeHandlerReview = () => {
     setVisibleReview(false);
+    // sessionStorage.removeItem("recipient");
+    // sessionStorage.removeItem("amount");
   };
 
   const handleSendFormReview = (event: any) => {
     event.preventDefault();
-    sessionStorage.setItem("amount", amountRef.current.value);
-    sessionStorage.setItem("recipient", recipientRef.current.value);
+    setValueTransfer(
+      recipientRef.current.value,
+      amountRef.current.value
+    );
+    // sessionStorage.setItem("amount", amountRef.current.value);
+    // sessionStorage.setItem("recipient", recipientRef.current.value);
     setVisibleReview(true);
     closeHandler();
-  }
+  };
 
   return (
     <div>
@@ -104,98 +98,101 @@ const ModalSendToken = ({
         width="500px"
       >
         <form onSubmit={handleSendFormReview}>
-        <Modal.Header justify="flex-start">
-          <Text weight={"bold"}>Send Tokens</Text>
-          <Text size="$xs" css={{ marginLeft: "20px" }}>
-            step 1 out of 2
-          </Text>
-        </Modal.Header>
-        <Card.Divider />
-        <Modal.Body css={{ textAlign: "center" }}>
-          <Row>
-            <Text size={"$sm"} css={{ textAlign: "left" }}>
-              Sending From:
+          <Modal.Header justify="flex-start">
+            <Text weight={"bold"}>Send Tokens</Text>
+            <Text size="$xs" css={{ marginLeft: "20px" }}>
+              step 1 out of 2
             </Text>
-          </Row>
-          <Row justify="space-between">
-            <Row css={{ width: "40px" }}>
-              <Jazzicon
-                diameter={40}
-                seed={jsNumberForAddress(contractAddress)}
-              />
+          </Modal.Header>
+          <Card.Divider />
+          <Modal.Body css={{ textAlign: "center" }}>
+            <Row>
+              <Text size={"$sm"} css={{ textAlign: "left" }}>
+                Sending From:
+              </Text>
+            </Row>
+            <Row justify="space-between">
+              <Row css={{ width: "40px" }}>
+                <Jazzicon
+                  diameter={40}
+                  seed={jsNumberForAddress(contractAddress)}
+                />
+              </Row>
+              <Row>
+                <Text
+                  size={"$xs"}
+                  css={{ textAlign: "left", marginLeft: "20px" }}
+                >
+                  <b>Test</b>
+                  <br />
+                  <Text b css={{ mr: "5px" }}>
+                    {shortName}:
+                  </Text>
+                  {contractAddress}
+                </Text>
+                <LinkAndCopy address={contractAddress} />
+              </Row>
+            </Row>
+
+            <Row>
+              <Text size={"$sm"} css={{ textAlign: "left" }}>
+                Recipient address or ENS:
+              </Text>
+            </Row>
+            <Row justify="space-between">
+              <Row>
+                <Input
+                  css={{ width: "500px" }}
+                  ref={recipientRef}
+                  placeholder={shortName}
+                />
+              </Row>
             </Row>
             <Row>
-              <Text
-                size={"$xs"}
-                css={{ textAlign: "left", marginLeft: "20px" }}
-              >
-                <b>Test</b>
-                <br />
-                <Text b css={{ mr: "5px" }}>
-                  {shortName}:
+              <Row>
+                <Text size={"$sm"} css={{ textAlign: "left" }}>
+                  Select an Asset*:
                 </Text>
-                {contractAddress}
-              </Text>
-              <LinkAndCopy address={contractAddress} />
+              </Row>
+              <select id="countries" className="">
+                <option selected></option>
+                <option value="ETH">
+                  {ethers.formatEther(balance.toString())} ETH
+                </option>
+              </select>
             </Row>
-          </Row>
-
-          <Row>
-            <Text size={"$sm"} css={{ textAlign: "left" }}>
-              Recipient address or ENS:
-            </Text>
-          </Row>
-          <Row justify="space-between">
             <Row>
               <Input
                 css={{ width: "500px" }}
-                ref={recipientRef}
-                placeholder={shortName}
+                ref={amountRef}
+                placeholder="Amount*"
               />
             </Row>
-          </Row>
-          <Row>
-            <Row>
-              <Text size={"$sm"} css={{ textAlign: "left" }}>
-                Select an Asset*:
-              </Text>
-            </Row>
-            <select id="countries" className="">
-              <option selected></option>
-              <option value="ETH">
-                {ethers.formatEther(balance.toString())} ETH
-              </option>
-            </select>
-          </Row>
-          <Row>
-            <Input css={{ width: "500px" }} ref={amountRef} placeholder="Amount*" />
-          </Row>
-        </Modal.Body>
-        <Card.Divider />
-        <Modal.Footer justify="space-between">
-          <Button
-            css={{ width: "100px", background: "#fff" }}
-            color="#000"
-            onClick={closeHandler}
-            auto
-          >
-            Cancel
-          </Button>
-          <button
-            // onClick={handleModalReviewTransaction}
-            style={{
-              background: "#000",
-              color: "#fff",
-              width: "100px",
-              height: "35px",
-              maxWidth: "260px",
-              borderRadius: "10px",
-              cursor: "pointer",
-            }}
-          >
-            Next
-          </button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Card.Divider />
+          <Modal.Footer justify="space-between">
+            <Button
+              css={{ width: "100px", background: "#fff" }}
+              color="#000"
+              onClick={closeHandler}
+              auto
+            >
+              Cancel
+            </Button>
+            <button
+              style={{
+                background: "#000",
+                color: "#fff",
+                width: "100px",
+                height: "35px",
+                maxWidth: "260px",
+                borderRadius: "10px",
+                cursor: "pointer",
+              }}
+            >
+              Next
+            </button>
+          </Modal.Footer>
         </form>
       </Modal>
       <ModalReview

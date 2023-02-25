@@ -46,7 +46,7 @@ var LinkAndCopy_1 = require("@/components/Common/LinkAndCopy");
 var ethers_1 = require("ethers");
 var ModalSendToken = function (_a) {
     var visible = _a.visible, closeHandler = _a.closeHandler;
-    var _b = react_1.useContext(AppContext_1.AppContext), provider = _b.provider, currentSafe = _b.currentSafe, connected = _b.connected;
+    var _b = react_1.useContext(AppContext_1.AppContext), provider = _b.provider, currentSafe = _b.currentSafe, connected = _b.connected, setValueTransfer = _b.setValueTransfer;
     var _c = react_1.useContext(AppContext_1.AppContext).network, shortName = _c.shortName, symbol = _c.symbol;
     var _d = react_1.useState(false), visibleReview = _d[0], setVisibleReview = _d[1];
     var _e = react_1.useState(0), balance = _e[0], setBalance = _e[1];
@@ -89,21 +89,16 @@ var ModalSendToken = function (_a) {
             });
         }); })();
     }, [currentSafe, provider, connected]);
-    var menuItems = [
-        { key: "new", name: "New File" },
-        { key: "copy", name: "Copy Link" },
-        { key: "edit", name: "Edit File" },
-        { key: "delete", name: "Delete File" },
-    ];
-    var handleModalReviewTransaction = function () {
-    };
     var closeHandlerReview = function () {
         setVisibleReview(false);
+        // sessionStorage.removeItem("recipient");
+        // sessionStorage.removeItem("amount");
     };
     var handleSendFormReview = function (event) {
         event.preventDefault();
-        sessionStorage.setItem("amount", amountRef.current.value);
-        sessionStorage.setItem("recipient", recipientRef.current.value);
+        setValueTransfer(recipientRef.current.value, amountRef.current.value);
+        // sessionStorage.setItem("amount", amountRef.current.value);
+        // sessionStorage.setItem("recipient", recipientRef.current.value);
         setVisibleReview(true);
         closeHandler();
     };
@@ -147,9 +142,7 @@ var ModalSendToken = function (_a) {
                 react_1["default"].createElement(react_2.Card.Divider, null),
                 react_1["default"].createElement(react_2.Modal.Footer, { justify: "space-between" },
                     react_1["default"].createElement(react_2.Button, { css: { width: "100px", background: "#fff" }, color: "#000", onClick: closeHandler, auto: true }, "Cancel"),
-                    react_1["default"].createElement("button", { 
-                        // onClick={handleModalReviewTransaction}
-                        style: {
+                    react_1["default"].createElement("button", { style: {
                             background: "#000",
                             color: "#fff",
                             width: "100px",

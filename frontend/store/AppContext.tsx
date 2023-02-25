@@ -49,6 +49,10 @@ export const AppContext = createContext({
   isEthereum: false,
   setIsEthereum: (_isEthereum: boolean) => {},
   currentMenuSection: { title: "Transations" },
+
+  valueTransfer: {},
+  setValueTransfer: (recipient: string, amount: string) => {},
+
   setCurrentMenuSectionHandler: (_currentMenuSection: CurrentMenuSection) => {},
   transactionsSection: { type: "Queue" },
   setTransactionsSectionHandler: (
@@ -72,6 +76,8 @@ export const AppContext = createContext({
   handleApproveTx: (_safe: GnosisUntitled, txId: number) => {},
   handleRevokeConfirmation: (_safe: GnosisUntitled, txId: number) => {},
   handleExecuteTx: (_safe: GnosisUntitled, txId: number) => {},
+  
+  
 }); //--------------AppContex------------------------
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
@@ -88,6 +94,11 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     owners: [],
     quorum: "1",
   });
+
+  const [valueTransfer, _setValueTransfer] = useState({
+    recipient: "",
+    amount: ""
+  })
 
   const router = useRouter();
 
@@ -132,6 +143,13 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   function setIsEthereum(_isEthereum: boolean) {
     _setIsEthereum(_isEthereum);
+  }
+
+  function setValueTransfer(_recipient: string, _amount: string) {
+    _setValueTransfer({
+      recipient: _recipient,
+      amount: _amount
+    })
   }
 
   function setCurrentMenuSectionHandler(
@@ -206,6 +224,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setConnected,
     isEthereum,
     setIsEthereum,
+    valueTransfer,
+    setValueTransfer,
     provider,
     setProvider,
     signer,

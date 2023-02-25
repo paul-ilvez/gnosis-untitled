@@ -8,12 +8,14 @@ import { BrowserProvider } from "ethers";
 import { AppContext } from "@/store/AppContext";
 import ModalNewTransaction from "./SendTransaction/ModalNewTransaction";
 import LinkAndCopy from "../Common/LinkAndCopy";
+import {chain} from "@react-aria/utils";
 
 export default function HomeSafeMenu() {
   const {
     provider,
     currentSafe,
     connected,
+    network
   }: {
     provider: BrowserProvider;
     currentSafe: GnosisUntitled;
@@ -81,6 +83,7 @@ export default function HomeSafeMenu() {
             address={contractAddress}
             countOwners={numOfSigners}
             quorum={quorum}
+            chainId={network.chainId}
           />
           <Spacer y={0.5} />
           <Row align="center" justify="space-between">
