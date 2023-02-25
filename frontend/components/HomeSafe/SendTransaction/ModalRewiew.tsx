@@ -40,32 +40,33 @@ const ModalReview = ({
     connected,
     currentSafe,
     signer,
+    valueTransfer
   }: {
     provider: BrowserProvider;
     currentSafe: GnosisUntitled;
     connected: boolean;
   } = useContext(AppContext);
 
-  useEffect(() => {
-    setRecipient(sessionStorage.getItem("recipient"))
-    setCurrentAmount(sessionStorage.getItem("amount"))
-  }, []);
+  // useEffect(() => {
+  //   setRecipient(sessionStorage.getItem("recipient"))
+  //   setCurrentAmount(sessionStorage.getItem("amount"))
+  // }, []);
 
   const handleSendTransactionForm = async (event: any) => {
     event.preventDefault();
     console.log('Current Safe >>>', currentSafe);
     try {
       setLoad(true);
-      console.log("Transaction >>>", recipient, currentAmount);
-      const tx = await currentSafe.submitValueTransfer(recipient, ethers.parseEther(currentAmount));
+      console.log("Transaction >>>", valueTransfer.recipient, valueTransfer.amount);
+      const tx = await currentSafe.submitValueTransfer(valueTransfer.recipient, ethers.parseEther(valueTransfer.amount));
       tx.wait();
     } catch (error) {
       console.error(error);
     } finally {
       setLoad(false);
       closeHandler()
-      sessionStorage.removeItem("recipient");
-      sessionStorage.removeItem("amount");
+      // sessionStorage.removeItem("recipient");
+      // sessionStorage.removeItem("amount");
     }
   };
   return (
@@ -86,7 +87,7 @@ const ModalReview = ({
         <Card.Divider />
         <Modal.Body css={{ textAlign: "center" }}>
           <Row>
-            <Text>{currentAmount}</Text>
+            <Text>{valueTransfer.amount}</Text>
           </Row>
           <Row>
             <Text size={"$sm"} css={{ textAlign: "left" }}>
@@ -124,7 +125,7 @@ const ModalReview = ({
               >
                 <b>Test</b>
                 <br />
-                {shortName}: {recipient}
+                {shortName}: {valueTransfer.recipient}
               </Text>
             </Row>
           </Row>

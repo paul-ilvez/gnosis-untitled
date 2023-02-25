@@ -1,5 +1,5 @@
 import { Grid, Spacer, Text, Image } from "@nextui-org/react";
-import TransactionCard from "./TransactionCard";
+import TransactionCard from "./TransactionCard/TransactionCard";
 
 export default function TransactionsQueue({
   txs,

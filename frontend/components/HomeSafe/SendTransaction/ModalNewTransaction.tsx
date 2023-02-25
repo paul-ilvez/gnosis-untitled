@@ -46,7 +46,7 @@ const ModalNewTransaction = ({
       >
         <Modal.Header>
           <Row justify="left" align="center">
-            <Text>New transaction</Text>
+            <Text>New Transaction</Text>
           </Row>
         </Modal.Header>
         <Card.Divider />

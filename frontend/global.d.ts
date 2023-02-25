@@ -23,7 +23,11 @@ declare global {
     date: Date;
     type: TxType;
     isConfirmedByUser: boolean;
+    txHash?: string;
+    safeHash?: string;
   };
+
+
 
   type SafeFactory = SF;
   type GnosisUntitled = GU;

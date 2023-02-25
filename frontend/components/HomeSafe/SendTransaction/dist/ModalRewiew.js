@@ -47,11 +47,11 @@ var ModalReview = function (_a) {
     var _b = react_1.useState("0x0"), recipient = _b[0], setRecipient = _b[1];
     var _c = react_1.useState("0"), currentAmount = _c[0], setCurrentAmount = _c[1];
     var _d = react_1.useState(false), isLoad = _d[0], setLoad = _d[1];
-    var _e = react_1.useContext(AppContext_1.AppContext), provider = _e.provider, connected = _e.connected, currentSafe = _e.currentSafe, signer = _e.signer;
-    react_1.useEffect(function () {
-        setRecipient(sessionStorage.getItem("recipient"));
-        setCurrentAmount(sessionStorage.getItem("amount"));
-    }, []);
+    var _e = react_1.useContext(AppContext_1.AppContext), provider = _e.provider, connected = _e.connected, currentSafe = _e.currentSafe, signer = _e.signer, valueTransfer = _e.valueTransfer;
+    // useEffect(() => {
+    //   setRecipient(sessionStorage.getItem("recipient"))
+    //   setCurrentAmount(sessionStorage.getItem("amount"))
+    // }, []);
     var handleSendTransactionForm = function (event) { return __awaiter(void 0, void 0, void 0, function () {
         var tx, error_1;
         return __generator(this, function (_a) {
@@ -63,8 +63,8 @@ var ModalReview = function (_a) {
                 case 1:
                     _a.trys.push([1, 3, 4, 5]);
                     setLoad(true);
-                    console.log("Transaction >>>", recipient, currentAmount);
-                    return [4 /*yield*/, currentSafe.submitValueTransfer(recipient, ethers_1.ethers.parseEther(currentAmount))];
+                    console.log("Transaction >>>", valueTransfer.recipient, valueTransfer.amount);
+                    return [4 /*yield*/, currentSafe.submitValueTransfer(valueTransfer.recipient, ethers_1.ethers.parseEther(valueTransfer.amount))];
                 case 2:
                     tx = _a.sent();
                     tx.wait();
@@ -76,8 +76,6 @@ var ModalReview = function (_a) {
                 case 4:
                     setLoad(false);
                     closeHandler();
-                    sessionStorage.removeItem("recipient");
-                    sessionStorage.removeItem("amount");
                     return [7 /*endfinally*/];
                 case 5: return [2 /*return*/];
             }
@@ -91,7 +89,7 @@ var ModalReview = function (_a) {
             react_1["default"].createElement(react_2.Card.Divider, null),
             react_1["default"].createElement(react_2.Modal.Body, { css: { textAlign: "center" } },
                 react_1["default"].createElement(react_2.Row, null,
-                    react_1["default"].createElement(react_2.Text, null, currentAmount)),
+                    react_1["default"].createElement(react_2.Text, null, valueTransfer.amount)),
                 react_1["default"].createElement(react_2.Row, null,
                     react_1["default"].createElement(react_2.Text, { size: "$sm", css: { textAlign: "left" } }, "Sending From:")),
                 react_1["default"].createElement(react_2.Row, { justify: "space-between" },
@@ -113,7 +111,7 @@ var ModalReview = function (_a) {
                             react_1["default"].createElement("br", null),
                             shortName,
                             ": ",
-                            recipient)))),
+                            valueTransfer.recipient)))),
             react_1["default"].createElement(react_2.Card.Divider, null),
             react_1["default"].createElement(react_2.Modal.Footer, { justify: "space-between" },
                 react_1["default"].createElement(react_2.Button, { css: { width: "100px", background: "#fff" }, color: "#000", onClick: closeHandler, auto: true }, "Back"),

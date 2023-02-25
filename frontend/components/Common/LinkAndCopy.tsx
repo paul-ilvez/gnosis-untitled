@@ -3,7 +3,7 @@ import { Grid, Image, Spacer, Tooltip } from "@nextui-org/react";
 import { AppContext } from "@/store/AppContext";
 import { add } from "@noble/hashes/_u64";
 
-const LinkAndCopy = ({ address = "" }) => {
+const LinkAndCopy = ({ address = "", tx=false }) => {
   const { network } = useContext(AppContext);
 
   const [copy, setCopy] = useState(false);
@@ -39,7 +39,7 @@ const LinkAndCopy = ({ address = "" }) => {
       </Tooltip>
       <Spacer />
       <Tooltip content={"View on etherscan"}>
-        <a target="_blank" href={`${network.blockExplorer}address/${address}`}>
+        <a target="_blank" href={`${network.blockExplorer}${tx ? "tx" : "address"}/${address}`}> 
           <Image
             alt="etherscan"
             src="/link-external.svg"

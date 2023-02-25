@@ -14,7 +14,7 @@ export default function NewTransactionButton({ handler }) {
       auto
     >
       <Text css={{ letterSpacing: "$wide" }} color="white" weight={"normal"}>
-        New transaction
+        New Transaction
       </Text>
     </Button>
   );
