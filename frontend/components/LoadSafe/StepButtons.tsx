@@ -9,7 +9,7 @@ const StepButtons = ({ link }) => {
 
   const nextButton = (
     <Button
-      onClick={() => (link ? {} : dispatch(nextScreen()))}
+    onPress={() => (link ? {} : dispatch(nextScreen()))}
       css={{
         background: "#000",
         color: "#fff",
@@ -25,7 +25,7 @@ const StepButtons = ({ link }) => {
   return (
     <Grid.Container justify="space-between">
       <Button
-        onClick={() => dispatch(prevScreen())}
+        onPress={() => dispatch(prevScreen())}
         css={{ width: "100px" }}
         bordered
         color="#000"

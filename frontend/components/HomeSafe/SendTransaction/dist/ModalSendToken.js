@@ -53,6 +53,7 @@ var ModalSendToken = function (_a) {
     var _f = react_1.useState(0), quorum = _f[0], setQuorum = _f[1];
     var _g = react_1.useState(0), numOfSigners = _g[0], setNumOfSigners = _g[1];
     var _h = react_1.useState("UNKNOWN"), contractAddress = _h[0], setContractAddress = _h[1];
+    var _j = react_1.useState(false), isError = _j[0], setError = _j[1];
     var recipientRef = react_1.useRef();
     var amountRef = react_1.useRef();
     react_1.useEffect(function () {
@@ -91,16 +92,22 @@ var ModalSendToken = function (_a) {
     }, [currentSafe, provider, connected]);
     var closeHandlerReview = function () {
         setVisibleReview(false);
-        // sessionStorage.removeItem("recipient");
-        // sessionStorage.removeItem("amount");
     };
     var handleSendFormReview = function (event) {
         event.preventDefault();
-        setValueTransfer(recipientRef.current.value, amountRef.current.value);
-        // sessionStorage.setItem("amount", amountRef.current.value);
-        // sessionStorage.setItem("recipient", recipientRef.current.value);
-        setVisibleReview(true);
-        closeHandler();
+        if (recipientRef.current.value !== "" &&
+            Number(amountRef.current.value) > 0 &&
+            Number(amountRef.current.value) <=
+                Number(ethers_1.ethers.formatEther(balance.toString()))) {
+            setValueTransfer(recipientRef.current.value, amountRef.current.value);
+            setVisibleReview(true);
+            closeHandler();
+            return;
+        }
+        setError(true);
+        setTimeout(function () {
+            setError(false);
+        }, 5000);
     };
     return (react_1["default"].createElement("div", null,
         react_1["default"].createElement(react_2.Modal, { closeButton: true, "aria-labelledby": "modal-title", open: visible, onClose: closeHandler, width: "500px" },
@@ -125,7 +132,7 @@ var ModalSendToken = function (_a) {
                                 contractAddress),
                             react_1["default"].createElement(LinkAndCopy_1["default"], { address: contractAddress }))),
                     react_1["default"].createElement(react_2.Row, null,
-                        react_1["default"].createElement(react_2.Text, { size: "$sm", css: { textAlign: "left" } }, "Recipient address or ENS:")),
+                        react_1["default"].createElement(react_2.Text, { size: "$sm", css: { textAlign: "left" } }, "Recipient address or ENS*:")),
                     react_1["default"].createElement(react_2.Row, { justify: "space-between" },
                         react_1["default"].createElement(react_2.Row, null,
                             react_1["default"].createElement(react_2.Input, { css: { width: "500px" }, ref: recipientRef, placeholder: shortName }))),
@@ -138,7 +145,15 @@ var ModalSendToken = function (_a) {
                                 ethers_1.ethers.formatEther(balance.toString()),
                                 " ETH"))),
                     react_1["default"].createElement(react_2.Row, null,
-                        react_1["default"].createElement(react_2.Input, { css: { width: "500px" }, ref: amountRef, placeholder: "Amount*" }))),
+                        react_1["default"].createElement(react_2.Input, { css: { width: "500px" }, ref: amountRef, placeholder: "Amount*" })),
+                    isError ? (react_1["default"].createElement(react_1["default"].Fragment, null,
+                        react_1["default"].createElement(react_2.Card, { css: {
+                                padding: "5px",
+                                height: "40px",
+                                background: "#FA8072"
+                            } },
+                            react_1["default"].createElement(react_2.Text, null, "Fill in all the fields correctly.")),
+                        react_1["default"].createElement(react_2.Row, null))) : null),
                 react_1["default"].createElement(react_2.Card.Divider, null),
                 react_1["default"].createElement(react_2.Modal.Footer, { justify: "space-between" },
                     react_1["default"].createElement(react_2.Button, { css: { width: "100px", background: "#fff" }, color: "#000", onClick: closeHandler, auto: true }, "Cancel"),

@@ -2,7 +2,6 @@ import Layout from "@/components/Layout/Layout";
 import { SafeList } from "@/components";
 import { Button, Col, Container, Row, Spacer, Text } from "@nextui-org/react";
 
-import safes from "@/mocks/safes";
 import NextLink from "next/link";
 
 export default function Home() {
@@ -22,7 +21,7 @@ export default function Home() {
               weight="normal"
               css={{ lineHeight: "$sm", textAlign: "center" }}
             >
-              The most trusted decentralized custody protocol and collective
+              The trusted decentralized custody protocol and collective
               asset management platform.
             </Text>
             <Spacer />

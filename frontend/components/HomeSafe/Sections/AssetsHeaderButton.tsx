@@ -2,10 +2,9 @@ import { Button, Text } from "@nextui-org/react";
 import React, { useContext } from "react";
 import { AppContext } from "@/store/AppContext";
 
-export default function TransactionsHeaderButtons({ type }: { type: string }) {
-  const { setTransactionsSectionHandler, transactionsSection } =
-    useContext(AppContext);
-  const isActive = transactionsSection.type === type;
+export default function AssetsHeaderButtons({ type }: { type: string }) {
+  const { setAssetsSectionHandler, assetsSection } = useContext(AppContext);
+  const isActive = assetsSection.type === type;
 
   return (
     <>
@@ -13,7 +12,7 @@ export default function TransactionsHeaderButtons({ type }: { type: string }) {
         animated={false}
         size={"xs"}
         css={{ backgroundColor: isActive ? "#e8e8e8" : "transparent" }}
-        onPress={() => setTransactionsSectionHandler({ type })}
+        onClick={() => setAssetsSectionHandler({ type })}
       >
         <Text
           weight={"normal"}
