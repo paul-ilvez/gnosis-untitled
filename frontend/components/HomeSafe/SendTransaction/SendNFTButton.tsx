@@ -5,6 +5,7 @@ export default function SendNFTButton({ handler }) {
     <Button
       onClick={handler}
       rounded
+      disabled={true}
       css={{
         background: "#000",
         color: "#fff",
@@ -14,7 +15,7 @@ export default function SendNFTButton({ handler }) {
       auto
     >
       <Text css={{ letterSpacing: "$wide" }} color="white" weight={"normal"}>
-        Send NFT
+        Send NFT (coming soon)
       </Text>
     </Button>
   );
