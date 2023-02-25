@@ -13,10 +13,13 @@ export default function TransactionCard({
   const [open, setOpen] = useState(false);
   const [numConfirmations, setNumConfirmations] = useState<number>(0);
 
+<<<<<<< HEAD
+=======
   useEffect(() => {
     setNumConfirmations(Number(transaction.numConfirmations));
   }, []);
 
+>>>>>>> d6a27958ce7dff83481bdbe1b8086749fff44df8
   enum TxType {
     VALUE_TRANSFER,
     SEND_BYTECODE,
@@ -44,6 +47,13 @@ export default function TransactionCard({
 
   const value = formatEther(transaction.value) + " ETH";
 
+  function renderValue(): string {
+    if (txTypeToString(transaction.type) == "Change Quorum") {
+      return transaction.value + "";
+    }
+    return value;
+  }
+
   return (
     <>
       <Card variant="shadow">
@@ -56,11 +66,18 @@ export default function TransactionCard({
                 )}
               <Spacer y={2} />
               <Text css={{ width: "120px" }}>
+<<<<<<< HEAD
+                &nbsp;{txTypeToString(transaction.type)}
+              </Text>
+              <Spacer y={1} />
+              <Text>{renderValue()}</Text>
+=======
       
                 &nbsp;{txTypeToString(transaction.type)}
               </Text>
               <Spacer y={1} />
               <Text>-{transaction.value ? value : ""}</Text>
+>>>>>>> d6a27958ce7dff83481bdbe1b8086749fff44df8
             </Row>
 
             <Spacer y={2} />
