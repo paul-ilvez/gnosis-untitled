@@ -31,7 +31,7 @@ export default function Transactions({
 
   const sectionMap: { [key: string]: JSX.Element } = {
     Queue: <TransactionsQueue quorum={quorum} txs={txs} />,
-    History: <TransactionsHistory deposits={deposits} history={history} />,
+    History: <TransactionsHistory quorum={quorum} deposits={deposits} history={history} />,
   };
 
   return (

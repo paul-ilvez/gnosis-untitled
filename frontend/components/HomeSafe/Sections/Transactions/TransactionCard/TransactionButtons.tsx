@@ -140,7 +140,7 @@ export default function TransactionButtons({
     <Card.Footer>
       <Row css={{ pt: 10 }}>
         <Grid.Container direction="row" justify="center" alignItems="center">
-          {renderConfirmRevokeButton()}
+          {numConfirmations !== quorum && renderConfirmRevokeButton()}
           <Spacer />
           <Button
             icon={!loading && <Send />}
