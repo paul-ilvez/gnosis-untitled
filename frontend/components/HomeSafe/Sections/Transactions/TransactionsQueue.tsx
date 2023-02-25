@@ -18,8 +18,12 @@ export default function TransactionsQueue({
       </Text>
     </Grid.Container>
   );
+
+
+  const sortFunc = (a, b) => b.id - a.id
+
   return txs.length
-    ? txs.map((transaction) => (
+    ? txs.sort(sortFunc).map((transaction) => (
         <TransactionCard
           quorum={quorum}
           key={transaction.id}

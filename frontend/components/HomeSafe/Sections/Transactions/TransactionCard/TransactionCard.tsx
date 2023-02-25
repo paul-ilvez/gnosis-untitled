@@ -55,19 +55,19 @@ export default function TransactionCard({
     <>
       <Card variant="shadow">
         <Card.Header css={{ cursor: "pointer" }} onClick={() => setOpen(!open)}>
-          <Row justify="space-between" wrap="nowrap">
-            <Row alignItems='center'>
-              <Text b># {transaction.id}</Text>
+          <Row justify="space-between" align="center" wrap="nowrap">
+            <Row align='center'>
+              <Text b>{transaction.id}</Text>
               <Spacer y={2} />
-              <Text>&nbsp;{txTypeToString(transaction.type)}</Text>
-              <Spacer y={2} />
+              <Text css={{ width: '120px' }}>&nbsp;{txTypeToString(transaction.type)}</Text>
+              <Spacer y={1} />
               <Text>{transaction.value ? value : ""}</Text>
             </Row>
 
             <Spacer y={2} />
             <Text>{transaction.date.toLocaleDateString()}</Text>
             <Spacer y={2} />
-            <Grid direction="column">
+            <Grid justify="center" direction="column">
               <Text
                 b
                 color={
@@ -77,11 +77,12 @@ export default function TransactionCard({
                 }
                 css={{
                   display: "flex",
+                  alignItems: 'center'
                 }}
               >
                 {formatNumOfConfirmations()}
                 <Spacer />
-                <Image alt="chevron" src="/chevron.svg" />
+                <Image alt="chevron" width={16} height={16} src="/chevron.svg" />
               </Text>
             </Grid>
           </Row>

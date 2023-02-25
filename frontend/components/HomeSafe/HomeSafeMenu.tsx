@@ -60,6 +60,8 @@ export default function HomeSafeMenu() {
       const tempAddress = currentSafe.target;
       const tempBalance = Number(await provider.getBalance(tempAddress));
 
+      console.log({ tempBalance });
+
       setContractAddress(tempAddress);
       setBalance(tempBalance);
       setQuorum(tempQuorum);

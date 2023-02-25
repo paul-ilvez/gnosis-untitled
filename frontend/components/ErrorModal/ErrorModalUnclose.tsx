@@ -2,16 +2,14 @@ import React from "react";
 import { Modal, Button, Text, Col, Spacer } from "@nextui-org/react";
 import Link from "next/link";
 
-export default function ErrorModal({
+export default function ErrorModalUnclose({
   errorMessage = "Something error",
-  closeHandler
 }: {
   errorMessage: string;
-  closeHandler: Function;
 }) {
   return (
     <div>
-      <Modal onClose={closeHandler} closeButton aria-labelledby="modal-title" open={true}>
+      <Modal preventClose aria-labelledby="modal-title" open={true}>
         <Modal.Header>
           <Col>
             <Text color="error" b size={22}>
@@ -22,9 +20,11 @@ export default function ErrorModal({
           </Col>
         </Modal.Header>
         <Modal.Footer>
-          <Button auto flat color="error" onPress={closeHandler}>
-            Close
-          </Button>
+          <Link href="/">
+            <Button bordered color="error">
+              Go homepage
+            </Button>
+          </Link>
         </Modal.Footer>
       </Modal>
     </div>

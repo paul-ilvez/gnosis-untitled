@@ -5,7 +5,6 @@ import {
   Grid,
   Spacer,
   Text,
-  Image,
   Card,
   Row,
   Col,
@@ -13,7 +12,8 @@ import {
 } from "@nextui-org/react";
 import moment from "moment";
 import { useContext } from "react";
-import { CloseSquare, TickSquare } from "react-iconly";
+import { CloseSquare, Send, TickSquare } from "react-iconly";
+import TransactionButtons from "./TransactionButtons";
 
 export default function TransactionInfo({
   transaction,
@@ -29,44 +29,9 @@ export default function TransactionInfo({
     currentSafe,
   } = useContext(AppContext);
 
-  function isCanBeExecuted(): boolean {
-    return Number(transaction.numConfirmations) >= quorum;
-  }
 
-  function renderConfirmRevokeButton(): React.ReactElement {
-    if (transaction.isConfirmedByUser) {
-      return (
-        <Button
-          onPress={() => {
-            handleRevokeConfirmation(
-              currentSafe as GnosisUntitled,
-              transaction.id
-            );
-          }}
-          color="error"
-          auto
-          bordered
-          icon={<CloseSquare />}
-        >
-          Revoke
-        </Button>
-      );
-    }
 
-    return (
-      <Button
-        color="success"
-        auto
-        bordered
-        icon={<TickSquare />}
-        onPress={() => {
-          handleApproveTx(currentSafe as GnosisUntitled, transaction.id);
-        }}
-      >
-        Approve
-      </Button>
-    );
-  }
+
 
   return (
     <>
@@ -111,34 +76,7 @@ export default function TransactionInfo({
             </Row>
           )}
           <Card.Divider />
-          {!transaction.executed && (
-            <Card.Footer>
-              <Row>
-                <Grid.Container
-                  direction="row"
-                  justify="center"
-                  alignItems="center"
-                >
-                  {renderConfirmRevokeButton()}
-                  <Spacer />
-                  <Button
-                    icon={<Send />}
-                    auto
-                    color="primary"
-                    disabled={!isCanBeExecuted()}
-                    onPress={() => {
-                      handleExecuteTx(
-                        currentSafe as GnosisUntitled,
-                        transaction.id
-                      );
-                    }}
-                  >
-                    Execute
-                  </Button>
-                </Grid.Container>
-              </Row>
-            </Card.Footer>
-          )}
+          {!transaction.executed && <TransactionButtons transaction={transaction} quorum={quorum} />}
         </Col>
       </Card.Body>
     </>
