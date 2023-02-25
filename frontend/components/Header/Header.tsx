@@ -15,6 +15,8 @@ import ModalConnect from "../ModalConnect/ModalConnect";
 import Link from "next/link";
 import NetworkDropdown from "@/components/NetworkDropdown/NetworkDropdown";
 import { AppContext } from "@/store/AppContext";
+import { jsNumberForAddress } from "react-jazzicon";
+import Jazzicon from "react-jazzicon/dist/Jazzicon";
 
 const Header = ({
   setVisibleConnect,
@@ -26,7 +28,13 @@ const Header = ({
   const [variant, setVariant] = useState("static");
   const variants = ["static", "floating", "sticky"];
   const appCtx = useContext(AppContext);
-  const { handleConnectMetamaskClick, isEthereum, handleDisconnectMetamask } = appCtx;
+  const {
+    handleConnectMetamaskClick,
+    isEthereum,
+    handleDisconnectMetamask,
+    logoClickedCounter,
+    incrementLogoClickedCounter,
+  } = appCtx;
 
   const handleCloseModalConnect = () => {
     setVisibleConnect(false);
@@ -46,7 +54,11 @@ const Header = ({
         <Grid.Container justify={"space-between"}>
           <Grid xs={4}>
             <Link href="/">
-              <Navbar.Brand>
+              <Navbar.Brand
+                onClick={() => {
+                  incrementLogoClickedCounter();
+                }}
+              >
                 <Image width={85} height={50} src="/logo.svg" alt="logo" />
               </Navbar.Brand>
             </Link>
@@ -70,12 +82,7 @@ const Header = ({
                         color="gray"
                         onPress={handlerModalDisconnect}
                       >
-                        <Avatar
-                          color="secondary"
-                          textColor="white"
-                          text="You"
-                          size="sm"
-                        />
+                      <Jazzicon diameter={30}   seed={jsNumberForAddress(appCtx.account)} /> 
                         <div>
                           <Text size="$md" b>
                             &nbsp;{" "}
@@ -96,9 +103,7 @@ const Header = ({
                     <Popover.Content>
                       <ModalDisconnect
                         account={appCtx.account}
-                        handleDisconnectMetamaskClick={
-                          handleDisconnectMetamask
-                        }
+                        handleDisconnectMetamaskClick={handleDisconnectMetamask}
                         networkName={appCtx.network.name}
                       />
                     </Popover.Content>

@@ -15,6 +15,7 @@ export default function ButtonsMenu({
       css={{
         color: "$black",
         borderColor: "$gray400",
+        bg: appCntx.currentMenuSection.title === title ? "#E2E2E2" : 'none',
         mw: "182px",
         "&:hover": {
           backgroundColor: "$gray100",

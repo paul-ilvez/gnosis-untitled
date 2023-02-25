@@ -25,7 +25,18 @@ declare global {
     isConfirmedByUser: boolean;
     txHash?: string;
     safeHash?: string;
+    sender?: string;
   };
+
+  type GnosisDeposit = {
+      id: number;
+      value: BigInt;
+      balance: BigInt;
+      date: Date;
+      txHash?: string;
+      safeHash?: string;
+      sender: string;
+  }
 
 
 

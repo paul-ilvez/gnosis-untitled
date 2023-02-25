@@ -15,9 +15,13 @@ import { CloseSquare, Send, TickSquare } from "react-iconly";
 export default function TransactionButtons({
   transaction,
   quorum,
+  numConfirmations,
+  setNumConfirmations,
 }: {
   transaction: GnosisTransaction;
   quorum: number;
+  numConfirmations: Number;
+  setNumConfirmations: Function;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -31,11 +35,7 @@ export default function TransactionButtons({
   }, []);
 
   function isCanBeExecuted(): boolean {
-    const numConfirmations = approve
-      ? Number(transaction.numConfirmations) + 1
-      : transaction.numConfirmations;
-
-    return Number(numConfirmations) >= quorum;
+    return numConfirmations >= quorum;
   }
 
   function renderConfirmRevokeButton(): React.ReactElement {
@@ -66,14 +66,14 @@ export default function TransactionButtons({
         bordered
         disabled={loading}
         css={{ w: "140px" }}
-        icon={<TickSquare />}
+        icon={!loading && <TickSquare />}
         onPress={handleApproveTx}
       >
-             {loading ? (
-              <Loading type="points-opacity" color="currentColor" size="sm" />
-            ) : (
-              "Approve"
-            )}
+        {loading ? (
+          <Loading type="points-opacity" color="currentColor" size="sm" />
+        ) : (
+          "Approve"
+        )}
       </Button>
     );
   }
@@ -86,11 +86,12 @@ export default function TransactionButtons({
 
       setLoading(false);
       setApprove(true);
+      setNumConfirmations(numConfirmations + 1);
+      console.log({numConfirmations});
+      
     } catch (error) {
       setLoading(false);
-      setError(
-        "MetaMask Tx Signature: User denied transaction signature or network is fall."
-      );
+      setError(error.message);
     }
   };
 
@@ -102,11 +103,10 @@ export default function TransactionButtons({
 
       setLoading(false);
       setApprove(false);
+      setNumConfirmations(numConfirmations - 1);
     } catch (error) {
       setLoading(false);
-      setError(
-        "MetaMask Tx Signature: User denied transaction signature or network is fall."
-      );
+      setError(error.message);
     }
   };
 
@@ -120,9 +120,7 @@ export default function TransactionButtons({
       setExecute(true);
     } catch (error) {
       setLoading(false);
-      setError(
-        "MetaMask Tx Signature: User denied transaction signature or network is fall."
-      );
+      setError(error.message);
     }
   };
 
@@ -142,7 +140,7 @@ export default function TransactionButtons({
     <Card.Footer>
       <Row css={{ pt: 10 }}>
         <Grid.Container direction="row" justify="center" alignItems="center">
-          {renderConfirmRevokeButton()}
+          {numConfirmations !== quorum && renderConfirmRevokeButton()}
           <Spacer />
           <Button
             icon={!loading && <Send />}

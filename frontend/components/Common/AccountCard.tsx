@@ -10,7 +10,7 @@ const AccountCard = ({ address }: { address: string }) => {
   const shortName = network.shortName;
 
   return (
-    <Card variant="bordered" css={{ mw: "400px" }}>
+    <Card variant="bordered" css={{ mw: "260px" }}>
       <Card.Body>
         <Grid.Container
           direction="flex"
@@ -18,11 +18,9 @@ const AccountCard = ({ address }: { address: string }) => {
           alignItems="space-between"
         >
           <Grid.Container>
-            {/* <Avatar text="JR" size="sm" /> */}
-            <Jazzicon diameter={40} seed={jsNumberForAddress(address)} />
-            <Spacer />
+            <Jazzicon diameter={30} seed={jsNumberForAddress(address)} />
             <Text>
-              <b>{shortName}:</b> {getLittleAddress(address)}
+              <b>&nbsp; {shortName}:</b> {getLittleAddress(address)}
             </Text>
           </Grid.Container>
           <LinkAndCopy address={address} />

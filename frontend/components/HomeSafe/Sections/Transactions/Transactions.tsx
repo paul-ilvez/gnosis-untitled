@@ -20,16 +20,18 @@ export default function Transactions({
   txs,
   history,
   quorum,
+  deposits
 }: {
   txs: GnosisTransaction[];
   history: GnosisTransaction[];
   quorum: number;
+  deposits: GnosisDeposit[];
 }) {
   const { transactionsSection } = useContext(AppContext);
 
   const sectionMap: { [key: string]: JSX.Element } = {
     Queue: <TransactionsQueue quorum={quorum} txs={txs} />,
-    History: <TransactionsHistory history={history} />,
+    History: <TransactionsHistory quorum={quorum} deposits={deposits} history={history} />,
   };
 
   return (

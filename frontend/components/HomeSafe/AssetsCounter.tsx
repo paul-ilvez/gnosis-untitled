@@ -7,7 +7,7 @@ export default function AssetsCounter() {
       <Text b size={14} color="#666666" css={{ mr: "$5" }}>
         Tokens
         <Text b size={20} css={{ ml: "$5" }}>
-          0
+          1
         </Text>
       </Text>
       <Text b size={14} color="#666666" css={{ mr: "$10" }}>
