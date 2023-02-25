@@ -1,13 +1,6 @@
-import {
-  Grid,
-  Spacer,
-  Text,
-  Image,
-  Card,
-  Row,
-} from "@nextui-org/react";
+import { Grid, Spacer, Text, Image, Card, Row } from "@nextui-org/react";
 import { formatEther } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TransactionInfo from "./TransactionInfo";
 
 export default function TransactionCard({
@@ -18,7 +11,11 @@ export default function TransactionCard({
   quorum?: number;
 }) {
   const [open, setOpen] = useState(false);
+  const [numConfirmations, setNumConfirmations] = useState<number>(0);
 
+  useEffect(() => {
+    setNumConfirmations(Number(transaction.numConfirmations));
+  }, []);
 
   enum TxType {
     VALUE_TRANSFER,
@@ -45,10 +42,6 @@ export default function TransactionCard({
     }
   }
 
-  function formatNumOfConfirmations(): string {
-    return `${transaction.numConfirmations}/${quorum}`;
-  }
-
   const value = formatEther(transaction.value) + " ETH";
 
   return (
@@ -56,12 +49,18 @@ export default function TransactionCard({
       <Card variant="shadow">
         <Card.Header css={{ cursor: "pointer" }} onClick={() => setOpen(!open)}>
           <Row justify="space-between" align="center" wrap="nowrap">
-            <Row align='center'>
+            <Row align="center">
               <Text b>{transaction.id}</Text>
+              {txTypeToString(transaction.type) === "VALUE_TRANSFER" && (
+                  <Image src="/SentIcon.svg" alt="ReceivedIcon" />
+                )}
               <Spacer y={2} />
-              <Text css={{ width: '120px' }}>&nbsp;{txTypeToString(transaction.type)}</Text>
+              <Text css={{ width: "120px" }}>
+      
+                &nbsp;{txTypeToString(transaction.type)}
+              </Text>
               <Spacer y={1} />
-              <Text>{transaction.value ? value : ""}</Text>
+              <Text>-{transaction.value ? value : ""}</Text>
             </Row>
 
             <Spacer y={2} />
@@ -70,24 +69,34 @@ export default function TransactionCard({
             <Grid justify="center" direction="column">
               <Text
                 b
-                color={
-                  Number(transaction.numConfirmations) >= quorum
-                    ? "green"
-                    : "blue"
-                }
+                color={Number(numConfirmations) >= quorum ? "green" : "blue"}
                 css={{
                   display: "flex",
-                  alignItems: 'center'
+                  alignItems: "center",
                 }}
               >
-                {formatNumOfConfirmations()}
+                {transaction.executed
+                  ? "Success"
+                  : `${numConfirmations}/${quorum}`}
                 <Spacer />
-                <Image alt="chevron" width={16} height={16} src="/chevron.svg" />
+                <Image
+                  alt="chevron"
+                  width={16}
+                  height={16}
+                  src="/chevron.svg"
+                />
               </Text>
             </Grid>
           </Row>
         </Card.Header>
-        {open && <TransactionInfo transaction={transaction} quorum={quorum} />}
+        {open && (
+          <TransactionInfo
+            transaction={transaction}
+            quorum={quorum}
+            numConfirmations={numConfirmations}
+            setNumConfirmations={setNumConfirmations}
+          />
+        )}
       </Card>
       <Spacer />
     </>

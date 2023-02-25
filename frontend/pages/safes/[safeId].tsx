@@ -27,6 +27,7 @@ export default function SafeDetails() {
   const [errorVisible, setErrorVisible] = useState<boolean>(false);
   const [txs, setTxs] = useState<GnosisTransaction[]>([]);
   const [history, setHistory] = useState<GnosisTransaction[]>([]);
+  const [deposits, setDeposits] = useState<GnosisDeposit[]>([]);
   const [quorum, setQuorum] = useState<number>();
   const { query } = useRouter();
 
@@ -98,15 +99,36 @@ export default function SafeDetails() {
         }
 
         const filter = tempContract.filters.ExecuteTransaction();
+        const filterDeposit = tempContract.filters.Deposit();
         const events = await tempContract.queryFilter(filter);
+        const eventsDeposits = await tempContract.queryFilter(filterDeposit);
+
+
+        const tempDeposits = eventsDeposits.map((event, i) => {
+          const [sender, amount, balance] = event.args;
+          
+          const newTx: GnosisDeposit = {
+            id: i,
+            sender,
+            value: amount,
+            balance: balance,
+            date: new Date(),
+            txHash: event.transactionHash,
+            safeHash: event.blockHash,
+          };
+
+          return newTx
+        })
+        
 
         for (let i = 0; i < events.length; i++) {
           const txI = events[0].args[1];
-
           const tx = await tempContract.getTransaction(txI);
+
           const newTx: GnosisTransaction = {
             id: i,
             to: tx[0],
+            sender: events[0].args[0],
             value: tx[1],
             data: tx[2],
             executed: tx[3],
@@ -122,6 +144,7 @@ export default function SafeDetails() {
         }
         setTxs(tempTxs);
         setHistory(tempHistory);
+        setDeposits(tempDeposits);
         setLoading(false);
       } catch (e) {
         setErrorMessage("Uncorrect safe data. Try change need network.");
@@ -134,7 +157,7 @@ export default function SafeDetails() {
 
   const sectionsMap: { [key: string]: JSX.Element } = {
     Transactions: (
-      <Transactions quorum={quorum ?? 1} txs={txs} history={history} />
+      <Transactions quorum={quorum ?? 1} txs={txs} history={history} deposits={deposits} />
     ),
     Setup: <Setup />,
     Assets: <Assets />,

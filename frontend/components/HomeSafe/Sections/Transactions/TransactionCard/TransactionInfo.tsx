@@ -1,37 +1,25 @@
+import AccountCard from "@/components/Common/AccountCard";
 import LinkAndCopy from "@/components/Common/LinkAndCopy";
 import getLittleAddress from "@/libs/getLittleAdrress";
 import { AppContext } from "@/store/AppContext";
-import {
-  Grid,
-  Spacer,
-  Text,
-  Card,
-  Row,
-  Col,
-  Button,
-} from "@nextui-org/react";
+import { Grid, Spacer, Text, Card, Row, Col, Button } from "@nextui-org/react";
 import moment from "moment";
 import { useContext } from "react";
 import { CloseSquare, Send, TickSquare } from "react-iconly";
 import TransactionButtons from "./TransactionButtons";
+import TransactionProcess from "./TransactionProcess";
 
 export default function TransactionInfo({
   transaction,
   quorum,
+  numConfirmations,
+  setNumConfirmations,
 }: {
   transaction: GnosisTransaction;
   quorum: number;
+  numConfirmations: Number;
+  setNumConfirmations: Function;
 }) {
-  const {
-    handleApproveTx,
-    handleRevokeConfirmation,
-    handleExecuteTx,
-    currentSafe,
-  } = useContext(AppContext);
-
-
-
-
 
   return (
     <>
@@ -75,8 +63,18 @@ export default function TransactionInfo({
               <Text b>{getLittleAddress(transaction.safeHash)}</Text>
             </Row>
           )}
+          <Spacer y={2} />
           <Card.Divider />
-          {!transaction.executed && <TransactionButtons transaction={transaction} quorum={quorum} />}
+          {!transaction.executed && (
+            <TransactionButtons
+              numConfirmations={numConfirmations}
+              setNumConfirmations={setNumConfirmations}
+              transaction={transaction}
+              quorum={quorum}
+            />
+          )}
+          <Card.Divider />
+          <TransactionProcess transaction={transaction} quorum={quorum} numConfirmations={numConfirmations}  />
         </Col>
       </Card.Body>
     </>
