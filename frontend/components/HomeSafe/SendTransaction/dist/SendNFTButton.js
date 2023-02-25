@@ -3,7 +3,7 @@ exports.__esModule = true;
 var react_1 = require("@nextui-org/react");
 function SendNFTButton(_a) {
     var handler = _a.handler;
-    return (React.createElement(react_1.Button, { onClick: handler, rounded: true, disabled: true, css: {
+    return (React.createElement(react_1.Button, { onPress: handler, rounded: true, disabled: true, css: {
             background: "#000",
             color: "#fff",
             width: "300px",

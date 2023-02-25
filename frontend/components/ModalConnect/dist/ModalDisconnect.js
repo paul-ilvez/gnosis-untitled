@@ -5,8 +5,11 @@ var react_2 = require("@nextui-org/react");
 var Jazzicon_1 = require("react-jazzicon/dist/Jazzicon");
 var react_jazzicon_1 = require("react-jazzicon");
 var ButtonDisconnectMetamask_1 = require("../ButtonConnect/ButtonDisconnectMetamask");
+var AppContext_1 = require("@/store/AppContext");
+var LinkAndCopy_1 = require("../Common/LinkAndCopy");
 var ModalDisconnect = function (_a) {
     var handleDisconnectMetamaskClick = _a.handleDisconnectMetamaskClick, account = _a.account, networkName = _a.networkName;
+    var network = react_1.useContext(AppContext_1.AppContext).network;
     return (react_1["default"].createElement("div", null,
         react_1["default"].createElement(react_2.Modal.Header, null,
             react_1["default"].createElement(react_2.Row, { justify: "center", align: "center" },
@@ -14,8 +17,10 @@ var ModalDisconnect = function (_a) {
         react_1["default"].createElement(react_2.Modal.Body, null,
             react_1["default"].createElement(react_2.Card, { variant: "bordered" },
                 react_1["default"].createElement(react_2.Card.Body, { css: { padding: "$2" } },
-                    react_1["default"].createElement(react_2.Text, null, "gor: " + (account === null || account === void 0 ? void 0 : account.toString().slice(0, 10)) +
-                        "..." + (account === null || account === void 0 ? void 0 : account.toString().slice(38))))),
+                    react_1["default"].createElement(react_2.Row, { justify: 'space-between' },
+                        react_1["default"].createElement(react_2.Text, { size: "$sm" }, network.shortName + ": " + (account === null || account === void 0 ? void 0 : account.toString().slice(0, 10)) +
+                            "..." + (account === null || account === void 0 ? void 0 : account.toString().slice(38))),
+                        react_1["default"].createElement(LinkAndCopy_1["default"], { address: account })))),
             react_1["default"].createElement(react_2.Row, { justify: "flex-start", align: "center" },
                 react_1["default"].createElement(react_2.Text, { size: "$xs", css: { color: "#868686", textAlign: "left" } },
                     "Wallet: Metamask ",
