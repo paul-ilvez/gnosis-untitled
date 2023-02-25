@@ -21,7 +21,6 @@ export default function SafeDetails() {
     connected,
     signer,
   } = useContext(AppContext);
-  const [errorMessage, setErrorMessage] = useState<string>();
   const [signers, setSigners] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorVisible, setErrorVisible] = useState<boolean>(false);
