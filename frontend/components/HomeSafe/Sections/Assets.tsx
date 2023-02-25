@@ -1,16 +1,44 @@
-import { Card, Text } from "@nextui-org/react";
+import { Card, Text, Spacer, Row } from "@nextui-org/react";
+import { useContext, useEffect } from "react";
+import AssetsNft from "./AssetsNft";
+import AssetsToken from "./AssetsToken";
+import AssetsHeaderButtons from "./AssetsHeaderButton";
+import { AppContext } from "@/store/AppContext";
+
+const headerButtons = [
+  {
+    id: 1,
+    type: "Token",
+  },
+  {
+    id: 2,
+    type: "NFT",
+  },
+];
 
 export default function Assets() {
+  const { assetsSection } = useContext(AppContext);
+
+  const sectionMap: { [key: string]: JSX.Element } = {
+    Token: <AssetsToken />,
+    NFT: <AssetsNft />,
+  };
+
   return (
     <Card
       variant="bordered"
-      css={{ h: "499px", mw: "720px", borderRadius: "39px" }}
+      css={{ minHeight: "499px", mw: "720px", borderRadius: "39px" }}
     >
-      <Card.Body>
-        <Text h6 size={15} color="black" css={{ m: 0 }}>
-          2 of 3
-        </Text>
-      </Card.Body>
+      <Card.Header>
+        <Spacer y={2} />
+        <Row justify="flex-start">
+          {headerButtons.map((button, i) => (
+            <AssetsHeaderButtons key={i} type={button.type} />
+          ))}
+        </Row>
+      </Card.Header>
+      <Card.Divider />
+      <Card.Body>{sectionMap[assetsSection.type]}</Card.Body>
     </Card>
   );
 }

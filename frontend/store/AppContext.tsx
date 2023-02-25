@@ -33,6 +33,10 @@ export type TransactionsSection = {
   type: string;
 };
 
+export type AssetsSection = {
+  type: string;
+};
+
 export const AppContext = createContext({
   safeFactory: undefined,
   setSafeFactory: (_contract: SafeFactory) => {},
@@ -58,6 +62,8 @@ export const AppContext = createContext({
   setTransactionsSectionHandler: (
     _transactionsSection: TransactionsSection
   ) => {},
+  assetsSection: { type: "Token" },
+  setAssetsSectionHandler: (_assetsSection: AssetsSection) => {},
   createSafeStatus: { status: "owners" },
   setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => {},
   newSafeForm: {
@@ -76,8 +82,6 @@ export const AppContext = createContext({
   handleApproveTx: (_safe: GnosisUntitled, txId: number) => {},
   handleRevokeConfirmation: (_safe: GnosisUntitled, txId: number) => {},
   handleExecuteTx: (_safe: GnosisUntitled, txId: number) => {},
-  
-  
 }); //--------------AppContex------------------------
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
@@ -97,8 +101,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const [valueTransfer, _setValueTransfer] = useState({
     recipient: "",
-    amount: ""
-  })
+    amount: "",
+  });
 
   const router = useRouter();
 
@@ -108,6 +112,10 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const [transactionsSection, setTransactionsSection] = useState({
     type: "Queue",
+  });
+
+  const [assetsSection, setAssetsSection] = useState({
+    type: "Token",
   });
 
   const [createSafeStatus, setCreateSafeStatus] = useState({
@@ -148,8 +156,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   function setValueTransfer(_recipient: string, _amount: string) {
     _setValueTransfer({
       recipient: _recipient,
-      amount: _amount
-    })
+      amount: _amount,
+    });
   }
 
   function setCurrentMenuSectionHandler(
@@ -162,6 +170,10 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     _transactionsSection: TransactionsSection
   ) {
     setTransactionsSection(_transactionsSection);
+  }
+
+  function setAssetsSectionHandler(_assetsSection: AssetsSection) {
+    setAssetsSection(_assetsSection);
   }
 
   const setCreateSafeStatusHandler = (_status: CreateSafeStatus) => {
@@ -234,6 +246,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setCurrentMenuSectionHandler,
     transactionsSection,
     setTransactionsSectionHandler,
+    assetsSection,
+    setAssetsSectionHandler,
     createSafeStatus,
     setCreateSafeStatusHandler,
     newSafeForm,
