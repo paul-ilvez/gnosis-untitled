@@ -1,10 +1,10 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card, Grid, Loading, Spacer, Button, Text } from "@nextui-org/react";
 import FormHeader from "@/components/Common/FormHeader";
 import { AppContext } from "@/store/AppContext";
 import AccountCard from "@/components/Common/AccountCard";
 import Link from "next/link";
-import {createSafeDb} from "@/db/repository";
+import { createSafeDb } from "@/db/repository";
 
 type StateLoadType = "idle" | "fetch" | "validate" | "processing" | "ready";
 
@@ -14,16 +14,11 @@ const GenerateSafe = () => {
   const { owners, quorum } = newSafeForm;
   const [safeAddr, setSafeAddr] = useState<string>("");
 
-
-  useEffect(()=>{
-
+  useEffect(() => {
     // (async ()=> {
     //   await createSafeDb({owners, quorum, address: '0x27e3615461447ddF5F7E2fD877364374b8Ac7zzz', chainId: "5" })
     // })()
-
-
-
-  }, [])
+  }, []);
 
   const createSafe = async () => {
     const addresses = owners.map((owner) => owner.address);
@@ -32,17 +27,23 @@ const GenerateSafe = () => {
       setStateLoad("fetch");
 
       const tx = await safeFactory.createSafe(addresses, quorum);
-      const { chainId } = await provider.getNetwork()
+      const { chainId } = await provider.getNetwork();
 
       safeFactory.on(
         "SafeCreated",
         (from: string, to: string, value: number) => {
           setSafeAddr(from);
-          const owners = newSafeForm.owners.map(owner => {
-            return {...owner, address: owner.address.toLowerCase()}
-          })
-          createSafeDb({owners, chainId: Number(chainId), quorum: newSafeForm.quorum, address: from })
-            .then(()=>{console.log('safe created')})
+          const owners = newSafeForm.owners.map((owner) => {
+            return { ...owner, address: owner.address.toLowerCase() };
+          });
+          createSafeDb({
+            owners,
+            chainId: Number(chainId),
+            quorum: newSafeForm.quorum,
+            address: from,
+          }).then(() => {
+            console.log("safe created");
+          });
         }
       );
 
@@ -85,7 +86,8 @@ const GenerateSafe = () => {
             size="$lg"
             color={stateLoad === "fetch" ? "#0072F5" : "#889096"}
           >
-            ✓ &nbsp; Your Safe address
+            {stateLoad === "ready" ? "✓" : "•"}
+            &nbsp; Your Safe address
             <AccountCard address={safeAddr ?? "Not Created Yet"} />
             <Spacer y={2} />
           </Text>
@@ -94,7 +96,7 @@ const GenerateSafe = () => {
             size="$lg"
             color={stateLoad === "validate" ? "#0072F5" : "#889096"}
           >
-            ✓ &nbsp; Validating transaction
+            {stateLoad === "ready" ? "✓" : "•"} &nbsp; Validating transaction
             <Spacer y={2} />
           </Text>
           <Text
@@ -102,7 +104,7 @@ const GenerateSafe = () => {
             size="$lg"
             color={stateLoad === "processing" ? "#0072F5" : "#889096"}
           >
-            ✓ &nbsp; Processing
+            {stateLoad === "ready" ? "✓" : "•"} &nbsp; Processing
             <Spacer y={2} />
           </Text>
           <Text
@@ -110,7 +112,7 @@ const GenerateSafe = () => {
             size="$lg"
             color={stateLoad === "ready" ? "#0072F5" : "#889096"}
           >
-            ✓ &nbsp; Safe is ready
+            {stateLoad === "ready" ? "✓" : "•"} &nbsp; Safe is ready
             <Spacer y={2} />
           </Text>
           <Spacer y={3} />

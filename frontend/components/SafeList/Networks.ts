@@ -40,6 +40,13 @@ export const networks: Network[] = [
     symbol: "eth",
     shortName: "loc",
   },
+  {
+    chaindId: 80001,
+    name: "Mumbai",
+    factoryContractAddress: "",
+    symbol: "MATIC",
+    shortName: "mum",
+  },
 ];
 
 export const undefinedNetwork: Network = {
