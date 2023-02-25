@@ -110,7 +110,7 @@ const ModalReview = ({
                   size={"$xs"}
                   css={{ textAlign: "left", marginLeft: "20px" }}
                 >
-                  <b>Test</b>
+                  <b>Bob</b>
                   <br />
                   {shortName}: {addressFrom}
                 </Text>
@@ -135,7 +135,7 @@ const ModalReview = ({
                   size={"$xs"}
                   css={{ textAlign: "left", marginLeft: "20px" }}
                 >
-                  <b>Test</b>
+                  <b>Alice</b>
                   <br />
                   {shortName}: {valueTransfer.recipient}
                 </Text>
