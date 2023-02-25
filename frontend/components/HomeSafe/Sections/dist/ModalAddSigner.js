@@ -39,8 +39,8 @@ exports.__esModule = true;
 var react_1 = require("react");
 var react_2 = require("@nextui-org/react");
 var AppContext_1 = require("@/store/AppContext");
-var ModalChangeConfirmations = function (_a) {
-    var visible = _a.visible, closeHandler = _a.closeHandler, numOfSigners = _a.numOfSigners;
+var ModalAddSigner = function (_a) {
+    var visible = _a.visible, closeHandler = _a.closeHandler;
     var appCtx = react_1.useContext(AppContext_1.AppContext);
     var currentSafe = appCtx.currentSafe;
     var quorumInputRef = react_1.useRef();
@@ -52,7 +52,7 @@ var ModalChangeConfirmations = function (_a) {
         setIsVisibleModalNFT(false);
         setIsVisibleModalToken(false);
     };
-    function handleChangeQuorum(e) {
+    function handleAddSigner(e) {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
             var value, tx, response, error_1;
@@ -65,7 +65,7 @@ var ModalChangeConfirmations = function (_a) {
                         _c.label = 1;
                     case 1:
                         _c.trys.push([1, 4, , 5]);
-                        return [4 /*yield*/, currentSafe.submitChangeQuorum(BigInt(value))];
+                        return [4 /*yield*/, currentSafe.submitNewSigner(value)];
                     case 2:
                         tx = _c.sent();
                         return [4 /*yield*/, tx.wait()];
@@ -89,15 +89,15 @@ var ModalChangeConfirmations = function (_a) {
                     react_1["default"].createElement(react_2.Text, null, "Change amount of confirmation"))),
             react_1["default"].createElement(react_2.Card.Divider, null),
             react_1["default"].createElement(react_2.Modal.Body, null,
-                react_1["default"].createElement("form", { onSubmit: handleChangeQuorum },
+                react_1["default"].createElement("form", { onSubmit: handleAddSigner },
                     react_1["default"].createElement("label", null),
-                    react_1["default"].createElement("input", { ref: quorumInputRef, style: {
+                    react_1["default"].createElement("input", { placeholder: "Add address", ref: quorumInputRef, style: {
                             backgroundColor: "transparent",
                             border: "1px solid gray"
-                        }, type: "number", step: 1, min: 1, max: numOfSigners }),
+                        }, type: "text", step: 1 }),
                     react_1["default"].createElement(react_2.Spacer, { y: 1 }),
                     react_1["default"].createElement(react_2.Button, { size: "sm", css: { backgroundColor: "black" }, type: "submit" },
                         react_1["default"].createElement(react_2.Text, { b: true, color: "white" }, "Submit")))),
             react_1["default"].createElement(react_2.Modal.Footer, null))));
 };
-exports["default"] = ModalChangeConfirmations;
+exports["default"] = ModalAddSigner;

@@ -42,6 +42,7 @@ var react_jazzicon_1 = require("react-jazzicon");
 var AppContext_1 = require("@/store/AppContext");
 var react_2 = require("react");
 var ModalChangeConfirmations_1 = require("./ModalChangeConfirmations");
+var ModalAddSigner_1 = require("./ModalAddSigner");
 function Setup(_a) {
     var _this = this;
     var signers = _a.signers;
@@ -50,7 +51,8 @@ function Setup(_a) {
     var shortName = network.shortName;
     var _c = react_2.useState(), quorum = _c[0], setQuorum = _c[1];
     var _d = react_2.useState(), numOfSigners = _d[0], setNumOfSigners = _d[1];
-    var _e = react_2.useState(false), isVisible = _e[0], setIsVisible = _e[1];
+    var _e = react_2.useState(false), isVisibleChangePopUp = _e[0], setIsVisibleChangePopUp = _e[1];
+    var _f = react_2.useState(false), isVisibleAddPopUp = _f[0], setIsVisibleAddPopUp = _f[1];
     react_2.useEffect(function () {
         if (currentSafe == null || !connected) {
             return;
@@ -103,10 +105,16 @@ function Setup(_a) {
         });
     }
     function handleChangePopUp() {
-        setIsVisible(true);
+        setIsVisibleChangePopUp(true);
     }
     function handleClosePopUp() {
-        setIsVisible(false);
+        setIsVisibleChangePopUp(false);
+    }
+    function handleAddPopUp() {
+        setIsVisibleAddPopUp(true);
+    }
+    function handleCloseAddPopUp() {
+        setIsVisibleAddPopUp(false);
     }
     return (React.createElement(react_1.Card, { variant: "bordered", css: { h: "499px", mw: "720px", borderRadius: "39px" } },
         React.createElement(react_1.Card.Header, null,
@@ -142,7 +150,16 @@ function Setup(_a) {
                                 }, onClick: function () { return handleRemoveSigner(signer); } },
                                 React.createElement(react_1.Image, { alt: "remove", src: "/Remove.svg", width: 16, height: 16 }))),
                         React.createElement(react_1.Spacer, { y: 0.5 })));
-                }))),
+                }),
+                React.createElement(react_1.Col, null,
+                    React.createElement(react_1.Row, null,
+                        React.createElement(react_1.Text, { b: true }, "Add signer")),
+                    React.createElement(react_1.Row, null,
+                        React.createElement(react_1.Button, { onClick: function () {
+                                handleAddPopUp();
+                            }, size: "sm", css: { backgroundColor: "black" } },
+                            React.createElement(react_1.Text, { b: true, color: "white" }, "Add"))),
+                    React.createElement(react_1.Spacer, { y: 1 })))),
         React.createElement(react_1.Card.Footer, null,
             React.createElement(react_1.Col, null,
                 React.createElement(react_1.Row, null,
@@ -160,6 +177,7 @@ function Setup(_a) {
                         }, size: "sm", css: { backgroundColor: "black" } },
                         React.createElement(react_1.Text, { b: true, color: "white" }, "Change"))),
                 React.createElement(react_1.Spacer, { y: 1 }))),
-        React.createElement(ModalChangeConfirmations_1["default"], { visible: isVisible, closeHandler: handleClosePopUp })));
+        React.createElement(ModalChangeConfirmations_1["default"], { visible: isVisibleChangePopUp, closeHandler: handleClosePopUp }),
+        React.createElement(ModalAddSigner_1["default"], { visible: isVisibleAddPopUp, closeHandler: handleCloseAddPopUp })));
 }
 exports["default"] = Setup;

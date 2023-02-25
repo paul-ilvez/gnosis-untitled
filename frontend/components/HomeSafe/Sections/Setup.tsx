@@ -18,6 +18,7 @@ import { AppContext } from "@/store/AppContext";
 import { useContext, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import ModalChangeConfirmations from "./ModalChangeConfirmations";
+import ModalAddSigner from "./ModalAddSigner";
 
 export default function Setup({ signers }: { signers: string[] }) {
   console.log("signersss : ", signers);
@@ -27,7 +28,8 @@ export default function Setup({ signers }: { signers: string[] }) {
 
   const [quorum, setQuorum] = useState();
   const [numOfSigners, setNumOfSigners] = useState();
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisibleChangePopUp, setIsVisibleChangePopUp] = useState(false);
+  const [isVisibleAddPopUp, setIsVisibleAddPopUp] = useState(false);
 
   useEffect(() => {
     if (currentSafe == null || !connected) {
@@ -56,11 +58,19 @@ export default function Setup({ signers }: { signers: string[] }) {
   }
 
   function handleChangePopUp() {
-    setIsVisible(true);
+    setIsVisibleChangePopUp(true);
   }
 
   function handleClosePopUp() {
-    setIsVisible(false);
+    setIsVisibleChangePopUp(false);
+  }
+
+  function handleAddPopUp() {
+    setIsVisibleAddPopUp(true);
+  }
+
+  function handleCloseAddPopUp() {
+    setIsVisibleAddPopUp(false);
   }
 
   return (
@@ -133,6 +143,26 @@ export default function Setup({ signers }: { signers: string[] }) {
               </>
             );
           })}
+          <Col>
+            <Row>
+              <Text b>Add signer</Text>
+            </Row>
+
+            <Row>
+              <Button
+                onClick={() => {
+                  handleAddPopUp();
+                }}
+                size="sm"
+                css={{ backgroundColor: "black" }}
+              >
+                <Text b color="white">
+                  Add
+                </Text>
+              </Button>
+            </Row>
+            <Spacer y={1} />
+          </Col>
         </>
       </Card.Body>
       <Card.Footer>
@@ -165,8 +195,12 @@ export default function Setup({ signers }: { signers: string[] }) {
         </Col>
       </Card.Footer>
       <ModalChangeConfirmations
-        visible={isVisible}
+        visible={isVisibleChangePopUp}
         closeHandler={handleClosePopUp}
+      />
+      <ModalAddSigner
+        visible={isVisibleAddPopUp}
+        closeHandler={handleCloseAddPopUp}
       />
     </Card>
   );
