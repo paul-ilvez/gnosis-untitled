@@ -11,7 +11,13 @@ export default function TransactionCard({
   quorum?: number;
 }) {
   const [open, setOpen] = useState(false);
-  const [numConfirmations, setNumConfirmations] = useState<number>(0);
+  const [numConfirmations, setNumConfirmations] = useState<number>(
+    Number(transaction.numConfirmations)
+  );
+
+  useEffect(() => {
+    setNumConfirmations(Number(transaction.numConfirmations));
+  }, []);
 
   enum TxType {
     VALUE_TRANSFER,
@@ -55,8 +61,8 @@ export default function TransactionCard({
             <Row align="center">
               <Text b>{transaction.id}</Text>
               {txTypeToString(transaction.type) === "VALUE_TRANSFER" && (
-                  <Image src="/SentIcon.svg" alt="ReceivedIcon" />
-                )}
+                <Image src="/SentIcon.svg" alt="ReceivedIcon" />
+              )}
               <Spacer y={2} />
               <Text css={{ width: "120px" }}>
                 &nbsp;{txTypeToString(transaction.type)}
@@ -71,7 +77,11 @@ export default function TransactionCard({
             <Grid justify="center" direction="column">
               <Text
                 b
-                color={Number(numConfirmations) >= quorum || transaction.executed ? "green" : "blue"}
+                color={
+                  Number(numConfirmations) >= quorum || transaction.executed
+                    ? "green"
+                    : "blue"
+                }
                 css={{
                   display: "flex",
                   alignItems: "center",
