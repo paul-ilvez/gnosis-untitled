@@ -39,4 +39,5 @@ hardhat/cache
 hardhat/artifacts
 hardhat/contracts/artifacts
 */.yarn
+*/.env
 frontend/.yarn/install-state.gz

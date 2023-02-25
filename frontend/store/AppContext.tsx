@@ -23,7 +23,7 @@ export type NewSafeForm = {
   name: string;
   network: Network;
   owners: FormOwners[];
-  quorum: string;
+  quorum: number;
 };
 
 export type CurrentMenuSection = {

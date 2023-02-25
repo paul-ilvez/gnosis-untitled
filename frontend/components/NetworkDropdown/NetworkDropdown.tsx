@@ -7,12 +7,20 @@ const NetworkDropdown = () => {
   const { network, setNetwork } = useContext<AppContextData>(AppContext);
   
 
-  const changeNetwork = (networkItem: Network) => {
+  const changeNetwork = async (networkItem: Network) => {
     const newNetwork = networks.find((item) => {
       return item.chaindId === +networkItem.currentKey;
     });
-
     setNetwork(newNetwork);
+
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: `0x${newNetwork.chaindId.toString(16)}` }],
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
