@@ -13,13 +13,6 @@ export default function TransactionCard({
   const [open, setOpen] = useState(false);
   const [numConfirmations, setNumConfirmations] = useState<number>(0);
 
-<<<<<<< HEAD
-=======
-  useEffect(() => {
-    setNumConfirmations(Number(transaction.numConfirmations));
-  }, []);
-
->>>>>>> d6a27958ce7dff83481bdbe1b8086749fff44df8
   enum TxType {
     VALUE_TRANSFER,
     SEND_BYTECODE,
