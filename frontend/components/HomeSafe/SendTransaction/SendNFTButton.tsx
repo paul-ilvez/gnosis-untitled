@@ -3,7 +3,7 @@ import { Button, Text } from "@nextui-org/react";
 export default function SendNFTButton({ handler }) {
   return (
     <Button
-      onClick={handler}
+    onPress={handler}
       rounded
       disabled={true}
       css={{

@@ -9,13 +9,13 @@ import { AppContext } from "@/store/AppContext";
 import ModalNewTransaction from "./SendTransaction/ModalNewTransaction";
 import LinkAndCopy from "../Common/LinkAndCopy";
 import {chain} from "@react-aria/utils";
+import {Network} from "@/components/SafeList/Networks";
 
 export default function HomeSafeMenu() {
   const {
     provider,
     currentSafe,
-    connected,
-    network
+    connected
   }: {
     provider: BrowserProvider;
     currentSafe: GnosisUntitled;
@@ -27,6 +27,7 @@ export default function HomeSafeMenu() {
   const [quorum, setQuorum] = useState<number>(0);
   const [numOfSigners, setNumOfSigners] = useState<number>(0);
   const [contractAddress, setContractAddress] = useState<string>("UNKNOWN");
+  const [chain, setChain] = useState<string>(0)
   const Buttons = [
     {
       id: 1,
@@ -61,9 +62,11 @@ export default function HomeSafeMenu() {
       const tempNumOfSigners = Number(await currentSafe.getSignerCount());
       const tempAddress = currentSafe.target;
       const tempBalance = Number(await provider.getBalance(tempAddress));
+      const tempChain = await  provider.getNetwork(tempAddress)
 
-      console.log({ tempBalance });
+      console.log({ tempChain });
 
+      setChain(BigInt(tempChain.chainId))
       setContractAddress(tempAddress);
       setBalance(tempBalance);
       setQuorum(tempQuorum);
@@ -83,7 +86,7 @@ export default function HomeSafeMenu() {
             address={contractAddress}
             countOwners={numOfSigners}
             quorum={quorum}
-            chainId={network.chainId}
+            chainId={chain}
           />
           <Spacer y={0.5} />
           <Row align="center" justify="space-between">

@@ -64,6 +64,8 @@ exports.AppContext = react_2.createContext({
     setCurrentMenuSectionHandler: function (_currentMenuSection) { },
     transactionsSection: { type: "Queue" },
     setTransactionsSectionHandler: function (_transactionsSection) { },
+    assetsSection: { type: "Token" },
+    setAssetsSectionHandler: function (_assetsSection) { },
     createSafeStatus: { status: "owners" },
     setCreateSafeStatusHandler: function (_createSafeStatus) { },
     newSafeForm: {
@@ -109,9 +111,12 @@ function ContextProvider(_a) {
         type: "Queue"
     }), transactionsSection = _m[0], setTransactionsSection = _m[1];
     var _o = react_2.useState({
+        type: "Token"
+    }), assetsSection = _o[0], setAssetsSection = _o[1];
+    var _p = react_2.useState({
         status: "owners"
-    }), createSafeStatus = _o[0], setCreateSafeStatus = _o[1];
-    var _p = react_2.useState(), currentSafe = _p[0], _setCurrentSafe = _p[1];
+    }), createSafeStatus = _p[0], setCreateSafeStatus = _p[1];
+    var _q = react_2.useState(), currentSafe = _q[0], _setCurrentSafe = _q[1];
     function setNetwork(_network) {
         _setNetwork(_network);
     }
@@ -147,6 +152,9 @@ function ContextProvider(_a) {
     }
     function setTransactionsSectionHandler(_transactionsSection) {
         setTransactionsSection(_transactionsSection);
+    }
+    function setAssetsSectionHandler(_assetsSection) {
+        setAssetsSection(_assetsSection);
     }
     var setCreateSafeStatusHandler = function (_status) {
         setCreateSafeStatus(_status);
@@ -238,6 +246,8 @@ function ContextProvider(_a) {
         setCurrentMenuSectionHandler: setCurrentMenuSectionHandler,
         transactionsSection: transactionsSection,
         setTransactionsSectionHandler: setTransactionsSectionHandler,
+        assetsSection: assetsSection,
+        setAssetsSectionHandler: setAssetsSectionHandler,
         createSafeStatus: createSafeStatus,
         setCreateSafeStatusHandler: setCreateSafeStatusHandler,
         newSafeForm: newSafeForm,

@@ -149,7 +149,7 @@ const SetOwners = () => {
                 </>
               );
             })}
-            <Button onClick={createNewOwner} light auto>
+            <Button onPress={createNewOwner} light auto>
               + Add new owner
             </Button>
             <Spacer y={2} />
@@ -188,7 +188,7 @@ const SetOwners = () => {
             <Spacer />
             <Grid.Container justify="space-between">
               <Button
-                onClick={() => setCreateSafeStatusHandler({ status: "init" })}
+                onPress={() => setCreateSafeStatusHandler({ status: "init" })}
                 css={{ width: "100px" }}
                 bordered
                 color="#000"

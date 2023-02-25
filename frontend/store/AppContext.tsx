@@ -6,12 +6,7 @@ import type { Network } from "@/components/SafeList/Networks";
 import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { FormOwners } from "@/components/LoadSafe/Steps/SetOwners";
-import {
-  AbstractProvider,
-  AbstractSigner,
-  BrowserProvider,
-  Contract,
-} from "ethers";
+import { AbstractSigner, BrowserProvider, Contract } from "ethers";
 import { SafeFactoryAbi } from "@/abi/SafeFactory";
 import { useRouter } from "next/router";
 
@@ -33,6 +28,10 @@ export type TransactionsSection = {
   type: string;
 };
 
+export type AssetsSection = {
+  type: string;
+};
+
 export const AppContext = createContext({
   safeFactory: undefined,
   setSafeFactory: (_contract: SafeFactory) => {},
@@ -43,7 +42,7 @@ export const AppContext = createContext({
   connected: false,
   setConnected: (_connected: boolean) => {},
   provider: undefined,
-  setProvider: (_provider: AbstractProvider) => {},
+  setProvider: (_provider: BrowserProvider) => {},
   signer: undefined,
   setSigner: (_signer: AbstractSigner) => {},
   isEthereum: false,
@@ -58,6 +57,8 @@ export const AppContext = createContext({
   setTransactionsSectionHandler: (
     _transactionsSection: TransactionsSection
   ) => {},
+  assetsSection: { type: "Token" },
+  setAssetsSectionHandler: (_assetsSection: AssetsSection) => {},
   createSafeStatus: { status: "owners" },
   setCreateSafeStatusHandler: (_createSafeStatus: CreateSafeStatus) => {},
   newSafeForm: {
@@ -76,8 +77,8 @@ export const AppContext = createContext({
   handleApproveTx: (_safe: GnosisUntitled, txId: number) => {},
   handleRevokeConfirmation: (_safe: GnosisUntitled, txId: number) => {},
   handleExecuteTx: (_safe: GnosisUntitled, txId: number) => {},
-  
-  
+  logoClickedCounter: 0,
+  incrementLogoClickedCounter: () => {},
 }); //--------------AppContex------------------------
 
 function ContextProvider({ children }: { children: React.ReactNode }) {
@@ -86,6 +87,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   const [isEthereum, _setIsEthereum] = useState(false);
   const [safeFactory, _setSafeFactory] = useState<SafeFactory>();
   const [connected, _setConnected] = useState(false);
+  const [logoClickedCounter, _setLogoClickedCounter] = useState(0);
   const [provider, _setProvider] = useState<BrowserProvider>();
   const [signer, _setSigner] = useState<AbstractSigner>();
   const [newSafeForm, _setNewSafeForm] = useState({
@@ -97,8 +99,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const [valueTransfer, _setValueTransfer] = useState({
     recipient: "",
-    amount: ""
-  })
+    amount: "",
+  });
 
   const router = useRouter();
 
@@ -108,6 +110,10 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
 
   const [transactionsSection, setTransactionsSection] = useState({
     type: "Queue",
+  });
+
+  const [assetsSection, setAssetsSection] = useState({
+    type: "Token",
   });
 
   const [createSafeStatus, setCreateSafeStatus] = useState({
@@ -129,6 +135,12 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     _setSafeFactory(_contract as SafeFactory);
   }
 
+  function incrementLogoClickedCounter() {
+    _setLogoClickedCounter((state) => {
+      return state + 1;
+    });
+  }
+
   function setProvider(_provider: BrowserProvider) {
     _setProvider(_provider);
   }
@@ -148,8 +160,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
   function setValueTransfer(_recipient: string, _amount: string) {
     _setValueTransfer({
       recipient: _recipient,
-      amount: _amount
-    })
+      amount: _amount,
+    });
   }
 
   function setCurrentMenuSectionHandler(
@@ -162,6 +174,10 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     _transactionsSection: TransactionsSection
   ) {
     setTransactionsSection(_transactionsSection);
+  }
+
+  function setAssetsSectionHandler(_assetsSection: AssetsSection) {
+    setAssetsSection(_assetsSection);
   }
 
   const setCreateSafeStatusHandler = (_status: CreateSafeStatus) => {
@@ -234,6 +250,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     setCurrentMenuSectionHandler,
     transactionsSection,
     setTransactionsSectionHandler,
+    assetsSection,
+    setAssetsSectionHandler,
     createSafeStatus,
     setCreateSafeStatusHandler,
     newSafeForm,
@@ -247,6 +265,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     handleApproveTx,
     handleRevokeConfirmation,
     handleExecuteTx,
+    logoClickedCounter,
+    incrementLogoClickedCounter,
   };
 
   useEffect(() => {

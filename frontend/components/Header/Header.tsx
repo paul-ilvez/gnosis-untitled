@@ -26,7 +26,13 @@ const Header = ({
   const [variant, setVariant] = useState("static");
   const variants = ["static", "floating", "sticky"];
   const appCtx = useContext(AppContext);
-  const { handleConnectMetamaskClick, isEthereum, handleDisconnectMetamask } = appCtx;
+  const {
+    handleConnectMetamaskClick,
+    isEthereum,
+    handleDisconnectMetamask,
+    logoClickedCounter,
+    incrementLogoClickedCounter,
+  } = appCtx;
 
   const handleCloseModalConnect = () => {
     setVisibleConnect(false);
@@ -46,7 +52,11 @@ const Header = ({
         <Grid.Container justify={"space-between"}>
           <Grid xs={4}>
             <Link href="/">
-              <Navbar.Brand>
+              <Navbar.Brand
+                onClick={() => {
+                  incrementLogoClickedCounter();
+                }}
+              >
                 <Image width={85} height={50} src="/logo.svg" alt="logo" />
               </Navbar.Brand>
             </Link>
@@ -68,7 +78,7 @@ const Header = ({
                       <Button
                         size="lg"
                         color="gray"
-                        onClick={handlerModalDisconnect}
+                        onPress={handlerModalDisconnect}
                       >
                         <Avatar
                           color="secondary"
@@ -96,9 +106,7 @@ const Header = ({
                     <Popover.Content>
                       <ModalDisconnect
                         account={appCtx.account}
-                        handleDisconnectMetamaskClick={
-                          handleDisconnectMetamask
-                        }
+                        handleDisconnectMetamaskClick={handleDisconnectMetamask}
                         networkName={appCtx.network.name}
                       />
                     </Popover.Content>
@@ -109,7 +117,7 @@ const Header = ({
                     icon={lockIcon}
                     flat
                     color="gray"
-                    onClick={handleConnectMetamaskClick}
+                    onPress={handleConnectMetamaskClick}
                   >
                     <Text color="error">Connect Wallet</Text>
                   </Button>

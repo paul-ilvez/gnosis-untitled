@@ -189,7 +189,7 @@ const ModalSendToken = ({
             <Button
               css={{ width: "100px", background: "#fff" }}
               color="#000"
-              onClick={closeHandler}
+              onPress={closeHandler}
               auto
             >
               Cancel

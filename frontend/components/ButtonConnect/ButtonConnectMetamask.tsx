@@ -7,7 +7,7 @@ const ButtonConnectMetamask = ({
   handleClickConnect: () => void;
 }) => {
   return (
-    <Button size="lg" flat color={"#000"} onClick={handleClickConnect}>
+    <Button size="lg" flat color={"#000"} onPress={handleClickConnect}>
       <Text color="error">Connect Metamask</Text>
     </Button>
   );

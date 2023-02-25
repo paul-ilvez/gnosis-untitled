@@ -23,7 +23,7 @@ export default function ButtonsMenu({
       bordered
       rounded
       borderWeight="light"
-      onClick={() => appCntx.setCurrentMenuSectionHandler({ title })}
+      onPress={() => appCntx.setCurrentMenuSectionHandler({ title })}
     >
       <Image src={icon} alt="" css={{ marginRight: "$5" }} />
       <Text size={"14px"} css={{ letterSpacing: "$tight" }} weight={"medium"}>
