@@ -66,18 +66,10 @@ export default function TransactionCard({
                 )}
               <Spacer y={2} />
               <Text css={{ width: "120px" }}>
-<<<<<<< HEAD
                 &nbsp;{txTypeToString(transaction.type)}
               </Text>
               <Spacer y={1} />
               <Text>{renderValue()}</Text>
-=======
-      
-                &nbsp;{txTypeToString(transaction.type)}
-              </Text>
-              <Spacer y={1} />
-              <Text>-{transaction.value ? value : ""}</Text>
->>>>>>> d6a27958ce7dff83481bdbe1b8086749fff44df8
             </Row>
 
             <Spacer y={2} />
