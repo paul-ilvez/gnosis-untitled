@@ -147,7 +147,7 @@ export default function SafeDetails() {
         setDeposits(tempDeposits);
         setLoading(false);
       } catch (e) {
-        setErrorMessage("Uncorrect safe data. Try change need network.");
+        setErrorMessage("This safe is not located in your current network. \n Try to change the network.");
         setErrorVisible(true);
         setLoading(false);
         console.error(e);
