@@ -31,6 +31,8 @@ export interface GnosisUntitledInterface extends utils.Interface {
   functions: {
     "confirmTransaction(uint256)": FunctionFragment;
     "executeTransaction(uint256)": FunctionFragment;
+    "getSigner(uint256)": FunctionFragment;
+    "getSignerCount()": FunctionFragment;
     "getTransaction(uint256)": FunctionFragment;
     "getTransactionCount()": FunctionFragment;
     "isConfirmed(uint256,address)": FunctionFragment;
@@ -38,7 +40,6 @@ export interface GnosisUntitledInterface extends utils.Interface {
     "nonce()": FunctionFragment;
     "quorum()": FunctionFragment;
     "revokeConfirmation(uint256)": FunctionFragment;
-    "signerCount()": FunctionFragment;
     "submitChangeQuorum(uint256)": FunctionFragment;
     "submitNewSigner(address)": FunctionFragment;
     "submitRemoveSigner(address)": FunctionFragment;
@@ -50,6 +51,8 @@ export interface GnosisUntitledInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "confirmTransaction"
       | "executeTransaction"
+      | "getSigner"
+      | "getSignerCount"
       | "getTransaction"
       | "getTransactionCount"
       | "isConfirmed"
@@ -57,7 +60,6 @@ export interface GnosisUntitledInterface extends utils.Interface {
       | "nonce"
       | "quorum"
       | "revokeConfirmation"
-      | "signerCount"
       | "submitChangeQuorum"
       | "submitNewSigner"
       | "submitRemoveSigner"
@@ -72,6 +74,14 @@ export interface GnosisUntitledInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "executeTransaction",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getSigner",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getSignerCount",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getTransaction",
@@ -94,10 +104,6 @@ export interface GnosisUntitledInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "revokeConfirmation",
     values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "signerCount",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "submitChangeQuorum",
@@ -132,6 +138,11 @@ export interface GnosisUntitledInterface extends utils.Interface {
     functionFragment: "executeTransaction",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getSigner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getSignerCount",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getTransaction",
     data: BytesLike
@@ -149,10 +160,6 @@ export interface GnosisUntitledInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "quorum", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "revokeConfirmation",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "signerCount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -291,6 +298,13 @@ export interface GnosisUntitled extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    getSigner(
+      _signerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    getSignerCount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     getTransaction(
       _txIndex: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -327,8 +341,6 @@ export interface GnosisUntitled extends BaseContract {
       _txIndex: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    signerCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     submitChangeQuorum(
       _quorum: PromiseOrValue<BigNumberish>,
@@ -369,6 +381,13 @@ export interface GnosisUntitled extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getSigner(
+    _signerId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  getSignerCount(overrides?: CallOverrides): Promise<BigNumber>;
+
   getTransaction(
     _txIndex: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -405,8 +424,6 @@ export interface GnosisUntitled extends BaseContract {
     _txIndex: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  signerCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   submitChangeQuorum(
     _quorum: PromiseOrValue<BigNumberish>,
@@ -447,6 +464,13 @@ export interface GnosisUntitled extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    getSigner(
+      _signerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getSignerCount(overrides?: CallOverrides): Promise<BigNumber>;
+
     getTransaction(
       _txIndex: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -483,8 +507,6 @@ export interface GnosisUntitled extends BaseContract {
       _txIndex: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    signerCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     submitChangeQuorum(
       _quorum: PromiseOrValue<BigNumberish>,
@@ -581,6 +603,13 @@ export interface GnosisUntitled extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    getSigner(
+      _signerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getSignerCount(overrides?: CallOverrides): Promise<BigNumber>;
+
     getTransaction(
       _txIndex: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -607,8 +636,6 @@ export interface GnosisUntitled extends BaseContract {
       _txIndex: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
-
-    signerCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     submitChangeQuorum(
       _quorum: PromiseOrValue<BigNumberish>,
@@ -650,6 +677,13 @@ export interface GnosisUntitled extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    getSigner(
+      _signerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getSignerCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getTransaction(
       _txIndex: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -678,8 +712,6 @@ export interface GnosisUntitled extends BaseContract {
       _txIndex: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
-
-    signerCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     submitChangeQuorum(
       _quorum: PromiseOrValue<BigNumberish>,

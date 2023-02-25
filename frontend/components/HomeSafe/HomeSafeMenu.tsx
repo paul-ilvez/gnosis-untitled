@@ -56,7 +56,7 @@ export default function HomeSafeMenu() {
         return;
       }
       const tempQuorum = Number(await currentSafe.quorum());
-      const tempNumOfSigners = Number(await currentSafe.signerCount());
+      const tempNumOfSigners = Number(await currentSafe.getSignerCount());
       const tempAddress = currentSafe.target;
       const tempBalance = Number(await provider.getBalance(tempAddress));
 

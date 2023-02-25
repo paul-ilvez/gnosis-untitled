@@ -13,6 +13,7 @@ import {
   Contract,
 } from "ethers";
 import { SafeFactoryAbi } from "@/abi/SafeFactory";
+import { useRouter } from "next/router";
 
 export type CreateSafeStatus = {
   status: "owners" | "review" | "generate";
@@ -87,6 +88,8 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
     owners: [],
     quorum: "1",
   });
+
+  const router = useRouter();
 
   const [currentMenuSection, setCurrentMenuSection] = useState({
     title: "Transactions",
@@ -247,6 +250,7 @@ function ContextProvider({ children }: { children: React.ReactNode }) {
           // Correctly handling chain changes can be complicated.
           // We recommend reloading the page unless you have good reason not to.
           console.log(`Chaing changed to ${chainId}`);
+          router.push("/");
 
           window.location.reload();
         });

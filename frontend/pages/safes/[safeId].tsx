@@ -21,6 +21,8 @@ export default function SafeDetails() {
     connected,
     signer,
   } = useContext(AppContext);
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [signers, setSigners] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorVisible, setErrorVisible] = useState<boolean>(false);
   const [txs, setTxs] = useState<GnosisTransaction[]>([]);
@@ -56,13 +58,20 @@ export default function SafeDetails() {
           signer
         ) as unknown as GnosisUntitled;
 
+        const signerCount = Number(await tempContract.getSignerCount());
+        const tempSigners: string[] = [];
+        for (let i = 0; i < signerCount; i++) {
+          const signer = await tempContract.getSigner(BigInt(i));
+          tempSigners.push(signer);
+        }
+        setSigners(tempSigners);
         setCurrentSafe(tempContract);
         setQuorum(Number(await tempContract.quorum()));
         const txCount = Number(
           (await tempContract.getTransactionCount()) as BigInt
         );
         const tempTxs: GnosisTransaction[] = [];
-        const tempHistory: GnosisTransaction[] = [];
+        const tempHistory: any[] = [];
 
         for (let i = 0; i < txCount; i++) {
           const tx = await tempContract.getTransaction(BigInt(i));
@@ -111,8 +120,6 @@ export default function SafeDetails() {
 
           tempHistory.push(newTx);
         }
-
-        
         setTxs(tempTxs);
         setHistory(tempHistory);
       } catch (e) {
