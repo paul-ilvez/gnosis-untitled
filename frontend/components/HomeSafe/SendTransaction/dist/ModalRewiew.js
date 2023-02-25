@@ -45,20 +45,15 @@ var ethers_1 = require("ethers");
 var ModalReview = function (_a) {
     var visible = _a.visible, closeHandler = _a.closeHandler, addressFrom = _a.addressFrom, shortName = _a.shortName;
     var _b = react_1.useState("0x0"), recipient = _b[0], setRecipient = _b[1];
-    var _c = react_1.useState("0"), currentAmount = _c[0], setCurrentAmount = _c[1];
-    var _d = react_1.useState(false), isLoad = _d[0], setLoad = _d[1];
-    var _e = react_1.useContext(AppContext_1.AppContext), provider = _e.provider, connected = _e.connected, currentSafe = _e.currentSafe, signer = _e.signer, valueTransfer = _e.valueTransfer;
-    // useEffect(() => {
-    //   setRecipient(sessionStorage.getItem("recipient"))
-    //   setCurrentAmount(sessionStorage.getItem("amount"))
-    // }, []);
+    var _c = react_1.useState(false), isLoad = _c[0], setLoad = _c[1];
+    var _d = react_1.useContext(AppContext_1.AppContext), provider = _d.provider, connected = _d.connected, currentSafe = _d.currentSafe, signer = _d.signer, valueTransfer = _d.valueTransfer;
     var handleSendTransactionForm = function (event) { return __awaiter(void 0, void 0, void 0, function () {
         var tx, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     event.preventDefault();
-                    console.log('Current Safe >>>', currentSafe);
+                    console.log("Current Safe >>>", currentSafe);
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, 4, 5]);
@@ -89,11 +84,13 @@ var ModalReview = function (_a) {
             react_1["default"].createElement(react_2.Card.Divider, null),
             react_1["default"].createElement(react_2.Modal.Body, { css: { textAlign: "center" } },
                 react_1["default"].createElement(react_2.Row, null,
-                    react_1["default"].createElement(react_2.Text, null, valueTransfer.amount)),
+                    react_1["default"].createElement(react_2.Text, null,
+                        "Amount transfer: ",
+                        react_1["default"].createElement("b", null, valueTransfer.amount))),
                 react_1["default"].createElement(react_2.Row, null,
                     react_1["default"].createElement(react_2.Text, { size: "$sm", css: { textAlign: "left" } }, "Sending From:")),
                 react_1["default"].createElement(react_2.Row, { justify: "space-between" },
-                    react_1["default"].createElement(react_2.Row, { css: { width: "40px" } }, addressFrom ? react_1["default"].createElement(Jazzicon_1["default"], { diameter: 40, seed: react_jazzicon_1.jsNumberForAddress(addressFrom) }) : null),
+                    react_1["default"].createElement(react_2.Row, { css: { width: "40px" } }, addressFrom ? (react_1["default"].createElement(Jazzicon_1["default"], { diameter: 40, seed: react_jazzicon_1.jsNumberForAddress(addressFrom) })) : null),
                     react_1["default"].createElement(react_2.Row, null,
                         react_1["default"].createElement(react_2.Text, { size: "$xs", css: { textAlign: "left", marginLeft: "20px" } },
                             react_1["default"].createElement("b", null, "Test"),
@@ -104,7 +101,7 @@ var ModalReview = function (_a) {
                 react_1["default"].createElement(react_2.Row, null,
                     react_1["default"].createElement(react_2.Text, { size: "$sm", css: { textAlign: "left" } }, "Recipient:")),
                 react_1["default"].createElement(react_2.Row, { justify: "space-between" },
-                    react_1["default"].createElement(react_2.Row, { css: { width: "40px" } }, recipient ? react_1["default"].createElement(Jazzicon_1["default"], { diameter: 40, seed: react_jazzicon_1.jsNumberForAddress(recipient) }) : null),
+                    react_1["default"].createElement(react_2.Row, { css: { width: "40px" } }, recipient ? (react_1["default"].createElement(Jazzicon_1["default"], { diameter: 40, seed: react_jazzicon_1.jsNumberForAddress(recipient) })) : null),
                     react_1["default"].createElement(react_2.Row, null,
                         react_1["default"].createElement(react_2.Text, { size: "$xs", css: { textAlign: "left", marginLeft: "20px" } },
                             react_1["default"].createElement("b", null, "Test"),

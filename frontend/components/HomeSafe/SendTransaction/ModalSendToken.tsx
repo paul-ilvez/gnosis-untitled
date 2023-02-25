@@ -12,12 +12,7 @@ import {
   Table,
   Dropdown,
 } from "@nextui-org/react";
-import Link from "next/link";
-import { AppContext, AppContextData } from "@/store/AppContext";
-import SendTokenButton from "./SendTokenButton";
-import SendNFTButton from "./SendNFTButton";
-import FormHeader from "../../Common/FormHeader";
-import AccountCard from "@/components/Common/AccountCard";
+import { AppContext } from "@/store/AppContext";
 import Jazzicon from "react-jazzicon/dist/Jazzicon";
 import { jsNumberForAddress } from "react-jazzicon";
 import ModalReview from "./ModalRewiew";
@@ -46,6 +41,7 @@ const ModalSendToken = ({
   const [quorum, setQuorum] = useState<number>(0);
   const [numOfSigners, setNumOfSigners] = useState<number>(0);
   const [contractAddress, setContractAddress] = useState<string>("UNKNOWN");
+  const [isError, setError] = useState(false);
 
   const recipientRef = useRef();
   const amountRef = useRef();
@@ -72,20 +68,25 @@ const ModalSendToken = ({
 
   const closeHandlerReview = () => {
     setVisibleReview(false);
-    // sessionStorage.removeItem("recipient");
-    // sessionStorage.removeItem("amount");
   };
 
   const handleSendFormReview = (event: any) => {
     event.preventDefault();
-    setValueTransfer(
-      recipientRef.current.value,
-      amountRef.current.value
-    );
-    // sessionStorage.setItem("amount", amountRef.current.value);
-    // sessionStorage.setItem("recipient", recipientRef.current.value);
-    setVisibleReview(true);
-    closeHandler();
+    if (
+      recipientRef.current.value !== "" &&
+      Number(amountRef.current.value) > 0 &&
+      Number(amountRef.current.value) <=
+      Number(ethers.formatEther(balance.toString()))
+    ) {
+      setValueTransfer(recipientRef.current.value, amountRef.current.value);
+      setVisibleReview(true);
+      closeHandler();
+      return;
+    }
+    setError(true);
+    setTimeout(() => {
+      setError(false);
+    }, 5000);
   };
 
   return (
@@ -136,7 +137,7 @@ const ModalSendToken = ({
 
             <Row>
               <Text size={"$sm"} css={{ textAlign: "left" }}>
-                Recipient address or ENS:
+                Recipient address or ENS*:
               </Text>
             </Row>
             <Row justify="space-between">
@@ -168,6 +169,20 @@ const ModalSendToken = ({
                 placeholder="Amount*"
               />
             </Row>
+            {isError ? (
+              <>
+                <Card
+                  css={{
+                    padding: "5px",
+                    height: "40px",
+                    background: "#FA8072",
+                  }}
+                >
+                  <Text>Fill in all the fields correctly.</Text>
+                </Card>
+                <Row></Row>
+              </>
+            ) : null}
           </Modal.Body>
           <Card.Divider />
           <Modal.Footer justify="space-between">

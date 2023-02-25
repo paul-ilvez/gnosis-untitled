@@ -12,16 +12,10 @@ import {
   Table,
   Checkbox,
 } from "@nextui-org/react";
-import Link from "next/link";
 import { AppContext } from "@/store/AppContext";
-import SendTokenButton from "./SendTokenButton";
-import SendNFTButton from "./SendNFTButton";
-import FormHeader from "../../Common/FormHeader";
-import AccountCard from "@/components/Common/AccountCard";
 import Jazzicon from "react-jazzicon/dist/Jazzicon";
 import { jsNumberForAddress } from "react-jazzicon";
-import { GnosisUntitledAbi } from "@/abi/GnosisUntitled";
-import { Contract, ethers } from "ethers";
+import { ethers } from "ethers";
 
 const ModalReview = ({
   visible,
@@ -33,40 +27,39 @@ const ModalReview = ({
   closeHandler: () => void;
 }) => {
   const [recipient, setRecipient] = useState("0x0");
-  const [currentAmount, setCurrentAmount] = useState("0");
   const [isLoad, setLoad] = useState(false);
   const {
     provider,
     connected,
     currentSafe,
     signer,
-    valueTransfer
+    valueTransfer,
   }: {
     provider: BrowserProvider;
     currentSafe: GnosisUntitled;
     connected: boolean;
   } = useContext(AppContext);
 
-  // useEffect(() => {
-  //   setRecipient(sessionStorage.getItem("recipient"))
-  //   setCurrentAmount(sessionStorage.getItem("amount"))
-  // }, []);
-
   const handleSendTransactionForm = async (event: any) => {
     event.preventDefault();
-    console.log('Current Safe >>>', currentSafe);
+    console.log("Current Safe >>>", currentSafe);
     try {
       setLoad(true);
-      console.log("Transaction >>>", valueTransfer.recipient, valueTransfer.amount);
-      const tx = await currentSafe.submitValueTransfer(valueTransfer.recipient, ethers.parseEther(valueTransfer.amount));
+      console.log(
+        "Transaction >>>",
+        valueTransfer.recipient,
+        valueTransfer.amount
+      );
+      const tx = await currentSafe.submitValueTransfer(
+        valueTransfer.recipient,
+        ethers.parseEther(valueTransfer.amount)
+      );
       tx.wait();
     } catch (error) {
       console.error(error);
     } finally {
       setLoad(false);
-      closeHandler()
-      // sessionStorage.removeItem("recipient");
-      // sessionStorage.removeItem("amount");
+      closeHandler();
     }
   };
   return (
@@ -87,7 +80,7 @@ const ModalReview = ({
         <Card.Divider />
         <Modal.Body css={{ textAlign: "center" }}>
           <Row>
-            <Text>{valueTransfer.amount}</Text>
+            <Text>Amount transfer: <b>{valueTransfer.amount}</b></Text>
           </Row>
           <Row>
             <Text size={"$sm"} css={{ textAlign: "left" }}>
@@ -96,7 +89,12 @@ const ModalReview = ({
           </Row>
           <Row justify="space-between">
             <Row css={{ width: "40px" }}>
-              {addressFrom ? <Jazzicon diameter={40} seed={jsNumberForAddress(addressFrom)} /> : null}
+              {addressFrom ? (
+                <Jazzicon
+                  diameter={40}
+                  seed={jsNumberForAddress(addressFrom)}
+                />
+              ) : null}
             </Row>
             <Row>
               <Text
@@ -116,7 +114,9 @@ const ModalReview = ({
           </Row>
           <Row justify="space-between">
             <Row css={{ width: "40px" }}>
-            {recipient ? <Jazzicon diameter={40} seed={jsNumberForAddress(recipient)} /> : null}
+              {recipient ? (
+                <Jazzicon diameter={40} seed={jsNumberForAddress(recipient)} />
+              ) : null}
             </Row>
             <Row>
               <Text
@@ -150,7 +150,7 @@ const ModalReview = ({
             Back
           </Button>
           <Button
-          disabled={isLoad}
+            disabled={isLoad}
             type="submit"
             style={{
               background: "#000",
