@@ -43,7 +43,8 @@ export default function AssetsToken() {
             <Table.Cell>
               {ethers.formatEther(balance.toString())} ETH
             </Table.Cell>
-            <Table.Cell>%value_in_dollar%</Table.Cell>
+            <Table.Cell>{Number(ethers.formatEther(balance.toString())) * 1597.98}$</Table.Cell> 
+            {/* TODO add a real price feed  */}
           </Table.Row>
         </Table.Body>
       </Table>

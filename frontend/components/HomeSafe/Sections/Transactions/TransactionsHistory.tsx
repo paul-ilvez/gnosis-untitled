@@ -7,9 +7,11 @@ import TransactionDepositCard from "./TransactionDepositCard/TransactionDepositC
 export default function TransactionsHistory({
   history,
   deposits,
+  quorum
 }: {
   history: GnosisTransaction[];
   deposits: GnosisDeposit[];
+  quorum: number
 }) {
   function getIcon(tx: GnosisTransaction): string {
     if (tx.type == 1) {
@@ -36,7 +38,7 @@ export default function TransactionsHistory({
         <>
           {history.map((transaction) => {
             return (
-              <TransactionCard key={transaction.id} transaction={transaction} />
+              <TransactionCard quorum={quorum} key={transaction.id} transaction={transaction} />
             );
           })}
           {deposits.map((transaction) => {

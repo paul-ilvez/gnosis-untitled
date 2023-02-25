@@ -15,8 +15,10 @@ const LinkAndCopy = ({ address = "", tx = false }) => {
   }, [copy]);
 
   const copyText = () => {
-    navigator.clipboard.writeText(address);
-    setCopy(true);
+    if (navigator?.clipboard) {
+      navigator.clipboard.writeText(address);
+      setCopy(true);
+    }
   };
 
   if (!address) return null;

@@ -20,7 +20,7 @@ const AccountCard = ({ address }: { address: string }) => {
           <Grid.Container>
             <Jazzicon diameter={30} seed={jsNumberForAddress(address)} />
             <Text>
-              <b>&nbsp; gor:</b> {getLittleAddress(address)}
+              <b>&nbsp; {shortName}:</b> {getLittleAddress(address)}
             </Text>
           </Grid.Container>
           <LinkAndCopy address={address} />

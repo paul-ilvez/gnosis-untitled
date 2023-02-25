@@ -1,4 +1,4 @@
-import { Button, Text } from "@nextui-org/react";
+import { Button, Text, Tooltip } from "@nextui-org/react";
 
 export default function SendNFTButton({ handler }) {
   return (

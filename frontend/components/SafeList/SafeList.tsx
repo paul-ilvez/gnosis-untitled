@@ -4,7 +4,8 @@ import {
   Card,
   Text,
   Button,
-  Collapse, Spacer,
+  Collapse,
+  Spacer,
 } from "@nextui-org/react";
 import { SafeListProps } from "@/components/SafeList/SafeList.props";
 import VectorSvg from "./vector.svg";
@@ -14,6 +15,7 @@ import { getSafes } from "@/db/repository";
 import { findNetworkById } from "@/components/SafeList/Networks";
 import groupBy from "@/libs/groupArrayBy";
 import { AppContext } from "@/store/AppContext";
+import { v4 as uuidv4 } from "uuid";
 
 export const SafeList = ({
   bgColor = "#EFEFEF",
@@ -23,10 +25,15 @@ export const SafeList = ({
   const { account } = useContext(AppContext);
 
   useEffect(() => {
+    if (account == "0x0") {
+      return;
+    }
     (async () => {
       const safes = await getSafes(account);
       const groupedSafes = groupBy("chainId")(safes);
       setMySafes(groupedSafes);
+      console.log({ account });
+      console.log({ safes });
     })();
   }, [account]);
 
@@ -52,7 +59,7 @@ export const SafeList = ({
                 <Collapse
                   title={findNetworkById(chainId).name}
                   expanded={true}
-                  key={chainId}
+                  key={uuidv4()}
                 >
                   {mySafes[chainId].map((safe) => {
                     return (

@@ -69,7 +69,7 @@ export default function TransactionCard({
             <Grid justify="center" direction="column">
               <Text
                 b
-                color={Number(numConfirmations) >= quorum ? "green" : "blue"}
+                color={Number(numConfirmations) >= quorum || transaction.executed ? "green" : "blue"}
                 css={{
                   display: "flex",
                   alignItems: "center",
